@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "Reflexive Organism Model"
+message: "If you use this work, please cite it as below."
+authors:
+  - family-names: "Jovanovic"
+    given-names: "Uros"
+license: CC-BY-SA-4.0
+url: "<repo or project URL>"
