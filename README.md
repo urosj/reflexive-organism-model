@@ -45,8 +45,8 @@ The vision for the project is to become a *living laboratory*, an open, interdis
 
 ## Quick links
 
-- [Link to the paper (PDF)](paper/ReflexiveOrganismPaper.pdf)
-- [Link to online version](paper/2025-10-ReflexiveOrganismPaper.md)
+- [Link to the paper (PDF)](paper/ReflexiveOrganismModel.pdf)
+- [Link to online version](paper/2025-10-ReflexiveOrganismModel.md)
 - [Background story, how it all began](BACKGROUND.md)
 
 ## Contribute Theory or Code  
