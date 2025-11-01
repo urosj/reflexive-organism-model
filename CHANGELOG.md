@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Investigations] - 2025-10-31
+
+### Added
+
+- Investigations section, README with index, and a document with heuristics
+
 ## [0.9.0] - 2025‑10‑15
 
 ### Added
