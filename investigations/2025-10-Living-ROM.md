@@ -485,7 +485,6 @@ Every day compute
 $$
 r_{\text{day}} = \alpha\,\log(AI_{\text{day}}+\epsilon)
                + \beta\,\log(EI_{\text{day}}^{\star}+\epsilon),
-\tag{2}
 $$
 
 and aim to **increase** $r_{\text{day}}$ week over week.  This is exactly the log‑product reward, but now you are the *agent* that adjusts your schedule to maximise it.
