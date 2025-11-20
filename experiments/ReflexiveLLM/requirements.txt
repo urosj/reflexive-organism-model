@@ -1,0 +1,10 @@
+numpy>=1.26
+faiss-cpu>=1.7
+torch>=2.2
+sentence-transformers>=2.2
+requests>=2.31
+networkx>=3.2
+matplotlib>=3.8
+seaborn>=0.13
+pytest>=7.4
+python_version >= "3.12"
