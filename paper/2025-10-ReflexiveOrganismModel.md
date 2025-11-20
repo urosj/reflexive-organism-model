@@ -262,12 +262,12 @@ Let's now tale a look at the **dynamics (continuum chemotaxis/transport with dep
 
 $$
 \begin{aligned}
-\partial_t s &= \nabla\!\cdot\!\Big(D_s\nabla s \;-\; \chi_p, s \nabla p \;-\; \chi_f, s \nabla F\Big)\;-\;\gamma sF \;+\; \underbrace{\kappa_s\,n_{\text{nest}}\,\mathbf 1_{\mathcal N}}_{\text{leave nest}} \;+\; \underbrace{\rho r\,\mathbf{1}_{\mathcal{N}}}_{\text{drop food \& rejoin search}}, \\
-\partial_t r &= \nabla\!\cdot\!\Big(D_r\nabla r \;-\; \chi_p^{(r)}\, r \nabla p \;-\; \alpha_r\, r \nabla \psi\Big)\;+\;\underbrace{\gamma sF}_{\text{pickup switches search}\to\text{return}} \;-\; \rho r\,\mathbf 1_{\mathcal N}, \\
-\partial_t p &= D_p\Delta p - \lambda_p p + q_s s + q_r r, \\
-\partial_t F &= D_F\Delta F - \gamma sF, \\
-\dot{E} &= \eta \int_{\Omega} \gamma sF\,dx - \mu\,\mathbf{n}(t), \\
-\dot n_{\text{nest}} &= -\kappa_s \!\int_{\mathcal N}\! n_{\text{nest}}\,dx + \rho \!\int_{\mathcal N}\! r\,dx + u_{\text{nest}}(E).
+\partial_t s &= \nabla\cdot\Big(D_s\nabla s - \chi_p s \nabla p - \chi_f s \nabla F \Big) - \gamma sF + \frac{\kappa_s n_{\text{nest}}(t)}{|\mathcal N|}\mathbf 1_{\mathcal N}(x) + \rho r\mathbf 1_{\mathcal N}(x), \\
+\partial_t r &= \nabla\cdot\Big(D_r\nabla r - \chi_p^{(r)} r \nabla p - \alpha_r r \nabla \psi \Big)+ \gamma sF - \rho r\mathbf 1_{\mathcal N}(x), \\
+\partial_t p &= D_p\Delta p - \lambda_pp + q_s s + q_r r, \\
+\partial_t F &= D_F \Delta F - \gamma  sF  \\
+\dot{E} &= \eta \int_{\Omega} \gamma sFdx - \mu N_{\text{col}}(t), \\
+\dot n_{\text{nest}} &= -\kappa_s n_{\text{nest}} + \rho \int_{\mathcal N} rdx + u_{\text{nest}}(E).
 \end{aligned}
 $$
 
@@ -308,7 +308,7 @@ with $G_u=\int \alpha_{g,i}\,\kappa_u(x)\,b_i\,dx$ (carbon used for growth in fo
 **Biomass PDE (no physical diffusion)**: 
 
 $$
-\partial_t b_i = \alpha_{g,i},S_{u(i)}^{-1}(G_{u(i)}) - m_i b_i - h_i(b_i,H,v) - (\mathcal K_i * \text{fecundity}_i(b_i)),
+\partial_t b_i(x,t) = \underbrace{\alpha_{g,i}S_{u(i)}^{-1}\big(G_{u(i)}(x,t)\big)}_{\text{growth/assimilation}} - \underbrace{m_i b_i(x,t)}_{\text{mortality}} -\underbrace{h_i\big(b_i(x,t),H(x,t),v(x,t)\big)}_{\text{loss (herbivory/harvest)}} + \underbrace{(\mathcal K_i * \phi_i(b_i))(x,t)}_{\text{recruitment by dispersal}}
 $$
 
 with $\mathcal{K}_i$​ as the **seed-dispersal kernel** for guild $i$ which tells you where offspring land (and possibly establish), while $fecundity_i(b_i)$) tells you how many are produced.
@@ -327,7 +327,7 @@ $$
 
 $$
   \partial_t M = D_M\Delta M + \rho_M \sum_u \kappa_u C_u - \delta_M M,\qquad
-  w_{uv}= \bar w_{uv}\left[\int_{\Gamma_{uv}} M,ds\right]^\beta,
+  w_{uv}= \bar w_{uv}\left[\int_{\Gamma_{uv}} M ds\right]^\beta,
   $$
   
 states about how it spreads and how well the trees are connected.
@@ -970,7 +970,7 @@ $\delta S \;=\; \int \frac{\delta S}{\delta g_{\mu\nu}}\frac{\delta g_{\mu\nu}}{
 
 Stationarity for all admissible $\delta\psi$ implies $\delta S/\delta g_{\mu\nu}=0$, giving
 
-  $$;G_{\mu\nu}\big[g^{(\ell)}\big] \;=\; 8\pi G\, T^{\text{eff}}_{\mu\nu}[F,M,AI,EI]\;$$
+  $$G_{\mu\nu}\big[g^{(\ell)}\big] \;=\; 8\pi G\, T^{\text{eff}}_{\mu\nu}[F,M,AI,EI]\;$$
 
 with
 
@@ -1357,7 +1357,7 @@ The *time* that each organ experiences is thus a **function of the parent’s me
 
 Let's address another mechanism which is usually considered external to the organism, the subject of rewards. And just like so many things so far, we're going to show that the reflexive model turns an external property into an intrinsic one.
 
-We've already talked about the experience through reflection process $I \xrightarrow{\Sigma} S \xrightarrow{\Pi} A \xrightarrow{\Upsilon} O \xrightarrow{\mathsf{W}} M \xrightarrow{\mathsf{R}} S \ (\text{then back to } \Pi)$. And defined the experience index EI for it. We later corrected it for world-coupling and prediction calibration into $\mathrm{EI}^{\star}.$ We've also already defined the purpose function $\mathcal{J} = \big(\mathrm{AI}\big)^\alpha \cdot \big(\mathrm{EI}^\star\big)^\beta$, where the organism defines how much it favors building and experience. However, experiences and assemblies vary. Some are more "rewarding" than others (we've marked this with a scalar, the higher it is for EI, the more "rewarding" the experience). What it means to be "rewarding" is the theme of this section.
+We've already talked about the experience through reflection process $I \xrightarrow{\Sigma} S \xrightarrow{\Pi} A \xrightarrow{\Upsilon} O \xrightarrow{\mathsf{W}} M \xrightarrow{\mathsf{R}} S \ (\text{then back to } \Pi)$. And defined the experience index EI for it. We later corrected it for world-coupling and prediction calibration into $\mathrm{EI}^{\star}.$ We've also already defined the purpose functional $\mathcal{J} = \big(\mathrm{AI}\big)^\alpha \cdot \big(\mathrm{EI}^\star\big)^\beta$, where the organism defines how much it favors building and experience. However, experiences and assemblies vary. Some are more "rewarding" than others (we've marked this with a scalar, the higher it is for EI, the more "rewarding" the experience). What it means to be "rewarding" is the theme of this section.
 
 Rewards are mostly seen as external feedback, imposed as optimization criterion. For example, in RL a reward is external scalar signal $R_t$ used to train a policy $\Pi^* = \arg\max_\Pi \ \mathbb{E}\Big[ \sum_t \gamma^t R_t \Big]$.
 
@@ -1533,7 +1533,7 @@ where $\mathcal{U}$ aggregates the parent’s coarse state into a field that is 
 
 1. **Parent‑driven support**. The child’s reward function contains a term proportional to the parent’s EI: $R_{C_i}(t)=EI_{C_i,t} + \lambda\,EI_{P,t}$, $\lambda>0.$
 2. **Child‑driven reinforcement**. Conversely, the parent’s reward includes the child’s EI: $R_P(t)=EI_{P,t} + \mu\!\!\sum_{i=1}^{k}\! EI_{C_i,t}$, $\mu>0.$
-3. **Purpose weighting**. Both levels use a purpose function that explicitly weights the other’s experience: $\mathcal{J}_P = (AI_P)^{\alpha}\bigl(\beta\,EI_{C}^{\star}+EI_{P}^{\star}\bigr)^{\gamma}$, $\mathcal{J}_{C_i} = (AI_{C_i})^{\delta} \bigl(\epsilon\,EI_P^{\star}+EI_{C_i}^{\star}\bigr)^{\zeta}.$
+3. **Purpose weighting**. Both levels use a purpose functional that explicitly weights the other’s experience: $\mathcal{J}_P = (AI_P)^{\alpha}\bigl(\beta\,EI_{C}^{\star}+EI_{P}^{\star}\bigr)^{\gamma}$, $\mathcal{J}_{C_i} = (AI_{C_i})^{\delta} \bigl(\epsilon\,EI_P^{\star}+EI_{C_i}^{\star}\bigr)^{\zeta}.$
 4. **Coupled dynamics**. The policies are updated to maximise the *expected discounted sum* of these rewards: $\Pi_P^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\!\left[\sum_{t=0}^{\infty}\gamma^t R_P(t)\right]$, $\Pi_{C_i}^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\!\left[\sum_{t=0}^{\infty}\gamma^t R_{C_i}(t)\right].$
 
 When the above conditions hold, each level is *altruistically* tuned. It sacrifices (or reallocates) part of its own immediate benefit to enhance the other’s experience. Intuitively, from **parent → child** perspective, a colony’s queen is allocating resources (nutrients, pheromones) to brood. The child receives a coarse‑grained field that tells it *how much* to develop and injects it via $\mathcal{D}$. Its own reward includes the queen’s overall success. From **child → parent** perspective, as larvae grow and start foraging or defending, they send back signals (e.g., pheromone trails). The parent aggregates these via $\mathcal{U}$, updating its global policy. Its reward now contains a term that rewards the *collective* success of its sub‑units.
@@ -2070,7 +2070,7 @@ T^{\text{eff}}_{\mu\nu} = T_{\mu\nu}
 where:
 
  - $M$ is the memory field,
- - $j^\mu = \frac{\delta S}{\delta (\nabla_\mu M)} \cdot \rho_{\text{compat}}$,
+ - $j_\mu = \frac{\delta S}{\delta (\nabla_\mu M)} \cdot \rho_{\text{compat}}$,
  - $\rho_{\text{compat}}$ is the **true measure of individuality**, not size, not complexity, but *coherent interaction across scales*.
 
 Let's quickly look at the relation with the antisymetric tensor.  $T_{\mu\nu}$ measures the **local dynamical imbalance** (e.g., sudden rise in feedback vs memory gradient) while the reflexivity principle acts as a **global constraint**. It prevents such imbalances from growing unchecked by requiring that structural depth, feedback strength, and compatibility remain coherently balanced. Coherence does not come from absence of tension. It comes from *structured, controlled tension*, precisely what $T_{\mu\nu}$ encodes and $\rho_{\text{compat}}$ regulates It generates a self-consistent loop:  
@@ -2095,7 +2095,7 @@ And we've already linked that dynamics between selfishness and altruism is based
 
 So what we can conclude is that **compatibility drives integration, but individuality fuels innovation.** Thus, the system does not choose one over the other, it **balances** them through adaptive strategy selection across time, context, and developmental stage. We've already seen this defined in another way.
 
-Let's recall a purpose function $\mathcal{J} = (\mathrm{AI})^\alpha \cdot (\mathrm{EI}^\star)^\beta$, which was defined as part of a goal the system tries to maximize. It's the same dynamics, yet expressed differently. $\mathcal{J}$ increases when the system becomes more integrated, memory stable, and dynamics coherent, which directly raises $\lambda(t)$. In this view *the purpose function $\mathcal{J}$ is not just a goal, it’s an attractor that pulls the system toward higher individuality*. But only if compatibility ($\rho_{\text{compat}}$) is present (that is high and when $I_{\text{integrated}}$, $H(M_t)$, and $D(\mathcal{F}\|\mathcal{F}_{\text{noise}})$ are in balance).
+Let's recall a purpose functional $\mathcal{J} = (\mathrm{AI})^\alpha \cdot (\mathrm{EI}^\star)^\beta$, which was defined as part of a goal the system tries to maximize. It's the same dynamics, yet expressed differently. $\mathcal{J}$ increases when the system becomes more integrated, memory stable, and dynamics coherent, which directly raises $\lambda(t)$. In this view *the purpose functional $\mathcal{J}$ is not just a goal, it’s an attractor that pulls the system toward higher individuality*. But only if compatibility ($\rho_{\text{compat}}$) is present (that is high and when $I_{\text{integrated}}$, $H(M_t)$, and $D(\mathcal{F}\|\mathcal{F}_{\text{noise}})$ are in balance).
 
 In this view, $\mathcal{J}$ becomes the *mechanism of becoming an individual*.
 
@@ -2109,7 +2109,7 @@ $$
 \end{aligned}
 $$
 
-For example: $\alpha(t) = 1 + k_\alpha \cdot \rho_{\text{compat}}^2$ $\beta(t) = 1 + k_\beta \cdot \left( \|\Theta_{\mu\nu}\| + \log(\mathrm{EI}^\star) - D(\mathcal{F} \| \mathcal{F}_{\text{noise}}) \right).$
+For example: $\alpha(t) = 1 + k_\alpha \cdot \rho_{\text{compat}}^2$, $\beta(t) = 1 + k_\beta \cdot \left( \|\Theta_{\mu\nu}\| + \log(\mathrm{EI}^\star) - D(\mathcal{F} \| \mathcal{F}_{\text{noise}}) \right).$
 
 This allows $\mathcal{J}(t)$ to **self-organize its own priorities**, responding in real time to whether feedback is coherent (high compatibility), or whether the system is experiencing novel, high-value events, or whether it’s accumulating stress from memory or instability.
 
