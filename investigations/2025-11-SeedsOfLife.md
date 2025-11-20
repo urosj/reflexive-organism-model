@@ -485,11 +485,7 @@ $$
 Now we're ready to define PDEs. **Fast field (pheromone)** is defined as
 
 $$
-\partial_t \phi
-= \underbrace{\nabla_i\big(D^{ij}\nabla_j^{(g)}\phi\big)}_{\text{anisotropic diffusion}}
--\underbrace{\lambda(\theta)\phi}_{\text{decay modulated by }\theta}
-+\underbrace{S_{a}(x,t;M)}_{\text{deposition by ants}} 
-+ \underbrace{\mathcal B^{i}\nabla_i^{(g)}\phi}_{\text{bias drift}} .
+\partial_t \phi = \underbrace{\nabla_i\big(D^{ij}\nabla_j^{(g)}\phi\big)}_{\text{anisotropic diffusion}} -\underbrace{\lambda(\theta)\phi}_{\text{decay modulated by }\theta} +\underbrace{S_{a}(x,t;M)}_{\text{deposition by ants}} + \underbrace{\mathcal B^{i}\nabla_i^{(g)}\phi}_{\text{bias drift}} .
 $$
 
 **$D^{ij}=D_0\tilde D^{ij}(\theta,g,\mathcal B)$** is the conductance tensor. The *source term* aggregates deposits from both sub‑populations  $S_{a}(x,t;M)=\alpha_s(M)s(x,t)+\alpha_r(M)r(x,t),$$ where $\alpha_s$ and $\alpha_r$ are deposition rates that may depend on the slow memory $M$.  The bias vector $\mathcal B^{i}$ encodes any externally imposed drift (e.g. a food gradient).
@@ -498,14 +494,8 @@ $$
 
 $$
 \begin{aligned}
-\partial_t s &= \nabla_i\Big(D_s^{ij}\nabla_j^{(g)}s
--\chi_s g^{ij}s\nabla_j^{(g)}\phi
-+ v_{B}^{i} s\Big)
-+ f_s(s,r,M) ,\\
-\partial_t r &= \nabla_i\Big(D_r^{ij}\nabla_j^{(g)}r
-+\chi_r g^{ij}r\nabla_j^{(g)}\phi
-+ v_{B}^{i} r\Big)
-+ f_r(s,r,F,M) .
+\partial_t s &= \nabla_i\Big(D_s^{ij}\nabla_j^{(g)}s -\chi_s g^{ij}s\nabla_j^{(g)}\phi + v_{B}^{i} s\Big) + f_s(s,r,M) ,\\
+\partial_t r &= \nabla_i\Big(D_r^{ij}\nabla_j^{(g)}r +\chi_r g^{ij}r\nabla_j^{(g)}\phi + v_{B}^{i} r\Big) + f_r(s,r,F,M) .
 \end{aligned}
 $$
 
