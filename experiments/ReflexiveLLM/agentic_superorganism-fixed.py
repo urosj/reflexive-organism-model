@@ -4,10 +4,11 @@
 #  – single‑file prototype
 # --------------------------------------------------------------
 
-import json, time, random, math
+import json, time, random, math, re
 from pathlib import Path
 from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field, asdict, fields
+from collections import defaultdict
 
 import numpy as np
 import faiss                     # vector store (Citation 1 & 2)
@@ -24,6 +25,228 @@ try:
     from visualization import VisualizationSystem
 except Exception:
     VisualizationSystem = None
+
+# --------------------------------------------------------------
+# LLM model selection helpers
+# --------------------------------------------------------------
+
+
+def _parse_llm_pool() -> List[str]:
+    """
+    Returns the configured pool of LLM model names.
+    Supports:
+      • LLM_MODEL_POOL as comma‑separated list or JSON array.
+      • fallback to single LLM_MODEL_NAME.
+    """
+    pool_env = os.getenv("LLM_MODEL_POOL")
+    models: List[str] = []
+    if pool_env:
+        try:
+            if pool_env.strip().startswith("["):
+                models = [m for m in json.loads(pool_env) if isinstance(m, str)]
+            else:
+                models = [m.strip() for m in pool_env.split(",") if m.strip()]
+        except Exception:
+            models = []
+
+    if not models:
+        fallback = os.getenv("LLM_MODEL_NAME", "gpt-oss-120b")
+        models = [fallback]
+    return models
+
+
+def choose_llm_model(
+    model_pool: Optional[List[str]] = None,
+    available: Optional[List[str]] = None,
+    weights: Optional[Dict[str, float]] = None,
+) -> Tuple[str, str]:
+    """
+    Pick a model, preferring ones that are known to be available on the server.
+    If weights are provided, sample proportional to weight (fallback is uniform).
+    """
+    pool = model_pool if model_pool is not None else _parse_llm_pool()
+    candidates = []
+    if available:
+        candidates = [m for m in pool if m in available] if pool else list(available)
+    if not candidates:
+        candidates = pool
+    if not candidates:
+        return os.getenv("LLM_MODEL_NAME", "gpt-oss-120b"), "fallback_env"
+
+    if weights:
+        w = [max(0.0, float(weights.get(m, 0.0))) for m in candidates]
+        if any(val > 0 for val in w):
+            total = sum(w)
+            r = random.random() * total
+            cumulative = 0.0
+            for m, val in zip(candidates, w):
+                cumulative += val
+                if r <= cumulative:
+                    return m, "weighted"
+    return random.choice(candidates), "random"
+
+
+def _top_models_by_weight(
+    pool: List[str],
+    weights: Optional[Dict[str, float]],
+    k: int = 3,
+    tolerance: float = 0.1,
+) -> List[str]:
+    """
+    Return up to k models whose weights are near the top weight (within tolerance).
+    If weights are missing, returns empty.
+    """
+    if not weights:
+        return []
+    scored = [(m, weights.get(m, 0.0)) for m in pool]
+    if not scored:
+        return []
+    scored.sort(key=lambda x: x[1], reverse=True)
+    top_weight = scored[0][1]
+    candidates = [m for m, w in scored if w >= top_weight - tolerance]
+    return candidates[:k]
+
+
+def _bucket_for_text(text: str, emb_model, bits: int = 12) -> str:
+    """Hash an embedding into a coarse bucket using sign bits (topic proxy)."""
+    try:
+        emb = emb_model.encode([text], normalize_embeddings=True)[0]
+        signs = (emb[:bits] > 0).astype(np.int8)
+        return "b:" + "".join(map(str, signs.tolist()))
+    except Exception:
+        return "b:global"
+
+
+def _ensure_bucket_weights(
+    weight_map: Dict[str, Dict[str, float]],
+    bucket: str,
+    models: List[str],
+    default: float = 1.0,
+) -> Dict[str, float]:
+    """Ensure a bucket weight dict exists and is initialized for given models."""
+    if bucket not in weight_map:
+        weight_map[bucket] = {}
+    bucket_weights = weight_map[bucket]
+    for m in models:
+        if m not in bucket_weights:
+            bucket_weights[m] = default
+    return bucket_weights
+
+
+def _load_config(path: Optional[str] = None) -> Dict[str, Any]:
+    """Load optional JSON config; return defaults on failure."""
+    cfg_path = Path(path or os.getenv("CONFIG_PATH", "config.json"))
+    if not cfg_path.exists():
+        return {}
+    try:
+        data = json.loads(cfg_path.read_text())
+        return data if isinstance(data, dict) else {}
+    except Exception as e:
+        print(f"Failed to load config {cfg_path}: {e}")
+        return {}
+
+
+def _filter_embed_models(models: Optional[List[str]]) -> List[str]:
+    """Remove embedding-only models by heuristic substring match."""
+    if not models:
+        return []
+    return [m for m in models if "embed" not in m.lower()]
+    try:
+        return json.loads(cfg_path.read_text())
+    except Exception as e:
+        print(f"Failed to load config {cfg_path}: {e}")
+        return {}
+
+
+def _prune_model(
+    model_name: str,
+    pool: Optional[List[str]],
+    weights: Optional[Dict[str, float]],
+    known: Optional[List[str]] = None,
+):
+    """Remove a model from selection pool/weights/known list when server rejects it."""
+    if pool is not None and model_name in pool:
+        try:
+            pool[:] = [m for m in pool if m != model_name]
+            print(f"[model pruning] removed '{model_name}' from pool after server rejection")
+        except Exception:
+            pass
+    if known is not None and model_name in known:
+        try:
+            known[:] = [m for m in known if m != model_name]
+            print(f"[model pruning] removed '{model_name}' from known models after server rejection")
+        except Exception:
+            pass
+    if weights is not None:
+        try:
+            # Handle nested bucketed weights
+            if all(isinstance(v, dict) for v in weights.values()):
+                for bucket, wmap in weights.items():
+                    if model_name in wmap:
+                        wmap.pop(model_name, None)
+                        print(f"[model pruning] removed '{model_name}' from bucket '{bucket}' weights after server rejection")
+            elif model_name in weights:
+                weights.pop(model_name, None)
+                print(f"[model pruning] removed '{model_name}' from weights after server rejection")
+        except Exception:
+            pass
+
+
+def _extract_http_error(err: Exception) -> str:
+    """Return a short description including response body if available."""
+    try:
+        resp = getattr(err, "response", None)
+        if resp is None:
+            return str(err)
+        body = ""
+        try:
+            body = resp.text[:500]
+        except Exception:
+            body = "<unreadable>"
+        return f"{resp.status_code} {resp.reason} – {body}"
+    except Exception:
+        return str(err)
+
+
+def _discover_models(api_url: Optional[str]) -> List[str]:
+    """
+    Try to fetch available models from the LLM server.
+    Only returns models that are marked as loaded if the server reports that flag.
+    Returns an empty list on failure.
+    """
+    if not api_url:
+        return []
+    base = api_url.rstrip("/")
+    # Common LM-Studio style: /v1/chat/completions -> /v1/models
+    if base.endswith("/chat/completions"):
+        models_endpoint = base.rsplit("/chat/completions", 1)[0] + "/models"
+    else:
+        models_endpoint = f"{base}/models"
+    try:
+        resp = requests.get(models_endpoint, timeout=float(os.getenv("LLM_REQUEST_TIMEOUT", "600")))
+        resp.raise_for_status()
+        data = resp.json()
+        ids = []
+        if isinstance(data, dict):
+            items = data.get("data") or data.get("models") or []
+            for item in items:
+                mid = item.get("id") if isinstance(item, dict) else None
+                if isinstance(mid, str):
+                    if isinstance(item, dict) and "loaded" in item and not item.get("loaded"):
+                        continue
+                    ids.append(mid)
+        elif isinstance(data, list):
+            for item in data:
+                if isinstance(item, str):
+                    ids.append(item)
+                elif isinstance(item, dict) and isinstance(item.get("id"), str):
+                    if "loaded" in item and not item.get("loaded"):
+                        continue
+                    ids.append(item["id"])
+        return ids
+    except Exception as e:
+        print(f"Could not list models from server ({models_endpoint}): {e}")
+        return []
 
 # --------------------------------------------------------------
 # 1️⃣  Core utilities
@@ -247,6 +470,8 @@ class AssemblyIndex:
             return cls()
         try:
             payload = json.loads(path.read_text())
+            if not isinstance(payload, dict):
+                return cls()
         except Exception:
             return cls()
 
@@ -345,7 +570,14 @@ class RetrievalChild:
 
     _id_counter = 0
 
-    def __init__(self, mem: MemoryStore, assembly_index: Optional[AssemblyIndex] = None, name: Optional[str] = None):
+    def __init__(
+        self,
+        mem: MemoryStore,
+        assembly_index: Optional[AssemblyIndex] = None,
+        name: Optional[str] = None,
+        model_pool: Optional[List[str]] = None,
+        available_models: Optional[List[str]] = None,
+    ):
         self.mem = mem
         self.name = name or f"child_{RetrievalChild._id_counter}"
         RetrievalChild._id_counter += 1
@@ -357,6 +589,15 @@ class RetrievalChild:
         self.last_retrieved_indices: List[int] = []
         self.last_retrieved_texts: List[str] = []
         self.assembly_index = assembly_index
+        self.model_pool = _filter_embed_models(model_pool)
+        self.available_models = _filter_embed_models(available_models)
+        # Shared bucket -> weights map
+        self.model_weights: Optional[Dict[str, Dict[str, float]]] = None
+        self.last_model_used: Optional[str] = None
+        self.last_model_reason: Optional[str] = None
+        self.last_model_candidates: Optional[List[str]] = None
+        self.current_bucket: Optional[str] = None
+        self.last_model_scores: Optional[Dict[str, float]] = None
 
     def answer(self, user_msg: str) -> str:
         """Retrieve relevant chunks, prepend a short system prompt and call the LLM."""
@@ -383,35 +624,163 @@ class RetrievalChild:
             )
 
             # Use environment variable for model name
-            model_name = os.getenv("LLM_MODEL_NAME", "gpt-oss-120b")
+            # Choose one or more models if top weights are close (bucketed by topic)
+            self.current_bucket = _bucket_for_text(user_msg, self.mem.emb_model)
+            pool = self.available_models or self.model_pool or []
+            bucket_weights = _ensure_bucket_weights(self.model_weights, self.current_bucket, pool)
+            top_candidates = _top_models_by_weight(pool, bucket_weights, k=3, tolerance=0.1)
+            selected_models = []
+            selection_reason = "random"
+            if top_candidates and len(top_candidates) > 1:
+                # Query multiple models for this question
+                selected_models = top_candidates
+                selection_reason = "multi-weighted"
+            else:
+                model_name, reason = choose_llm_model(self.model_pool, available=self.available_models, weights=bucket_weights)
+                selected_models = [model_name]
+                selection_reason = reason
 
-            timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
+            answers = []
+            for m in selected_models:
+                try:
+                    ans = self._query_model(system_prompt, context, user_msg, m)
+                    answers.append((m, ans))
+                except Exception as e:
+                    print(f"Failed query for model {m}: {e}")
+            if not answers:
+                return "Error processing query: no answers"
 
-            payload = {
-                "model": model_name,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user",   "content": f"{context}\n\nQuestion: {user_msg}"},
-                ],
-                "temperature": 0.7,
-            }
+            # Evaluate answers with other models (peer models not used in answering)
+            best_model = selected_models[0]
+            best_answer = answers[0][1]
+            if len(answers) > 1:
+                best_model, best_answer = self._score_answers_with_peers(user_msg, answers)
+                # Reinforce winning model locally for this child
+                self._reinforce_local_weights(best_model, answers)
+            self.last_model_used = best_model
+            # Make the reason clearer for multi-model evaluation
+            if selection_reason == "multi-weighted":
+                self.last_model_reason = "multi-evaluated (weighted cluster)"
+            else:
+                self.last_model_reason = selection_reason
+            self.last_model_candidates = selected_models
+            self.last_output = best_answer
+            return best_answer
 
-            # Use environment variable for API endpoint
-            api_url = os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")
-
-            resp = requests.post(
-                api_url,
-                json=payload,
-                timeout=timeout  # configurable timeout
-            )
-            resp.raise_for_status()  # Raise exception for bad status codes
-
-            answer = resp.json()["choices"][0]["message"]["content"]
-            self.last_output = answer
-            return answer
+        except requests.HTTPError as e:
+            print(f"Error in RetrievalChild.answer: {_extract_http_error(e)}")
+            if self.last_model_used:
+                _prune_model(self.last_model_used, self.model_pool, self.model_weights, getattr(self, "available_models", None))
+            return f"Error processing query: {_extract_http_error(e)}"
         except Exception as e:
             print(f"Error in RetrievalChild.answer: {e}")
             return f"Error processing query: {str(e)}"
+
+    def _query_model(self, system_prompt: str, context: str, user_msg: str, model_name: str) -> str:
+        timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
+        payload = {
+            "model": model_name,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user",   "content": f"{context}\n\nQuestion: {user_msg}"},
+            ],
+            "temperature": 0.7,
+        }
+        api_url = os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")
+        resp = requests.post(api_url, json=payload, timeout=timeout)
+        resp.raise_for_status()
+        return resp.json()["choices"][0]["message"]["content"]
+
+    def _score_answers_with_peers(self, user_msg: str, answers: List[Tuple[str, str]]) -> Tuple[str, str]:
+        """
+        Use other models (not in answers) to rate the candidate answers.
+        Returns best (model, answer) based on average embedding agreement.
+        """
+        try:
+            pool = self.available_models or self.model_pool or []
+            used_models = {m for m, _ in answers}
+            bucket = self.current_bucket or "b:global"
+            bw = self.model_weights.get(bucket, {}) if self.model_weights else {}
+
+            peer_models = [m for m in pool if m not in used_models and "embed" not in m.lower()]
+            peer_models = peer_models[:2]  # primary peer set cap
+
+            if not peer_models:
+                # Fallback: pick highest-weight answer
+                if self.model_weights:
+                    answers.sort(key=lambda x: bw.get(x[0], 0.0), reverse=True)
+                    return answers[0]
+                return random.choice(answers)
+
+            # Collect peer judgments via embeddings
+            candidates_text = [ans for _, ans in answers]
+            cand_embs = self.mem.emb_model.encode(candidates_text, normalize_embeddings=True)
+
+            peer_scores = [0.0 for _ in answers]
+            for peer in peer_models:
+                try:
+                    peer_ans = self._call_llm_for_feedback(user_msg, peer)
+                    if not peer_ans:
+                        continue
+                    peer_emb = self.mem.emb_model.encode([peer_ans], normalize_embeddings=True)[0]
+                    for idx, cemb in enumerate(cand_embs):
+                        num = float(np.dot(peer_emb, cemb))
+                        den = float(np.linalg.norm(peer_emb) * np.linalg.norm(cemb) + 1e-8)
+                        peer_scores[idx] += num / den
+                except Exception as e:
+                    print(f"Peer scoring failed for {peer}: {e}")
+
+            best_idx = int(np.argmax(peer_scores))
+            return answers[best_idx]
+        except Exception as e:
+            print(f"Failed to score answers with peers: {e}")
+            return answers[0]
+
+    def _call_llm_for_feedback(self, msg: str, model_name: str) -> Optional[str]:
+        """Lightweight LLM call for model comparison; avoids mutating main state."""
+        # Skip obvious embedding-only models
+        if "embed" in model_name.lower():
+            return None
+        try:
+            timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
+            payload = {
+                "model": model_name,
+                "messages": [
+                    {"role": "system", "content": "You are a peer reviewer model. Provide a concise answer."},
+                    {"role": "user", "content": msg},
+                ],
+                "temperature": 0.2,
+            }
+            api_url = os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")
+            resp = requests.post(api_url, json=payload, timeout=timeout)
+            resp.raise_for_status()
+            return resp.json()["choices"][0]["message"]["content"]
+        except requests.HTTPError as e:
+            print(f"Feedback LLM call failed for model {model_name}: {_extract_http_error(e)}")
+            _prune_model(model_name, self.model_pool, self.model_weights, getattr(self, "available_models", None))
+            return None
+        except Exception as e:
+            print(f"Feedback LLM call failed for model {model_name}: {e}")
+            return None
+
+    def _reinforce_local_weights(self, best_model: str, answers: List[Tuple[str, str]]):
+        """Simple local reinforcement: bump winner, decay losers."""
+        if not self.model_weights:
+            return
+        bucket = self.current_bucket or "b:global"
+        pool = self.available_models or self.model_pool or []
+        bucket_weights = _ensure_bucket_weights(self.model_weights, bucket, pool)
+        alpha = 0.15
+        floor = 0.1
+        models_in_round = [m for m, _ in answers]
+        max_w = max((bucket_weights.get(m, 1.0) for m in models_in_round), default=1.0)
+        for m in models_in_round:
+            prev = bucket_weights.get(m, 1.0)
+            if m == best_model:
+                updated = prev + alpha * (1.0 - prev)
+            else:
+                updated = prev - alpha * (prev - floor)
+            bucket_weights[m] = max(floor, min(1.5 * max_w, updated))
 
 
 class SuperAgent:
@@ -447,6 +816,26 @@ class SuperAgent:
         # ---- self-model graph ------------------------------------------------
         self.graph_path = Path(os.getenv("SELF_MODEL_PATH", "self_model.json"))
         self.graph = self._load_self_model()
+        self.config = _load_config()
+        forced = self.config.get("forced_models")
+        if forced and isinstance(forced, list):
+            self.model_pool = _filter_embed_models([m for m in forced if isinstance(m, str)])
+        else:
+            self.model_pool = _filter_embed_models(_parse_llm_pool())
+        self._known_models = _filter_embed_models(_discover_models(os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")))
+        if forced and isinstance(forced, list):
+            self._known_models = [m for m in self._known_models if m in forced]
+            self.model_pool = [m for m in self.model_pool if m in forced]
+        if self._known_models:
+            # Prefer discovered models over env defaults to avoid invalid selections.
+            self.model_pool = list(self._known_models)
+        self.model_weights: Dict[str, Dict[str, float]] = {}
+        self.model_weights_path = Path(os.getenv("MODEL_WEIGHTS_PATH", "model_weights.json"))
+        self._init_model_weights()
+        self._load_model_weights()
+        # Exploration: every N steps, force a random model choice (per bucket)
+        self.epsilon_every_n = int(self.config.get("epsilon_every_n", 0))
+        self._step_counter = 0
 
         # ---- meta‑policy (tiny PPO) -----------------------------------------
         try:
@@ -474,6 +863,11 @@ class SuperAgent:
         self._lam_floor = float(os.getenv("LAM_BOOTSTRAP_START", "0.9"))
         self._lam_floor_decay = float(os.getenv("LAM_BOOTSTRAP_DECAY", "0.97"))
         self._lam_floor_min = float(os.getenv("LAM_BOOTSTRAP_MIN", "0.2"))
+        self._last_model_used: Optional[str] = None
+        self._last_model_reason: Optional[str] = None
+        self._last_model_candidates: Optional[List[str]] = None
+        self._last_model_bucket: Optional[str] = None
+        self.peer_review_method: str = str(self.config.get("peer_review_method", "similarity")).lower()
         self.visualization_enabled = os.getenv("ENABLE_VISUALIZATION", "0") == "1"
         self.visualizer = None
         self._visualization_dir = Path(os.getenv("VISUALIZATION_DIR", "visualizations"))
@@ -496,12 +890,26 @@ class SuperAgent:
         automatically see everything the parent has written.
         """
         try:
-            child = RetrievalChild(self.mem, assembly_index=self.assembly_index)
+            child = RetrievalChild(
+                self.mem,
+                assembly_index=self.assembly_index,
+                model_pool=self.model_pool,
+                available_models=self._known_models,
+                name=None,
+            )
+            child.model_weights = self.model_weights
             self.children.append(child)
 
             if depth > 1:
                 # create a grand‑child that lives under `child`
-                gc = RetrievalChild(self.mem, assembly_index=self.assembly_index, name=f"{child.name}_gc")
+                gc = RetrievalChild(
+                    self.mem,
+                    assembly_index=self.assembly_index,
+                    name=f"{child.name}_gc",
+                    model_pool=self.model_pool,
+                    available_models=self._known_models,
+                )
+                gc.model_weights = self.model_weights
                 self.grandchildren.append(gc)
 
             # update meta‑policy input size (number of selectable agents)
@@ -605,13 +1013,30 @@ class SuperAgent:
         lam = 0.5
         lam_for_storage = max(lam, self._lam_floor)
         try:
+            bucket_for_turn = _bucket_for_text(user_msg, self.mem.emb_model)
+            self._last_model_bucket = bucket_for_turn
+
+            self._step_counter += 1
+            force_random = self.epsilon_every_n > 0 and (self._step_counter % self.epsilon_every_n == 0)
             chosen_idxs, lam, policy_probs = self._select_actions(user_msg)
             lam_for_storage = max(lam, self._lam_floor)
+
+            # Exploration: override policy selection with a random agent when configured
+            random_direct = False
+            if force_random:
+                total_agents = len(self.children) + len(self.grandchildren)
+                if total_agents > 0:
+                    rand_idx = random.randrange(total_agents)
+                    chosen_idxs = [rand_idx]
+                    print(f"[info] epsilon exploration: forcing random agent index {rand_idx} of {total_agents}")
+                else:
+                    random_direct = True
 
             # split index space: first N children, then M grandchildren
             n_child = len(self.children)
             answers = []
             used_children = []
+            parent_models_used: List[str] = []
 
             for idx in chosen_idxs:
                 if idx < n_child:
@@ -625,28 +1050,86 @@ class SuperAgent:
                     ans = agent.answer(user_msg)
                     answers.append(ans)
                     used_children.append(agent)
+                    if getattr(agent, "last_model_used", None):
+                        parent_models_used.append(agent.last_model_used)
                 except Exception as e:
                     print(f"Failed to get answer from agent {idx}: {e}")
 
             # If no child was called we fall back to a direct LLM call (the "parent" answer)
+            if random_direct and not answers:
+                try:
+                    # Randomly pick a model from known/pool and call directly
+                    pool = self._known_models or self.model_pool or []
+                    if pool:
+                        override_model = random.choice(pool)
+                    else:
+                        override_model = None
+                    parent_answer = self._call_llm_direct(user_msg, override_model=override_model)
+                    if getattr(self, "_last_model_used", None):
+                        parent_models_used = [self._last_model_used]
+                    model_selection_info = [(self._last_model_used, self._last_model_reason, getattr(self, "_last_model_candidates", None))]
+                    answers = []
+                    used_children = []
+                    print(f"[info] epsilon exploration: forced random direct model -> {self._last_model_used}")
+                except Exception as e:
+                    print(f"Epsilon exploration direct call failed: {e}")
+
             if not answers:
                 parent_answer = self._call_llm_direct(user_msg)
+                if getattr(self, "_last_model_used", None):
+                    parent_models_used = [self._last_model_used]
+                model_selection_info = [(self._last_model_used, self._last_model_reason, getattr(self, "_last_model_candidates", None))]
             else:
                 # simple majority vote / concatenation – you can replace with any aggregation rule
                 parent_answer = " ".join(answers)
                 self._last_direct_retrieval = None
+                if parent_models_used:
+                    # Keep a representative model for quick reference
+                    self._last_model_used = parent_models_used[0]
+                model_selection_info = []
+                for child in used_children:
+                    if getattr(child, "last_model_used", None):
+                        model_selection_info.append(
+                            (
+                                child.last_model_used,
+                                getattr(child, "last_model_reason", None),
+                                getattr(child, "last_model_candidates", None),
+                            )
+                        )
 
         except Exception as e:
             print(f"Error during turn execution: {e}")
             return f"System error: {str(e)}"
 
+        if 'model_selection_info' in locals() and model_selection_info:
+            info_lines = []
+            for entry in model_selection_info:
+                if len(entry) == 3:
+                    m, r, cands = entry
+                else:
+                    m, r, cands = entry[0], entry[1], None
+                if not m:
+                    continue
+                # Human-friendly reason text
+                if r == "multi-weighted" or (r or "").startswith("multi-evaluated"):
+                    suffix = " via multiple evaluated models"
+                    if cands and len(cands) > 1:
+                        suffix += f" (candidates: {', '.join(cands)})"
+                elif r:
+                    suffix = f" via {r}"
+                else:
+                    suffix = ""
+                info_lines.append(f"{m}{suffix}")
+            if info_lines:
+                print(f"[model selection] {'; '.join(info_lines)}")
+
         print(f"\n🤖 Agent: {parent_answer}")
-        expected_answer = self._prompt_feedback()
+        expected_answer, feedback_signal = self._collect_feedback(user_msg, parent_answer, used_children, parent_models_used)
         self._last_feedback_text = expected_answer
-        feedback_signal = self._quantify_feedback(expected_answer)
         if feedback_signal is not None:
             self._feedback_history.append(feedback_signal)
             self._feedback_history = self._feedback_history[-100:]
+        self._reinforce_models(parent_models_used, feedback_signal, bucket_for_turn)
 
         turn_id = f"t{int(now())}"
         retrieved_indices: List[int] = []
@@ -659,13 +1142,15 @@ class SuperAgent:
         try:
             if lam_for_storage > 0.5:                     # bootstrap-adjusted threshold
                 self.mem.add(user_msg)
-                self.mem.add(parent_answer)
+                annotated_answer = self._annotate_answer_with_models(parent_answer, parent_models_used)
+                self.mem.add(annotated_answer)
                 self.mem.save()
         except Exception as e:
             print(f"Failed to store in memory: {e}")
 
         # ---- 3️⃣ compute EI ------------------------------------------------
         try:
+            print(f"[info] computing EI2 with indices={retrieved_indices or None}, expected={bool(expected_answer)}, policy_probs={'set' if policy_probs is not None else 'none'}")
             ei = self._compute_EI2(
                 user_msg,
                 parent_answer,
@@ -676,6 +1161,7 @@ class SuperAgent:
         except Exception as e:
             print(f"Error computing EI2: {e}")
             try:
+                print("[info] computing fallback EI")
                 ei = self._compute_EI(user_msg, parent_answer)
             except Exception as inner_e:
                 print(f"Fallback EI computation failed: {inner_e}")
@@ -684,7 +1170,7 @@ class SuperAgent:
 
         # Record assemblies once EI is known
         try:
-            self._record_assemblies(turn_id, used_children, parent_answer, ei)
+            self._record_assemblies(turn_id, used_children, parent_answer, ei, parent_models_used)
         except Exception as e:
             print(f"Error recording assemblies: {e}")
         else:
@@ -716,6 +1202,7 @@ class SuperAgent:
                 turn_id,
                 user=user_msg,
                 answer=parent_answer,
+                models=parent_models_used,
                 ei=ei,
                 lam=lam,
                 lam_floor=self._lam_floor,
@@ -781,11 +1268,22 @@ class SuperAgent:
     # Helper methods used inside the turn
     # ------------------------------------------------------------------
 
-    def _call_llm_direct(self, msg: str) -> str:
+    def _call_llm_direct(self, msg: str, *, override_model: Optional[str] = None) -> str:
         """Fallback when no child is selected – direct call to LM‑Studio."""
         try:
             self._last_direct_retrieval = self.mem.search_with_indices(msg, k=4)
-            model_name = os.getenv("LLM_MODEL_NAME", "gpt-oss-120b")
+            bucket = _bucket_for_text(msg, self.mem.emb_model)
+            pool = self._known_models or self.model_pool or []
+            bucket_weights = _ensure_bucket_weights(self.model_weights, bucket, pool)
+            model_name, reason = (
+                (override_model, "override")
+                if override_model
+                else choose_llm_model(self.model_pool, available=self._known_models, weights=bucket_weights)
+            )
+            self._last_model_used = model_name
+            self._last_model_reason = reason
+            self._last_model_candidates = [model_name]
+            self._last_model_bucket = bucket
             timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
 
             payload = {
@@ -820,6 +1318,12 @@ class SuperAgent:
             resp.raise_for_status()
 
             return resp.json()["choices"][0]["message"]["content"]
+        except requests.HTTPError as e:
+            print(f"Error in direct LLM call: {_extract_http_error(e)}")
+            if self._last_model_used:
+                _prune_model(self._last_model_used, self.model_pool, self.model_weights, self._known_models)
+                self._persist_model_weights()
+            return f"Direct LLM error: {_extract_http_error(e)}"
         except Exception as e:
             print(f"Error in direct LLM call: {e}")
             return f"Direct LLM error: {str(e)}"
@@ -830,6 +1334,7 @@ class SuperAgent:
         used_children: List[RetrievalChild],
         parent_answer: str,
         ei: float,
+        parent_models: Optional[List[str]] = None,
     ):
         """Create/update assembly DAG nodes for this turn."""
         if not hasattr(self, "assembly_index"):
@@ -857,12 +1362,19 @@ class SuperAgent:
             child_nodes.append(child_node_id)
 
         parent_node_id = f"parent_{turn_id}"
+        model_tags = []
+        if parent_models:
+            seen_models = []
+            for m in parent_models:
+                if m and m not in seen_models:
+                    seen_models.append(m)
+            model_tags = [f"model:{m}" for m in seen_models]
         parent_node_id = self.assembly_index.create_composite_node(
             node_id=parent_node_id,
             level=2,
             content=parent_answer,
             sources=child_nodes,
-            tags=["parent"],
+            tags=["parent"] + model_tags,
         )
         self.assembly_index.register_activation(parent_node_id, turn_id, quality=ei)
 
@@ -900,6 +1412,288 @@ class SuperAgent:
             return 0
         return None
 
+    def _peer_model_feedback(self, user_msg: str, parent_answer: str, parent_models: List[str]) -> Tuple[Optional[str], Optional[int]]:
+        """
+        Call alternative models (if available) to compare answers.
+        Uses each peer's *own* answer as the expected output and compares the given answer to it.
+        Produces a weighted, normalized score across peers.
+        """
+        effective_pool = self.model_pool or getattr(self, "_known_models", []) or []
+        if len(effective_pool) < 2:
+            return None, None
+        bucket = getattr(self, "_last_model_bucket", None) or _bucket_for_text(user_msg, self.mem.emb_model)
+        bucket_weights = self.model_weights.get(bucket, {}) if isinstance(self.model_weights, dict) else {}
+        method = getattr(self, "peer_review_method", "similarity")
+
+        # Choose up to 3 other models different from the ones that answered.
+        used = set(m for m in parent_models if m)
+        base_pool = self.model_pool or getattr(self, "_known_models", []) or []
+        if getattr(self, "_known_models", None):
+            base_pool = [m for m in base_pool if m in self._known_models]
+        alternatives = [m for m in base_pool if m not in used and "embed" not in m.lower()]
+        if bucket_weights:
+            alternatives.sort(key=lambda m: bucket_weights.get(m, 0.0), reverse=True)
+        if not alternatives:
+            # Fall back: allow top-weighted models (excluding used ones) as peers, up to 3.
+            alt_pool = [m for m in base_pool if m not in used and "embed" not in m.lower()]
+            if bucket_weights:
+                alt_pool.sort(key=lambda m: bucket_weights.get(m, 0.0), reverse=True)
+            alternatives = alt_pool[:3]
+        else:
+            alternatives = alternatives[:3]
+
+        if method == "contrastive":
+            return self._peer_contrastive(bucket, bucket_weights, user_msg, parent_answer, alternatives)
+        else:
+            return self._peer_similarity(bucket, bucket_weights, user_msg, parent_answer, alternatives)
+
+    def _call_llm_for_feedback(self, msg: str, model_name: str) -> Optional[str]:
+        """Lightweight LLM call for model comparison; avoids mutating main state."""
+        if "embed" in model_name.lower():
+            return None
+        try:
+            timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
+            payload = {
+                "model": model_name,
+                "messages": [
+                    {"role": "system", "content": "You are a peer reviewer model. Provide a concise answer."},
+                    {"role": "user", "content": msg},
+                ],
+                "temperature": 0.2,
+            }
+            api_url = os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")
+            resp = requests.post(api_url, json=payload, timeout=timeout)
+            resp.raise_for_status()
+            return resp.json()["choices"][0]["message"]["content"]
+        except requests.HTTPError as e:
+            print(f"Feedback LLM call failed for model {model_name}: {_extract_http_error(e)}")
+            _prune_model(model_name, self.model_pool, self.model_weights, self._known_models)
+            self._persist_model_weights()
+            return None
+        except Exception as e:
+            print(f"Feedback LLM call failed for model {model_name}: {e}")
+            return None
+
+    def _peer_similarity(
+        self,
+        bucket: str,
+        bucket_weights: Dict[str, float],
+        user_msg: str,
+        parent_answer: str,
+        alternatives: List[str],
+    ) -> Tuple[Optional[str], Optional[int]]:
+        peer_results: List[Tuple[str, str]] = []
+        for model_name in alternatives:
+            ans = self._call_llm_for_feedback(user_msg, model_name)
+            if ans:
+                peer_results.append((model_name, ans))
+
+        if not peer_results:
+            return None, None
+
+        try:
+            given_emb = self.mem.emb_model.encode([parent_answer], normalize_embeddings=True)[0]
+            weighted_sum = 0.0
+            weight_total = 0.0
+            details = []
+            for model_name, peer_ans in peer_results:
+                peer_emb = self.mem.emb_model.encode([peer_ans], normalize_embeddings=True)[0]
+                num = float(np.dot(given_emb, peer_emb))
+                den = float(np.linalg.norm(given_emb) * np.linalg.norm(peer_emb) + 1e-8)
+                sim = num / den
+                # Normalize cosine similarity to [0,1]
+                sim_norm = max(0.0, min(1.0, (sim + 1.0) / 2.0))
+                w = bucket_weights.get(model_name, 1.0) if bucket_weights else 1.0
+                weighted_sum += w * sim_norm
+                weight_total += w
+                details.append(f"{model_name}:{sim_norm:.2f}")
+            if weight_total == 0:
+                return None, None
+            score = weighted_sum / weight_total
+            signal = 1 if score >= 0.55 else 0
+            text = f"Auto model feedback (weighted, bucket={bucket}): score {score:.2f} from {', '.join(details)}"
+            print(f"[peer scores] {', '.join(details)}")
+            return text, signal
+        except Exception as e:
+            print(f"Model peer feedback failed: {e}")
+            return None, None
+
+    def _peer_contrastive(
+        self,
+        bucket: str,
+        bucket_weights: Dict[str, float],
+        user_msg: str,
+        parent_answer: str,
+        alternatives: List[str],
+    ) -> Tuple[Optional[str], Optional[int]]:
+        scores = []
+        details = []
+        for model_name in alternatives:
+            sc = self._llm_score_answer(user_msg, parent_answer, model_name)
+            if sc is None:
+                continue
+            w = bucket_weights.get(model_name, 1.0) if bucket_weights else 1.0
+            scores.append((sc, w))
+            details.append(f"{model_name}:{sc:.2f}")
+        if not scores:
+            return None, None
+        weighted_sum = sum(s * w for s, w in scores)
+        weight_total = sum(w for _, w in scores)
+        if weight_total == 0:
+            return None, None
+        score = weighted_sum / weight_total
+        signal = 1 if score >= 0.55 else 0
+        text = f"Auto model feedback (contrastive, bucket={bucket}): score {score:.2f} from {', '.join(details)}"
+        print(f"[peer scores] {', '.join(details)}")
+        return text, signal
+
+    def _llm_score_answer(self, user_msg: str, parent_answer: str, model_name: str) -> Optional[float]:
+        """
+        Ask a peer model to score the given answer vs what it would produce (0-1).
+        Returns a float in [0,1], or None on failure.
+        """
+        if "embed" in model_name.lower():
+            return None
+        try:
+            timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
+            prompt = (
+                "You are a strict reviewer. Given a QUESTION and a PROPOSED ANSWER, "
+                "score how well the proposed answer matches what you would reply "
+                #"with the following criteria: "
+                #"0 means that the proposed answer is completely wrong, " 
+                #"0.5 means the proposed answer is expected and considered similar, "
+                #"and 1 if the proposed answer provides new and correct information. "
+                #"Values can be anywhere between 0 to 1, based on howmuch they match the criteria"
+                "Return a single number between 0 and 1. Do not add text."
+            )
+            payload = {
+                "model": model_name,
+                "messages": [
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": f"QUESTION:\n{user_msg}\n\nPROPOSED ANSWER:\n{parent_answer}\n\nScore (0-1):"},
+                ],
+                "temperature": 0.0,
+            }
+            api_url = os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions")
+            resp = requests.post(api_url, json=payload, timeout=timeout)
+            resp.raise_for_status()
+            content = resp.json()["choices"][0]["message"]["content"].strip()
+            match = re.search(r"([01](?:\.\d+)?)", content)
+            if not match:
+                return None
+            val = float(match.group(1))
+            return max(0.0, min(1.0, val))
+        except requests.HTTPError as e:
+            print(f"Contrastive score failed for {model_name}: {_extract_http_error(e)}")
+            _prune_model(model_name, self.model_pool, self.model_weights, self._known_models)
+            self._persist_model_weights()
+            return None
+        except Exception as e:
+            print(f"Contrastive score failed for {model_name}: {e}")
+            return None
+
+    def _collect_feedback(
+        self,
+        user_msg: str,
+        parent_answer: str,
+        used_children: List['RetrievalChild'],
+        parent_models: List[str],
+    ) -> Tuple[Optional[str], Optional[int]]:
+        """
+        Collect feedback signal:
+          • if multiple LLMs are available, compare their answers for agreement;
+          • otherwise fall back to user prompt + keyword quantification.
+        """
+        fb_text, fb_signal = self._peer_model_feedback(user_msg, parent_answer, parent_models)
+        if fb_text is not None:
+            return fb_text, fb_signal
+
+        # If we had multiple models available but could not gather model feedback, skip user prompt.
+        effective_pool = self.model_pool or getattr(self, "_known_models", []) or []
+        if len(effective_pool) >= 2:
+            return None, None
+
+        feedback = self._prompt_feedback()
+        return feedback, self._quantify_feedback(feedback)
+
+    def _init_model_weights(self):
+        """Initialize model weights uniformly for discovered models/pool (global bucket)."""
+        base_models = self._known_models or self.model_pool or []
+        if not base_models:
+            return
+        _ensure_bucket_weights(self.model_weights, "b:global", base_models)
+        # Drop weights for models that are not in known list if known list exists.
+        if self._known_models:
+            for bucket, weights in list(self.model_weights.items()):
+                for m in list(weights.keys()):
+                    if m not in self._known_models or "embed" in m.lower():
+                        weights.pop(m, None)
+            # also trim model_pool to known models
+            if self.model_pool:
+                self.model_pool = [m for m in self.model_pool if m in self._known_models and "embed" not in m.lower()]
+
+    def _reinforce_models(self, models_used: List[str], feedback_signal: Optional[int], bucket: Optional[str]):
+        """Reinforce bucketed model weights with a simple EMA based on feedback (1 good, 0 bad)."""
+        if feedback_signal is None:
+            return
+        bucket_key = bucket or "b:global"
+        pool = self._known_models or self.model_pool or []
+        bucket_weights = _ensure_bucket_weights(self.model_weights, bucket_key, pool)
+        alpha = 0.2
+        floor = 0.1
+        for m in models_used:
+            if not m:
+                continue
+            prev = bucket_weights.get(m, 1.0)
+            target = float(feedback_signal)
+            updated = (1 - alpha) * prev + alpha * target
+            bucket_weights[m] = max(floor, updated)
+        self._persist_model_weights()
+
+    def _persist_model_weights(self):
+        if not getattr(self, "model_weights_path", None):
+            return
+        try:
+            self.model_weights_path.parent.mkdir(parents=True, exist_ok=True)
+            self.model_weights_path.write_text(json.dumps(self.model_weights))
+        except Exception as e:
+            print(f"Failed to persist model weights: {e}")
+
+    def _load_model_weights(self):
+        if not getattr(self, "model_weights_path", None):
+            return
+        if not self.model_weights_path.exists():
+            return
+        try:
+            data = json.loads(self.model_weights_path.read_text())
+            if isinstance(data, dict):
+                # Support old flat format by nesting under global bucket
+                if data and all(isinstance(v, (int, float)) for v in data.values()):
+                    data = {"b:global": data}
+                for bucket, weights in data.items():
+                    if not isinstance(weights, dict):
+                        continue
+                    bucket_weights = self.model_weights.setdefault(bucket, {})
+                    for m, w in weights.items():
+                        try:
+                            bucket_weights[m] = float(w)
+                        except Exception:
+                            pass
+                self._init_model_weights()
+        except Exception as e:
+            print(f"Failed to load model weights: {e}")
+
+    def _annotate_answer_with_models(self, answer: str, models_used: List[str]) -> str:
+        """Append model metadata to the stored answer text."""
+        unique_models: List[str] = []
+        for m in models_used:
+            if m and m not in unique_models:
+                unique_models.append(m)
+        if not unique_models:
+            return answer
+        tag = f"[models: {', '.join(unique_models)}]"
+        return f"{answer}\n\n{tag}"
+
     def _get_assembly_context(self, limit: int = 3) -> List[str]:
         if hasattr(self, "assembly_index"):
             return self.assembly_index.retrieve_context(limit=limit)
@@ -931,7 +1725,9 @@ class SuperAgent:
         if path.exists():
             try:
                 data = json.loads(path.read_text())
-                graph = json_graph.node_link_graph(data)
+                if not data or not isinstance(data, dict):
+                    raise ValueError("invalid self-model data")
+                graph = json_graph.node_link_graph(data, edges="links")
                 if "parent" not in graph:
                     graph.add_node("parent")
                 return graph
@@ -959,6 +1755,8 @@ class SuperAgent:
             return
         try:
             payload = torch.load(self.policy_path, map_location="cpu")
+            if not payload or not isinstance(payload, dict):
+                return
             model_state = payload.get("model_state")
             if model_state:
                 head_weight = model_state.get("policy_head.weight")
@@ -990,6 +1788,7 @@ class SuperAgent:
             self._persist_assembly_index()
             self._persist_self_model(force=True)
             self._persist_policy()
+            self._persist_model_weights()
             self._refresh_visualization("final")
         except Exception as e:
             print(f"Error during shutdown: {e}")
@@ -1002,6 +1801,11 @@ class SuperAgent:
                         path.unlink()
                 except Exception:
                     pass
+            try:
+                if getattr(self, "model_weights_path", None) and self.model_weights_path.exists():
+                    self.model_weights_path.unlink()
+            except Exception:
+                pass
             if self._visualization_dir.exists():
                 for img in self._visualization_dir.glob("*.png"):
                     try:
@@ -1028,6 +1832,17 @@ class SuperAgent:
             self._graph_dirty = False
             self._turn_count = 0
             self._lam_floor = float(os.getenv("LAM_BOOTSTRAP_START", "0.9"))
+            self._last_model_used = None
+            self._last_model_reason = None
+            self._last_model_candidates = None
+            self._last_model_bucket = None
+            self.model_pool = _parse_llm_pool()
+            self._known_models = _discover_models(os.getenv("LLM_API_URL", "http://localhost:1234/v1/chat/completions"))
+            if self._known_models:
+                self.model_pool = list(self._known_models)
+            self.model_weights = {}
+            self._init_model_weights()
+            self._load_model_weights()
             self._ms_history = []
             self._policy_history = []
             self._mem_state_history = []
@@ -1209,6 +2024,7 @@ class SuperAgent:
         weights = getattr(self, "_ei_weights", (0.35, 0.25, 0.25, 0.15))
         w1, w2, w3, w4 = weights
         ei_score = w1 * mi_norm + w2 * te_norm + w3 * grounded + w4 * coverage
+        print(f"[info] EI2 components mi={mi_norm:.3f}, te={te_norm:.3f}, grounded={grounded:.3f}, coverage={coverage:.3f}, score={ei_score:.3f}")
         return max(0.0, min(1.0, float(ei_score)))
 
     def _compute_EI(self, user_msg: str, answer: str) -> float:
@@ -1253,7 +2069,11 @@ class SuperAgent:
                 reuse = 0.0
 
             ei_raw = mi_ms * te_mp * grounded * reuse
+            print(f"[info] EI fallback components mi={mi_ms:.3f}, te={te_mp:.3f}, grounded={grounded:.3f}, coverage={reuse:.3f}, ei_raw={ei_raw:.3f}")
             return max(0.0, min(1.0, ei_raw))
+        except Exception as e:
+            print(f"Error computing EI: {e}")
+            return 0.0
         except Exception as e:
             print(f"Error computing EI: {e}")
             return 0.0
@@ -1371,6 +2191,9 @@ class MetaPolicyNetwork(nn.Module):
 if __name__ == "__main__":
     try:
         agent = SuperAgent()
+        print(f"[info] peer review method: {agent.peer_review_method}")
+        print(f"[info] epsilon_every_n: {agent.epsilon_every_n}")
+        print(f"[info] available models: {', '.join(agent.model_pool) if agent.model_pool else 'none'}")
 
         # Bootstrap: create a few children so the meta‑policy has something to select.
         # You can change the numbers or call `_hierarchical_spawn` later from the REPL.
@@ -1379,4 +2202,6 @@ if __name__ == "__main__":
 
         agent.interactive_loop()
     except Exception as e:
+        import traceback
         print(f"Critical error in main execution: {e}")
+        traceback.print_exc()

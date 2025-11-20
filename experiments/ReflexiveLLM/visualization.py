@@ -156,6 +156,14 @@ class VisualizationSystem:
             avg_ei = np.mean([entry.get("ei", 0.0) for entry in self.turn_history])
             ax.text(0.0, -1.2, f"EI mean: {avg_ei:.3f}\nEI latest: {recent_ei:.3f}", ha='left', va='center')
 
+        # Show last model(s) used for quick provenance
+        if self.turn_history:
+            latest_models = self.turn_history[-1].get("models")
+            if isinstance(latest_models, str):
+                latest_models = [latest_models]
+            if latest_models:
+                ax.text(0.0, -1.7, f"Last models: {', '.join(latest_models)}", ha='left', va='center')
+
     def visualize_ei_trend(self, ax):
         """Plot EI and lambda history for the last turns."""
         if not self.turn_history:
@@ -198,6 +206,22 @@ class VisualizationSystem:
         child_nodes = [n for n in self.agent.graph.nodes() if n.startswith('child')]
         turn_nodes = [n for n in self.agent.graph.nodes() if n.startswith('t')]
 
+        # Collect model provenance for turns
+        model_buckets: Dict[str, List[str]] = {}
+        for n in turn_nodes:
+            data = self.agent.graph.nodes[n]
+            models = data.get("models")
+            if isinstance(models, str):
+                models = [models]
+            primary = models[0] if models else "unknown"
+            model_buckets.setdefault(primary, []).append(n)
+
+        palette = sns.color_palette("husl", max(1, len(model_buckets)))
+        model_colors = {}
+        for idx, model_name in enumerate(model_buckets.keys()):
+            model_colors[model_name] = palette[idx]
+        default_color = (0.3, 0.8, 0.3)
+
         # Draw different node types with different colors
         nx.draw_networkx_nodes(self.agent.graph, pos,
                               nodelist=parent_nodes,
@@ -205,16 +229,45 @@ class VisualizationSystem:
         nx.draw_networkx_nodes(self.agent.graph, pos,
                               nodelist=child_nodes,
                               node_color='blue', node_size=800, ax=ax)
-        nx.draw_networkx_nodes(self.agent.graph, pos,
-                              nodelist=turn_nodes,
-                              node_color='green', node_size=600, ax=ax)
+        # Turn nodes colored by model provenance
+        if model_buckets:
+            for model_name, nodes in model_buckets.items():
+                color = model_colors.get(model_name, default_color)
+                nx.draw_networkx_nodes(
+                    self.agent.graph, pos,
+                    nodelist=nodes,
+                    node_color=[color],
+                    node_size=600, ax=ax,
+                    label=f"turns: {model_name}"
+                )
+        else:
+            nx.draw_networkx_nodes(self.agent.graph, pos,
+                                  nodelist=turn_nodes,
+                                  node_color=[default_color], node_size=600, ax=ax, label="turns")
 
         # Draw edges
         nx.draw_networkx_edges(self.agent.graph, pos, alpha=0.5, ax=ax)
 
         # Add labels
-        labels = {n: n[:10] + '...' if len(n) > 10 else n for n in self.agent.graph.nodes()}
+        def _label_for(node: str) -> str:
+            base = node[:10] + '...' if len(node) > 10 else node
+            data = self.agent.graph.nodes[node]
+            models = data.get("models")
+            if isinstance(models, str):
+                models = [models]
+            if models:
+                return f"{base}\n{models[0]}"
+            return base
+
+        labels = {n: _label_for(n) for n in self.agent.graph.nodes()}
         nx.draw_networkx_labels(self.agent.graph, pos, labels, font_size=8, ax=ax)
+
+        if model_buckets:
+            legend_handles = [
+                patches.Patch(color=model_colors.get(name, default_color), label=f"turns: {name}")
+                for name in model_buckets.keys()
+            ]
+            ax.legend(handles=legend_handles, loc='lower left', fontsize=7)
 
         ax.set_title('Self-Model Network Graph')
         ax.axis('off')
@@ -354,6 +407,7 @@ class VisualizationSystem:
                 "lam_floor": data.get('lam_floor', lam_val),
                 "lam_effective": data.get('lam_effective', lam_val),
                 "mem": mem_size,
+                "models": data.get('models'),
             })
             self._seen_turn_nodes.add(node)
 
