@@ -169,7 +169,7 @@ Moving away from simply abstract forms of graphs and fields, in human phenomenol
 
 ### Notes
 
-Note that the model doesn't explicitly define single stand-alone "justification tensor" distinct from $A_{\mu\nu}$ and $\Theta_{\mu\nu}$. It is a shorthand for “the sum of the Assembly Tensor and the Active‑Stress Tensor (and any other stress‑like contributions) that together constitute the justification flux”. In other words $\mathcal{J}_{\mu\nu}\equivA_{\mu\nu}[AI]+\Theta_{\mu\nu}[EI]+\lambdaRg_{\mu\nu},$ if we also include the reserves. Here, $\lambda$ is  a _coupling constant_ (dimensionful or dimensionless depending on conventions) that sets the strength of the interaction between the reserve battery and the geometry.
+Note that the model doesn't explicitly define single stand-alone "justification tensor" distinct from $A_{\mu\nu}$ and $\Theta_{\mu\nu}$. It is a shorthand for “the sum of the Assembly Tensor and the Active‑Stress Tensor (and any other stress‑like contributions) that together constitute the justification flux”. In other words $\mathcal{J}_{\mu\nu}\equiv A_{\mu\nu}[AI]+\Theta_{\mu\nu}[EI]+\lambda Rg_{\mu\nu},$ if we also include the reserves. Here, $\lambda$ is  a _coupling constant_ (dimensionful or dimensionless depending on conventions) that sets the strength of the interaction between the reserve battery and the geometry.
 
 For clarity, we can make the notion of structural invariants explicit as follows. In the Reflexive Organism Model (ROM) the conservation law reads $\partial_t\rho_{\text{compat}}+\nabla\cdot\mathcal J = s-\eta$.  The *constitutive* part of the model, i.e. the mapping $(\theta,D,g,\mathcal B)\mapsto (\mathcal J,\rho_{\text{compat}})$, is captured by a functional constraint
 
@@ -267,7 +267,7 @@ But what actually causes $G > 1$? If all sub‑components fire symmetrically, th
 
 When this asymmetric signal persists over several fast cycles it is accumulated by the slow memory timescale $\tau_M$. The accumulated vorticity feeds back into the next perception stage, increasing the magnitude of the same asymmetry. In linear terms the corresponding eigenvalue of $\mathcal{F}$ moves from < 1 toward > 1.
 
-Besides reserves and the embedded structural motifs of the seeds, asymmetry can arise from dynamic λ‑mixing between altruistic (cooperative) and selfish (exploratory) behaviours. The mixing coefficient $\lambda(t)\in[0,1]$ effectively scales the **gain contributed by exploratory actions**:
+Besides reserves and the embedded structural motifs of the seeds, asymmetry can arise from dynamic $\lambda$‑mixing between altruistic (cooperative) and selfish (exploratory) behaviours. The mixing coefficient $\lambda(t)\in[0,1]$ effectively scales the **gain contributed by exploratory actions**:
 
 $$
 G_{\text{eff}}(t)=\bigl[(1-\lambda(t))G_{\text{coop}} + \lambda(t)G_{\text{expl}}\bigr].
@@ -399,7 +399,6 @@ Now, let's make a higl-level overview how this "DNA-as-curvature" hypothesis act
 - **Evolution as curvature refinement**. Evolutionary change proceeds mostly by modifying regulatory architecture and developmental timing, not by inventing new genes.  It’s slow adjustment of geometry, not code rewriting. Shows how selection acts on the stability of coherent flows (viable morphodynamics), feeding back into the genome as refined boundary conditions.
 - **Phenomenological correspondence**. People show long-term, domain-specific affinities that correlate with stable neural architectures and neurochemical profiles (e.g., mathematicians’ parietal–frontal coupling, musicians’ auditory–motor loops). Those are the low-$\lambda_i$ eigenmodes you called “seeds.”  The fact that they are heritable to some degree but still need environmental excitation fits the genome-sets-curvature, experience-activates-flow model.
 
-
 ## Appendix B: Superorganism's field as generative medium
 
 Let's make another hypothesis based on the properties of ROM. If the *Reflexive Organism Model* treats every coherent system as a node in a nested hierarchy of reflexive fields, then the idea of a “seed” extends automatically upward: a local organism is itself a condensate of the parent field’s dynamics, not just a recombination of two peers’ genomes.
@@ -443,7 +442,6 @@ This view invites to:
 3. Look for conserved **flux topologies** (energy, matter, information) across scales, not just conserved genes.
 4. Expect *purpose-like* regularities to emerge naturally from coherence conservation, without invoking teleology.
 
-
 ## Appendix C: Information system
 
 Let's make one step further now. ROM doesn't limit itself only in terms of biological systems. It is primarily an information system. Which also means that all the ideas and all the "innovations" are seeded and evolve in the same way as the organisms.
@@ -463,7 +461,6 @@ In fact, innovation can be interpreted as field relaxation. When the current cog
 Seen as cross-scale coupling, human brains are physical condensates of biospheric curvature, but their activity feeds back into planetary coherence through technology and ecology. Thus, “information evolution” and “biological evolution” are two time-scales of the same system: fast symbolic modes riding on slow material modes.
 
 Biological evolution becomes a special case of informational evolution, and ideas become the fast, lightweight organisms of a cognitive biosphere. The advantage of seeing it that way is that the same mathematics of curvature, eigenmodes, coherence flux applies seamlessly from genes to memes, from chemistry to thought.
-
 
 ## Appendix D: Ant colony - the seed
 
@@ -707,8 +704,7 @@ $$
 
 When 1–4 are simultaneously true, the reflexive flux $\mathcal J = \mathbf{J}\cdot n$ (edge‑wise current times node mass) grows, a *closed vorticity loop* forms in the pheromone field, and the colony’s foraging activity self‑amplifies. The system then settles into a new attractor basin, a self‑maintaining core flux.
 
-
-### Appendix F: Fertilization
+## Appendix F: Fertilization
 
 Let's now reason about fertilization process using the formulation of seeds and the spark. The hypothesis is that fertilization is the moment a spherical “deep‑attractor” (the egg) receives an asymmetric, helical perturbation (the sperm). This perturbation is amplified by the egg’s internal feedback loop, pushes the effective loop gain $G$ above unity, creates a new *seed* (the combined diploid genome), deepens a fresh attractor basin, and after a brief re‑balancing of $\mathcal{J}\rho_{\text{compat}}$ a self‑sustaining reflexive organism, the zygote is born.
 
@@ -716,13 +712,13 @@ The egg is encoded deep attractor. The *deep attractor basin* as the unfertilise
 
 The sperm must then the properties that encode the asymmetric, helical perturbation. The flagellum of a sperm is a *helical* propeller; the centriole that enters the egg carries a well‑defined handedness. This handedness is a *curvature perturbation* at the molecular level, analogous to the “internal asymmetry” that seeds a spiral geometry in ROM. Note that because the sperm’s helical structure carries a definite chirality, it also introduces a left‑right bias that propagates into later embryonic patterning 
 
-Sperm‑egg membrane fusion triggers a rapid influx of Ca²⁺ (the “cortical flash”). This creates a *sharp, asymmetric current* $j^\mu$ that breaks the egg’s spherical symmetry. The calcium wave spreads across the cortex and is quickly compressed into a global polarity signal: the egg’s cortical actin reorganises, the meiotic spindle re‑orients, and the zona pellucida hardens. A tiny local event becomes a system‑wide change – exactly what the “coarse‑grained compression” of ROM does to turn a few exploratory actions into a global signal.
+Sperm‑egg membrane fusion triggers a rapid influx of Ca$^{2+}$ (the “cortical flash”). This creates a *sharp, asymmetric current* $j^\mu$ that breaks the egg’s spherical symmetry. The calcium wave spreads across the cortex and is quickly compressed into a global polarity signal: the egg’s cortical actin reorganises, the meiotic spindle re‑orients, and the zona pellucida hardens. A tiny local event becomes a system‑wide change – exactly what the “coarse‑grained compression” of ROM does to turn a few exploratory actions into a global signal.
 
-The egg momentarily shifts from a *maintenance* mode (preserving maternal reserves) to an *exploratory* mode (activating new transcriptional programmes). This is the analogue of temporarily favouring selfish exploration when enough “energy” (here, Ca²⁺ and ATP) is available. Now we can consider amplification, the loop gain above unity. 
+The egg momentarily shifts from a *maintenance* mode (preserving maternal reserves) to an *exploratory* mode (activating new transcriptional programmes). This is the analogue of temporarily favouring selfish exploration when enough “energy” (here, Ca$^{2+}$ and ATP) is available. Now we can consider amplification, the loop gain above unity. 
 
 We need to reason about the process where in ROM feedback operator $\mathcal{F}$ maps a perturbation at time $t$ to its effect after one reflexive beat (the duration of a calcium‑wave–driven cortical cycle). In fertilisation this is when
 
-1. **Input:** Sperm‑induced Ca²⁺ flash (asymmetric current).  
+1. **Input:** Sperm‑induced Ca$^{2+}$ flash (asymmetric current).  
 2. **Fast branch:** Calcium activates calmodulin‑dependent kinases, which *write* new phosphorylation states into the cortex (fast write step).  
 3. **Slow branch (memory):** The phosphorylated proteins persist across several beats because the egg’s reserves keep ATP levels high; this is the “slow memory” that lets the asymmetry be remembered.  
 
@@ -732,9 +728,9 @@ When $G>1$ the system crosses a bifurcation and the egg moves from a passive acc
 
 After fertilisation the product $\mathcal{J}\rho_{\text{compat}}$ is temporarily disturbed (the egg’s internal geometry is being rewired). The RCP $d/dt[\mathcal{J}\rho_{\text{compat}}]=0$ then manifests as **re‑establishment of a new equilibrium**  where the zygote settles into a fresh deep basin whose curvature now incorporates paternal contributions and **phase transition** with the collapse of the maternal‐only attractor and the birth of a new one. The *zero* corresponds to the moment when the old compatibility field vanishes and the new one is being written.  
 
-Once the first mitotic cycles are underway, the system’s $\mathcal{J}\rho_{\text{compat}}$ product stabilises again, now at a higher‑dimensional value that supports ongoing reflexive loops through gene expression ↔ morphogen gradients ↔ mechanical feedback.
+Once the first mitotic cycles are underway, the system’s $\mathcal{J}\rho_{\text{compat}}$ product stabilises again, now at a higher‑dimensional value that supports ongoing reflexive loops through gene expression $\leftrightarrow$ morphogen gradients $\leftrightarrow$ mechanical feedback.
 
-### Appendix G: Cell division
+## Appendix G: Cell division
 
 Towards the end of the chapter on the spark, we've mentioned that the child may split off and form its own reflexive loop. Let's make a hypothesis for what triggers a cell division. The parent cell, its reserves, and its internal curvature constitute a deep attractor basin. When an asymmetric perturbation (the duplication of DNA plus the formation of a cleavage plane) pushes the system past the feedback‑gain threshold, a *new eigenmode* is created inside that basin. If the new eigenmode can sustain its own $\mathcal{J}$–$\rho_{\text{compat}}$ balance it detaches, becomes an independent attractor, and thus a second reflexive organism.
 
@@ -784,6 +780,7 @@ At every rung the *same four‑item balance* must be re‑established after a ne
 
 
 ---
+
 ## Reflection
 
 The question that started this investigation was all about why some structures feel reinforcing and others inhibiting, and what it means for the organism in light of the ROM theory. In the beginning, there was only notion about reserves as stored potential that limits how much structural plasticity can be applied in one reflexive cycle, along with the idea that the seeds define minimal, reusable structural motif that an organism can instantiate without having to redesign everything from scratch. Two observable properties of living organisms, yet there was no clear connection between them.
@@ -810,6 +807,7 @@ This loop reinterprets life as *a field that repeatedly creates, stabilises, and
 
 
 ---
+
 ## Bibliography
 
 - **Jovanovic, U.** (2025). *Reflexive Organism Model*.
