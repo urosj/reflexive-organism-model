@@ -35,24 +35,23 @@ Reserves can be interpreted as stored potential for transformation. In the dynam
 
 $$
 \partial_t \rho_{compat} + \nabla\cdot \mathcal J = s - \eta,
-\tag{1}
 $$
 
 reserves act as a buffer that keeps this equation solvable even when $s$ (inflow) and $\eta$ (loss) are temporarily mismatched. The relation is nothing more exotic than a **continuity law** for the scalar field $\rho_{\text{compat}}(x,t)$. It tells us that, at every point in space and time, the rate of change of the “compatible‑information density’’ plus the net outflow of that quantity equals the amount created locally ($s$) minus the amount destroyed locally ($\eta$).  
 
-Note: the construction of the formula starts with a fixed control volume $V\subset \mathbb R^{d}$ with boundary $\partial V$.  The total amount of compatible information inside $V$ is $Q(t)=\int_{V}\rho_{\text{compat}}(x,t)\,{\rm d}^dx.$ We turn this into surface integral $\frac{{\rm d}Q}{{\rm d}t}= -\oint_{\partial V}\mathcal J\!\cdot{\bf n}\,{\rm d}S +\int_{V}s\,{\rm d}^dx-\int_{V}\eta\,{\rm d}^dx.$ Using the divergence theorem  $\oint_{\partial V}\mathcal J\!\cdot{\bf n}\,{\rm d}S= \int_{V}\nabla\!\cdot\mathcal J\,{\rm d}^dx,$ we turn it into volume integral, obtaining $\frac{{\rm d}}{{\rm d}t}\int_{V}\rho_{\text{compat}}\,{\rm d}x= -\int_{V}\nabla\!\cdot\mathcal J\,{\rm d}x +\int_{V}s\,{\rm d}x-\int_{V}\eta\,{\rm d}x .$  Because the volume $V$ is *arbitrary*, the integrands must be equal point‑by‑point, hence we obtain the differential continuity equation $\partial_t\rho_{\text{compat}}+\nabla\!\cdot\mathcal J = s-\eta .$
+Note: the construction of the formula starts with a fixed control volume $V\subset \mathbb R^{d}$ with boundary $\partial V$.  The total amount of compatible information inside $V$ is $Q(t)=\int_{V}\rho_{\text{compat}}(x,t){\rm d}^dx.$ We turn this into surface integral $\frac{{\rm d}Q}{{\rm d}t}= -\oint_{\partial V}\mathcal J\cdot{\bf n}{\rm d}S +\int_{V}s{\rm d}^dx-\int_{V}\eta{\rm d}^dx.$ Using the divergence theorem  $\oint_{\partial V}\mathcal J\cdot{\bf n}{\rm d}S= \int_{V}\nabla\cdot\mathcal J{\rm d}^dx,$ we turn it into volume integral, obtaining $\frac{{\rm d}}{{\rm d}t}\int_{V}\rho_{\text{compat}}{\rm d}x= -\int_{V}\nabla\cdot\mathcal J{\rm d}x +\int_{V}s{\rm d}x-\int_{V}\eta{\rm d}x .$  Because the volume $V$ is *arbitrary*, the integrands must be equal point‑by‑point, hence we obtain the differential continuity equation $\partial_t\rho_{\text{compat}}+\nabla\cdot\mathcal J = s-\eta .$
 
 The continuity equation simply states  simply that *any increase of compatible information at a point is either because it flows in from elsewhere, is created on‑site, or survives the local loss processes*.
 
 Defining a scalar reserve field $R(t)$ by
 
 $$
-\frac{{\rm d}R}{dt}=s-\eta-\nabla\!\cdot\mathcal J\;
+\frac{{\rm d}R}{dt}=s-\eta-\nabla\cdot\mathcal J
 $$
 
-makes the reserves the cumulative excess of source over loss and divergence.  When $s>\eta+\nabla\!\cdot\mathcal J$ the term in is positive, so $R$ *fills*; when the inequality reverses, $R$  *drains*.  In other words, reserves are exactly the “buffer” that guarantees the continuity equation can be satisfied even during temporary mismatches between inflow and outflow. $R$ evolves according to how much net compatibility the system accumulates or loses, effectively a coherence battery.
+makes the reserves the cumulative excess of source over loss and divergence.  When $s>\eta+\nabla\cdot\mathcal J$ the term in is positive, so $R$ *fills*; when the inequality reverses, $R$  *drains*.  In other words, reserves are exactly the “buffer” that guarantees the continuity equation can be satisfied even during temporary mismatches between inflow and outflow. $R$ evolves according to how much net compatibility the system accumulates or loses, effectively a coherence battery.
 
-The RCP states that the product of justification $\mathcal J(t)$ and compatibility remains constant. Equation (1) is the *local* counterpart of RPC.  Any local deviation from perfect balance, i.e. any non‑zero right‑hand side of (1), must be absorbed somewhere else in the hierarchy so that the global product stays invariant.  The natural repository for this absorption is the reserve field $R$: it stores the surplus coherence when $\mathcal J\,\rho_{\text{compat}}$ would otherwise increase, and releases it when the product would tend to fall.  Thus reserves are the material embodiment of the RCP’s bookkeeping. They keep the intentional‑coherence budget conserved without demanding literal energy or mass conservation.
+The RCP states that the product of justification $\mathcal J(t)$ and compatibility remains constant. Equation (1) is the *local* counterpart of RPC.  Any local deviation from perfect balance, i.e. any non‑zero right‑hand side of (1), must be absorbed somewhere else in the hierarchy so that the global product stays invariant.  The natural repository for this absorption is the reserve field $R$: it stores the surplus coherence when $\mathcal J\rho_{\text{compat}}$ would otherwise increase, and releases it when the product would tend to fall.  Thus reserves are the material embodiment of the RCP’s bookkeeping. They keep the intentional‑coherence budget conserved without demanding literal energy or mass conservation.
 
 The equation also states, that the pump (decreases entropy and generates reuse of abstractions generating stronger currents) is the mechanism that recharges reserves. Less energy is dissipated ($\eta$↓), coherence density increases ($\rho_{compat}$↑), reserves $R$ refill. Conversely, unproductive exploration drains reserves. However it is also about structure. Every compressed abstraction (the reusable subgraph of currents) is a frozen form of reserve, as it doesn’t expend energy until activated, it shortens future assembly pathways (saves energy/time) and it anchors field coherence, making future exploration cheaper. So structure represents long-term reserve, while active pump serves as a short-term reserve dynamics. In this view, reserves are a mix of energetic capacity and informational organization that allows the reflexive field to sustain or reshape its currents without losing coherence. They are replenished by the energy pump (reuse of abstractions) and embodied in the system’s stable structures.
 
@@ -156,7 +155,7 @@ At birth (or at early development), the field already has small amplitudes along
 We can state this as accumulated coherency budget
 
 $$
-C_{acc}(t)=\int_0^t\!\! \langle\psi_{\text{seed}}(\tau),\,\mathcal J(\tau)\rangle \, d\tau.
+C_{acc}(t)=\int_0^t \langle\psi_{\text{seed}}(\tau),\mathcal J(\tau)\rangle  d\tau.
 $$
 
 
@@ -170,26 +169,26 @@ Moving away from simply abstract forms of graphs and fields, in human phenomenol
 
 ### Notes
 
-Note that the model doesn't explicitly define single stand-alone "justification tensor" distinct from $A_{\mu\nu}$ and $\Theta_{\mu\nu}$. It is a shorthand for “the sum of the Assembly Tensor and the Active‑Stress Tensor (and any other stress‑like contributions) that together constitute the justification flux”. In other words $\mathcal{J}_{\mu\nu}\;\equiv\;A_{\mu\nu}[AI]\;+\;\Theta_{\mu\nu}[EI]\;+\;\lambda\,R\,g_{\mu\nu},$ if we also include the reserves. Here, $\lambda$ is  a _coupling constant_ (dimensionful or dimensionless depending on conventions) that sets the strength of the interaction between the reserve battery and the geometry.
+Note that the model doesn't explicitly define single stand-alone "justification tensor" distinct from $A_{\mu\nu}$ and $\Theta_{\mu\nu}$. It is a shorthand for “the sum of the Assembly Tensor and the Active‑Stress Tensor (and any other stress‑like contributions) that together constitute the justification flux”. In other words $\mathcal{J}_{\mu\nu}\equivA_{\mu\nu}[AI]+\Theta_{\mu\nu}[EI]+\lambdaRg_{\mu\nu},$ if we also include the reserves. Here, $\lambda$ is  a _coupling constant_ (dimensionful or dimensionless depending on conventions) that sets the strength of the interaction between the reserve battery and the geometry.
 
-For clarity, we can make the notion of structural invariants explicit as follows. In the Reflexive Organism Model (ROM) the conservation law reads $\partial_t\rho_{\text{compat}}+\nabla\!\cdot\!\mathcal J = s-\eta$.  The *constitutive* part of the model, i.e. the mapping $(\theta,D,g,\mathcal B)\mapsto (\mathcal J,\rho_{\text{compat}})$, is captured by a functional constraint
+For clarity, we can make the notion of structural invariants explicit as follows. In the Reflexive Organism Model (ROM) the conservation law reads $\partial_t\rho_{\text{compat}}+\nabla\cdot\mathcal J = s-\eta$.  The *constitutive* part of the model, i.e. the mapping $(\theta,D,g,\mathcal B)\mapsto (\mathcal J,\rho_{\text{compat}})$, is captured by a functional constraint
 
 $$
-\mathcal C(\theta ,D ,g ,\mathcal B)=0\;
+\mathcal C(\theta ,D ,g ,\mathcal B)=0
 $$
 
 where
 
 - $\theta$ is a collection of scalar control parameters (often called *assembly potentials*).  They weight the contribution of the Assembly Tensor $A_{\mu\nu}$ and the Active‑Stress Tensor $\Theta_{\mu\nu}$ in the total reflexive flux $\mathcal J$. In ROM these set the relative strength of different internal processes (e.g. “how much effort to allocate to exploration vs. maintenance”).
-- $D$ is a *positive‑definite conductance (or diffusion) tensor*.  In the constitutive relation $\mathcal J = -\, D\,\nabla\Phi$ it maps gradients of the coherence potential $\Phi$ into fluxes of compatibility $\mathcal J$. In ROM it determines how easily coherence can flow in each spatial direction; anisotropies in $D$ encode preferred pathways (e.g. neural tracts, vascular channels).
-- $g$ is the *metric tensor* on the underlying manifold $\mathcal M$.  All differential operators ($\nabla,\;\operatorname{div},\;\Delta$) are taken with respect to this metric; curvature tensors (Ricci, scalar $R$) are derived from it. In ROM it provides the geometric curvature that shapes the solution space of $\mathcal C$.  Different $g$ give different “landscapes” of admissible field evolutions.
+- $D$ is a *positive‑definite conductance (or diffusion) tensor*.  In the constitutive relation $\mathcal J = - D\nabla\Phi$ it maps gradients of the coherence potential $\Phi$ into fluxes of compatibility $\mathcal J$. In ROM it determines how easily coherence can flow in each spatial direction; anisotropies in $D$ encode preferred pathways (e.g. neural tracts, vascular channels).
+- $g$ is the *metric tensor* on the underlying manifold $\mathcal M$.  All differential operators ($\nabla$, div, $\Delta$) are taken with respect to this metric; curvature tensors (Ricci, scalar $R$) are derived from it. In ROM it provides the geometric curvature that shapes the solution space of $\mathcal C$.  Different $g$ give different “landscapes” of admissible field evolutions.
 - $\mathcal B$ is a *background / bias field* (or a set of boundary‑condition tensors).  It can be thought of as the collection of Dirichlet, Neumann or Robin conditions imposed by developmental programs, genetic regulatory networks, or external scaffolds. In ROM it fixes reference values for $\rho_{\text{compat}}$ and/or $\Phi$ on tissue interfaces; thereby carving out a *sub‑manifold* of the full solution space where dynamics actually occur.
 
-These four objects are constant under the instantaneous reflexive update that enforces the continuity (conservation) law  $\partial_t\rho_{\text{compat}} + \nabla\!\cdot\!\mathcal J = s - \eta .$ They may evolve *slowly* across learning or evolutionary timescales via the reflexive gradient‑descent step  
+These four objects are constant under the instantaneous reflexive update that enforces the continuity (conservation) law  $\partial_t\rho_{\text{compat}} + \nabla\cdot\mathcal J = s - \eta .$ They may evolve *slowly* across learning or evolutionary timescales via the reflexive gradient‑descent step  
 
 $$
 (\theta ,D ,g ,\mathcal B)_{t+1}= (\theta ,D ,g ,\mathcal B)_t 
-      + \eta_{l}\,\frac{\partial\mathcal P}{\partial(\theta ,D ,g ,\mathcal B)}.
+      + \eta_{l}\frac{\partial\mathcal P}{\partial(\theta ,D ,g ,\mathcal B)}.
 $$
 
 $\eta_l$ is a learning-rate coefficient, and $\mathcal P$ is the reflexive potential (or coherence functional). On the fast timescale of a single reflexive loop, however, they act as *invariants* that define the solution manifold of $\mathcal C$.  
@@ -222,7 +221,7 @@ The main property of the model is reflexivity, the closed-loop mechanism of the 
 The idea of the spark is based on a topic already covered in the model when discussing about rotation. The heart of ROM is the reflexive cycle:
 
 $$
-\text{Perception} \;\xrightarrow{\;j^\mu_i(t)\;}\; \text{Memory update} \;\xrightarrow{\;\text{write‑back}\;}\; \text{Action} \;\xrightarrow{\;\text{feedback}\;}\; \text{Perception}.
+\text{Perception} \xrightarrow{j^\mu_i(t)} \text{Memory update} \xrightarrow{\text{write‑back}} \text{Action} \xrightarrow{\text{feedback}} \text{Perception}.
 $$
 
 When the summed read‑back currents $j^\mu_i(t)$ produce a *net vorticity*, an asymmetric current distribution, they generate a non‑zero angular momentum component in the emergent coarse‑grained metric $g_{\mu\nu}^{(\ell)}$. If this asymmetric current survives long enough (thanks to a sufficiently large memory timescale $\tau_M$), it imprints an off‑diagonal metric component ($g_{t\phi}$) that feeds back on subsequent cycles, reinforcing the same pattern. In dynamical systems language this is a *positive feedback gain* > 1 – the system has crossed a bifurcation from passive storage to active self‑sustaining oscillation.
@@ -231,19 +230,19 @@ Even if a non‑zero $\mathcal{J}$ appears, it needs *something to latch onto* e
 
 While the seeds provide the structural conditions for the loop to emerge, the reserves set a *quantitative threshold*. If the loop tries to change more than the reserve permits, coherence is lost and the reflexive flux collapses back into an accumulator.
 
-The architecture of the organism must contain three tightly coupled "modules". The curvature and structure invariants ($\mathcal{J},\;\rho_{\text{compat}}$) provide the geometric scaffold that biases certain patterns, the seeds supply the content each cycle can instantiate with minimal cost and the reserves guarantee plasticity so that the loop can enact change without breaking coherence. If any one of these is missing, the architecture collapses into a passive accumulator.
+The architecture of the organism must contain three tightly coupled "modules". The curvature and structure invariants ($\mathcal{J},\rho_{\text{compat}}$) provide the geometric scaffold that biases certain patterns, the seeds supply the content each cycle can instantiate with minimal cost and the reserves guarantee plasticity so that the loop can enact change without breaking coherence. If any one of these is missing, the architecture collapses into a passive accumulator.
 
 Even with the right architecture, a system will remain inert until a perturbation creates a *non‑zero asymmetric current* that survives long enough to be written into memory. When this perturbation pushes the *loop gain* $G = \frac{\text{output flux}}{\text{input flux}}$ above unity, the reflexive core ignites. The system then settles into a deep attractor basin (local minimum of dissipative loss).
 
 We've set up the stage, now let's dive into what it means to cross the feedback threshold. A single reflexive cycle can be written schematically as  
 
 $$
-\underbrace{\text{Perception}}_{\;P(t)} 
-\;\xrightarrow{j_i^\mu(t)}\;
+\underbrace{\text{Perception}}_{P(t)} 
+\xrightarrow{j_i^\mu(t)}
 \underbrace{\text{Memory update}}_{M(t+\Delta t)}
-\;\xrightarrow{\text{Write‑back}}\
+\xrightarrow{\text{Write‑back}}\
 \underbrace{\text{Action}}_{A(t+\Delta t)}
-\;\xrightarrow{\text{Feedback}}\
+\xrightarrow{\text{Feedback}}\
 P(t+\Delta t) .
 $$
 
@@ -252,13 +251,13 @@ The **read‑back currents** $j_i^\mu(t)$ are the microscopic carriers of the ju
 Let's define a linearised feedback operator $\mathcal{F}$ that maps an infinitesimal perturbation $\delta\mathbf{x}(t)$ of the system state (where $\mathbf{x}$ bundles $P,M,A,\mathcal{J},\rho_{\text{compat}}$) to its value one cycle later:
 
 $$
-\delta\mathbf{x}(t+\Delta t)=\mathcal{F}\,\delta\mathbf{x}(t).
+\delta\mathbf{x}(t+\Delta t)=\mathcal{F}\delta\mathbf{x}(t).
 $$
 
 The **loop gain** is the spectral radius of $\mathcal{F}$,
 
 $$
-G \equiv \rho(\mathcal{F}) = \max\{|\,\lambda_i| : \lambda_i\text{ eigenvalues of }\mathcal{F}\}.
+G \equiv \rho(\mathcal{F}) = \max\{|\lambda_i| : \lambda_i\text{ eigenvalues of }\mathcal{F}\}.
 $$
 
 - If $G<1$ every perturbation decays, the system behaves as a pure accumulator.  
@@ -271,7 +270,7 @@ When this asymmetric signal persists over several fast cycles it is accumulated 
 Besides reserves and the embedded structural motifs of the seeds, asymmetry can arise from dynamic λ‑mixing between altruistic (cooperative) and selfish (exploratory) behaviours. The mixing coefficient $\lambda(t)\in[0,1]$ effectively scales the **gain contributed by exploratory actions**:
 
 $$
-G_{\text{eff}}(t)=\bigl[(1-\lambda(t))\,G_{\text{coop}} + \lambda(t)\,G_{\text{expl}}\bigr].
+G_{\text{eff}}(t)=\bigl[(1-\lambda(t))G_{\text{coop}} + \lambda(t)G_{\text{expl}}\bigr].
 $$
 
 When energy or coupling costs are low, $\lambda$ can temporarily rise, boosting the exploratory gain $G_{\text{expl}}>1$. This is how a *minority* of agents can push the whole system over the threshold (the “butterfly effect”). Once the new pattern yields higher EI reward, $\lambda$ relaxes back but the attractor basin has already deepened.
@@ -287,19 +286,19 @@ From the point of view of the super‑organism this looks exactly like the *butt
 The perturbation adds a source term to the parent’s compatibility equation:
 
 $$
-\partial_t\!\bigl(\mathcal J^{(\text{super})}\rho_{\text{compat}}^{(\text{super})}\bigr)
+\partial_t\bigl(\mathcal J^{(\text{super})}\rho_{\text{compat}}^{(\text{super})}\bigr)
 =
--\nabla\!\cdot\! \mathbf{J}_{\text{flux}}
-\;+\;
+-\nabla\cdot \mathbf{J}_{\text{flux}}
++
 S_{\text{asym}}(x,t),
 $$
 
 where $S_{\text{asym}}$ is non‑zero only where the child couples to the parent.  If the integral of $S_{\text{asym}}$ over one reflexive beat exceeds the damping term, RCP is temporarily violated. Restoring RCP requires that the net change be cancelled within a few beats.  ROM gives us three complementary levers that the super‑organism can pull. Redistribution of reflexive flux $\mathcal J$, curvature adaptation and consumption of reserves. These three mechanisms are not independent. They are *coupled* through the **memory gradient** $\nabla U(M)$.  The parent follows the direction of least entropy increase (the steepest descent on its historical utility landscape).  In practice this means
 
 $$
-\Delta\bigl[\mathcal J^{(\text{super})},\,\rho_{\text{compat}}^{(\text{super})}\bigr]
-\;\propto\;
--\nabla U(M_t) \;+\; \underbrace{\frac{\partial \mathcal R}{\partial t}}_{\text{reserve draw}}
+\Delta\bigl[\mathcal J^{(\text{super})},\rho_{\text{compat}}^{(\text{super})}\bigr]
+\propto
+-\nabla U(M_t) + \underbrace{\frac{\partial \mathcal R}{\partial t}}_{\text{reserve draw}}
 $$
 
 so that the *gradient* points toward configurations where the extra child‑induced flux is either rerouted, absorbed by a softened curvature, or paid for with reserves.
@@ -308,12 +307,12 @@ As we're dealing mostly with currents here, let's introduce two operators that a
 
 
 $$
-\mathcal{E}_{\uparrow}:\;\mathcal J^{(\text{child})}\rightarrow \mathcal J^{(\text{super})},
+\mathcal{E}_{\uparrow}:\mathcal J^{(\text{child})}\rightarrow \mathcal J^{(\text{super})},
 \qquad
-\mathcal{E}_{\downarrow}:\;\rho_{\text{compat}}^{(\text{super})}\rightarrow\rho_{\text{compat}}^{(\text{child})}.
+\mathcal{E}_{\downarrow}:\rho_{\text{compat}}^{(\text{super})}\rightarrow\rho_{\text{compat}}^{(\text{child})}.
 $$
 
-When a child is created, the **upward lift** $\mathcal{E}_{\uparrow}$ instantly adds its flux to the parent’s field.  Simultaneously the **downward projection** $\mathcal{E}_{\downarrow}$ tells the child how much compatible density it may draw without breaking the parent’s RCP.  The two maps are *dual* (they satisfy a generalized Stokes‑type identity on the interface).  This duality guarantees that, as long as the interface coupling strength is finite, and the reserve budget of the parent is non‑zero, the net contribution to $E_{\text{compat}}(t)\;=\;\int_{\Omega}\!\mathcal{J}(x,t)\,\rho_{\text{compat}}(x,t)\,dV$  will be automatically damped within a few beats. RCP self‑restores. 
+When a child is created, the **upward lift** $\mathcal{E}_{\uparrow}$ instantly adds its flux to the parent’s field.  Simultaneously the **downward projection** $\mathcal{E}_{\downarrow}$ tells the child how much compatible density it may draw without breaking the parent’s RCP.  The two maps are *dual* (they satisfy a generalized Stokes‑type identity on the interface).  This duality guarantees that, as long as the interface coupling strength is finite, and the reserve budget of the parent is non‑zero, the net contribution to $E_{\text{compat}}(t)=\int_{\Omega}\mathcal{J}(x,t)\rho_{\text{compat}}(x,t)dV$  will be automatically damped within a few beats. RCP self‑restores. 
 
 If either condition fails (e.g., reserves exhausted or interface current becomes too weak because the child’s growth outpaces the parent’s capacity), the balance cannot be achieved and the system undergoes a phase transition, a collapse of coherence occurs. The super‑organism may fragment, or the child may detach and become an independent reflexive organism. In fact, when the eigenmode can satisfy RCP on its own, the interface solidifies into a physical boundary and the child becomes an independent reflexive organism.
 
@@ -321,24 +320,24 @@ Let's return to the asymmetry of currents. In practice, we'd detect the crossing
 
 In simulations one can compute the spectral radius of the linearised update operator $\mathcal{F}$ each cycle. Crossing from < 1 to > 1 is the exact numerical marker of the “spark”.
 
-We have shown that a system becomes a reflexive organism when an asymmetric perturbation which is amplified by dynamic reward mixing, coarse‑grained compression, and supported by sufficient reserves, pushes the loop gain $G$ of its feedback operator $\mathcal{F}$ above unity. The resulting growth locks onto pre‑existing seeds, deepens an attractor basin, and the reflexivity conservation principle subsequently restores the product $\mathcal{J}\,\rho_{\text{compat}}$, leaving behind a self‑maintaining core flux, the very *spark* that distinguishes living reflexive loops from inert passive accumulators.
+We have shown that a system becomes a reflexive organism when an asymmetric perturbation which is amplified by dynamic reward mixing, coarse‑grained compression, and supported by sufficient reserves, pushes the loop gain $G$ of its feedback operator $\mathcal{F}$ above unity. The resulting growth locks onto pre‑existing seeds, deepens an attractor basin, and the reflexivity conservation principle subsequently restores the product $\mathcal{J}\rho_{\text{compat}}$, leaving behind a self‑maintaining core flux, the very *spark* that distinguishes living reflexive loops from inert passive accumulators.
 
 ### Notes
 
-Let's look at the upward lift and downward projections in more details as counterparts of upward and downward operators (mathematically‑rigorous versions of the upward and downward maps).  Starting with the upward operator, for each child $Q$ we introduce a projection matrix $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The child’s field $\phi_Q(x,t)$ is first weighted by a scalar $w_Q$ (e.g. cell volume, metabolic importance) and then *embedded* into the parent space $\phi_{P}^{\text{in}}(x,t)=\sum_{Q\in\operatorname{sub}(P)} w_{Q}\, P_{Q}\,\phi_{Q}(x,t)$. Conversely the parent’s field must be injected into each child.  We define a projection matrix $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ with the write $\phi_{Q}^{\text{out}}(x,t)= R_{Q}\,\phi_P(x,t)$. 
+Let's look at the upward lift and downward projections in more details as counterparts of upward and downward operators (mathematically‑rigorous versions of the upward and downward maps).  Starting with the upward operator, for each child $Q$ we introduce a projection matrix $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The child’s field $\phi_Q(x,t)$ is first weighted by a scalar $w_Q$ (e.g. cell volume, metabolic importance) and then *embedded* into the parent space $\phi_{P}^{\text{in}}(x,t)=\sum_{Q\in\operatorname{sub}(P)} w_{Q} P_{Q}\phi_{Q}(x,t)$. Conversely the parent’s field must be injected into each child.  We define a projection matrix $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ with the write $\phi_{Q}^{\text{out}}(x,t)= R_{Q}\phi_P(x,t)$. 
 
 The symbols $\mathcal{E}_{\uparrow}$ and $\mathcal{E}_{\downarrow}$ refer to the same maps but expressed at the level of the two fundamental ROM quantities. **Flux lift** $\mathcal{E}_{\uparrow}$ takes the child’s reflexive flux $\mathcal J^{(\text{child})}$ (which lives in a low‑dimensional space) and adds it to the parent’s flux $\mathcal J^{(\text{super})}$.  In matrix form
 
 $$
 \mathcal{J}^{(\text{super})}
-   = \underbrace{\sum_{Q} w_Q\,P_Q}_{\displaystyle\mathcal{E}_{\uparrow}}\,\mathcal{J}^{(Q)} .
+   = \underbrace{\sum_{Q} w_QP_Q}_{\displaystyle\mathcal{E}_{\uparrow}}\mathcal{J}^{(Q)} .
 $$
 
 **Compatibility projection** $\mathcal{E}_{\downarrow}$ takes the parent’s compatibility density $\rho_{\text{compat}}^{(\text{super})}$ (high‑dimensional) and projects it onto each child:
 
 $$
 \rho_{\text{compat}}^{(Q)}
-   = \underbrace{R_Q}_{\displaystyle\mathcal{E}_{\downarrow}}\,
+   = \underbrace{R_Q}_{\displaystyle\mathcal{E}_{\downarrow}}
      \rho_{\text{compat}}^{(\text{super})}.
 $$
 
@@ -477,7 +476,7 @@ What would a seed for an approximation of an ant colony look like? The ROM paper
 * $\Omega\subset\mathbb R^{2}$ be the nest/foraging arena (bounded domain);  
 * $\partial\Omega$ its boundary;  
 * $\phi(x,t)\equiv p(x,t)$ the **fast pheromone field**;  
-* $s(x,t),\,r(x,t)$ the surface densities of **searching** and **returning** ants (cf. citation 4);  
+* $s(x,t),r(x,t)$ the surface densities of **searching** and **returning** ants (cf. citation 4);  
 * $M(t)\in\mathbb R^{d_M}$ a low‑dimensional *memory vector* that stores slowly varying colony traits (caste ratios, nest‐energy, etc.).  
 
 All spatial differential operators are taken with respect to the metric $g_{ij}(x,t)$.  In index notation we write
@@ -491,47 +490,47 @@ Now we're ready to define PDEs. **Fast field (pheromone)** is defined as
 
 $$
 \partial_t \phi
-= \underbrace{\nabla_i\!\big(D^{ij}\,\nabla_j^{(g)}\phi\big)}_{\text{anisotropic diffusion}}
--\underbrace{\lambda(\theta)\,\phi}_{\text{decay modulated by }\theta}
-+\underbrace{S_{\!a}(x,t;M)}_{\text{deposition by ants}} 
+= \underbrace{\nabla_i\big(D^{ij}\nabla_j^{(g)}\phi\big)}_{\text{anisotropic diffusion}}
+-\underbrace{\lambda(\theta)\phi}_{\text{decay modulated by }\theta}
++\underbrace{S_{a}(x,t;M)}_{\text{deposition by ants}} 
 + \underbrace{\mathcal B^{i}\nabla_i^{(g)}\phi}_{\text{bias drift}} .
 $$
 
-**$D^{ij}=D_0\,\tilde D^{ij}(\theta,g,\mathcal B)$** is the conductance tensor. The *source term* aggregates deposits from both sub‑populations  $S_{\!a}(x,t;M)=\alpha_s(M)s(x,t)+\alpha_r(M)r(x,t),$$ where $\alpha_s$ and $\alpha_r$ are deposition rates that may depend on the slow memory $M$.  The bias vector $\mathcal B^{i}$ encodes any externally imposed drift (e.g. a food gradient).
+**$D^{ij}=D_0\tilde D^{ij}(\theta,g,\mathcal B)$** is the conductance tensor. The *source term* aggregates deposits from both sub‑populations  $S_{a}(x,t;M)=\alpha_s(M)s(x,t)+\alpha_r(M)r(x,t),$$ where $\alpha_s$ and $\alpha_r$ are deposition rates that may depend on the slow memory $M$.  The bias vector $\mathcal B^{i}$ encodes any externally imposed drift (e.g. a food gradient).
 
 **Ant‑density fields**, where both densities obey advection–diffusion–chemotaxis equations whose coefficients are supplied by the seed:
 
 $$
 \begin{aligned}
-\partial_t s &= \nabla_i\!\Big(D_s^{ij}\,\nabla_j^{(g)}s
--\chi_s\, g^{ij}s\,\nabla_j^{(g)}\phi
-+ v_{\!B}^{i} s\Big)
+\partial_t s &= \nabla_i\Big(D_s^{ij}\nabla_j^{(g)}s
+-\chi_s g^{ij}s\nabla_j^{(g)}\phi
++ v_{B}^{i} s\Big)
 + f_s(s,r,M) ,\\
-\partial_t r &= \nabla_i\!\Big(D_r^{ij}\,\nabla_j^{(g)}r
-+\chi_r\, g^{ij}r\,\nabla_j^{(g)}\phi
-+ v_{\!B}^{i} r\Big)
+\partial_t r &= \nabla_i\Big(D_r^{ij}\nabla_j^{(g)}r
++\chi_r g^{ij}r\nabla_j^{(g)}\phi
++ v_{B}^{i} r\Big)
 + f_r(s,r,F,M) .
 \end{aligned}
 $$
 
-Diffusivities $D_{s,r}^{ij}=D_0^{s,r}\,\tilde D^{ij}(\theta,g,\mathcal B)$ are again drawn from the conductance tensor.  Chemotactic sensitivities $\chi_{s,r}$ may be functions of $\theta$ (e.g. a higher deposition rate makes ants more responsive).  The drift velocity $v_{\!B}^{i}= \mathcal B^{i}$ is the same bias as before; it pushes ants toward or away from preferred zones. Reaction terms $f_{s},f_{r}$ implement write → read updates of the slow memory, e.g. a conversion “10 % workers become soldiers after a week’’ can be written as  $f_s = -\kappa_{\theta}(\theta)$ and  $f_r = +\kappa_{\theta}(\theta)\, s,$ where $\kappa_{\theta}$ is a control‑parameter–dependent rate.
+Diffusivities $D_{s,r}^{ij}=D_0^{s,r}\tilde D^{ij}(\theta,g,\mathcal B)$ are again drawn from the conductance tensor.  Chemotactic sensitivities $\chi_{s,r}$ may be functions of $\theta$ (e.g. a higher deposition rate makes ants more responsive).  The drift velocity $v_{B}^{i}= \mathcal B^{i}$ is the same bias as before; it pushes ants toward or away from preferred zones. Reaction terms $f_{s},f_{r}$ implement write → read updates of the slow memory, e.g. a conversion “10 % workers become soldiers after a week’’ can be written as  $f_s = -\kappa_{\theta}(\theta)$ and  $f_r = +\kappa_{\theta}(\theta) s,$ where $\kappa_{\theta}$ is a control‑parameter–dependent rate.
 
 **Slow memory** (the “seed’’ itself). The seed variables are not static. They evolve on the longest time scale through accumulated coherency budget:
 
 $$
 \begin{aligned}
-\dot \theta &= \alpha_{\theta}\, C_{\rm acc}(t) - \beta_{\theta}\,\theta ,\\
-\partial_t D^{ij} &= \alpha_{D}\,C_{\rm acc}(t)\, \Pi^{ij} - \beta_{D}\,D^{ij},\\
-\dot g_{ij}      &= \alpha_{g}\, C_{\rm acc}(t) \,\Xi_{ij} - \beta_{g}\,g_{ij},\\
-\dot{\mathcal B}^{i}&= \alpha_{B}\,C_{\rm acc}(t)\, \Upsilon^{i}-\beta_{B}\,\mathcal B^{i},
+\dot \theta &= \alpha_{\theta} C_{\rm acc}(t) - \beta_{\theta}\theta ,\\
+\partial_t D^{ij} &= \alpha_{D}C_{\rm acc}(t) \Pi^{ij} - \beta_{D}D^{ij},\\
+\dot g_{ij}      &= \alpha_{g} C_{\rm acc}(t) \Xi_{ij} - \beta_{g}g_{ij},\\
+\dot{\mathcal B}^{i}&= \alpha_{B}C_{\rm acc}(t) \Upsilon^{i}-\beta_{B}\mathcal B^{i},
 \end{aligned}
 \tag{seed}
 $$
 
-where  $C_{\rm acc}(t)=\displaystyle\int_0^t \langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangle\,d\tau$ is the accumulated coherency budget. The *seed state vector* $\psi_{\rm seed}= (\theta, D^{ij}, g_{ij},\mathcal B^{i})$ lives in a reflexive phase space equipped with the inner product $\langle\cdot,\cdot\rangle$. The flux $\mathcal J$ is the **total energetic/informational flow** through the colony, which can be expressed as  
+where  $C_{\rm acc}(t)=\displaystyle\int_0^t \langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangled\tau$ is the accumulated coherency budget. The *seed state vector* $\psi_{\rm seed}= (\theta, D^{ij}, g_{ij},\mathcal B^{i})$ lives in a reflexive phase space equipped with the inner product $\langle\cdot,\cdot\rangle$. The flux $\mathcal J$ is the **total energetic/informational flow** through the colony, which can be expressed as  
   $$
   \mathcal J = - D^{ij}\nabla_j^{(g)}\phi + \chi_s g^{ij}s\nabla_j^{(g)}\phi
-            - \chi_r g^{ij}r\nabla_j^{(g)}\phi + v_{\!B}^{i}(s+r).
+            - \chi_r g^{ij}r\nabla_j^{(g)}\phi + v_{B}^{i}(s+r).
   $$
 
 The tensors $\Pi^{ij},\Xi_{ij},\Upsilon^{i}$ are *shape‑functions* (e.g. the dominant eigenmode of the graph Laplacian $L_{\mathcal G}$) that project the accumulated coherence onto each seed component. 
@@ -541,7 +540,7 @@ The equation implements a **feedback loop**. As ants move and deposit pheromone,
 To obtain a tractable low‑dimensional description we project all spatial fields onto a basis adapted to the metric $g$—for instance the eigenfunctions $\{\phi_k(x)\}_{k=1}^{K}$ of the weighted Laplacian  
 
 $$
--\Delta_g \phi_k = \lambda_k \,\phi_k ,\qquad 
+-\Delta_g \phi_k = \lambda_k \phi_k ,\qquad 
 L_{\mathcal G}\phi_k = \mu_k\phi_k ,
 $$
 
@@ -549,9 +548,9 @@ where $L_{\mathcal G}$ is the graph Laplacian that couples sub‑colonies. Expan
 
 $$
 \begin{aligned}
-\phi(x,t)&=\sum_{k=1}^{K} a_k(t)\,\phi_k(x),\\
-s(x,t)&=\sum_{k=1}^{K} b_k(t)\,\phi_k(x),\qquad 
-r(x,t)=\sum_{k=1}^{K} c_k(t)\,\phi_k(x).
+\phi(x,t)&=\sum_{k=1}^{K} a_k(t)\phi_k(x),\\
+s(x,t)&=\sum_{k=1}^{K} b_k(t)\phi_k(x),\qquad 
+r(x,t)=\sum_{k=1}^{K} c_k(t)\phi_k(x).
 \end{aligned}
 $$
 
@@ -559,27 +558,27 @@ By inserting these expansions into PDEs, multiplyed by $\phi_m$ and integrated o
 
 $$
 \begin{aligned}
-\dot a_m &= -\lambda_m\,\tilde D_m(\theta,g,\mathcal B)\,a_m
+\dot a_m &= -\lambda_m\tilde D_m(\theta,g,\mathcal B)a_m
           - \lambda(\theta) a_m 
           + \alpha_s b_m+\alpha_r c_m
           + \underbrace{\langle\mathcal B,\nabla\phi_m\rangle}_{\text{bias term}},\\
-\dot b_m &= -\lambda_m D^{s}_m(\theta,g,\mathcal B)\,b_m 
-           + \chi_s\,\sum_{k} a_k\,Q_{km}^{(s)} 
+\dot b_m &= -\lambda_m D^{s}_m(\theta,g,\mathcal B)b_m 
+           + \chi_s\sum_{k} a_kQ_{km}^{(s)} 
            + f_s^{(m)}(b,c,M), \\
-\dot c_m &= -\lambda_m D^{r}_m(\theta,g,\mathcal B)\,c_m 
-           - \chi_r\,\sum_{k} a_k\,Q_{km}^{(r)} 
+\dot c_m &= -\lambda_m D^{r}_m(\theta,g,\mathcal B)c_m 
+           - \chi_r\sum_{k} a_kQ_{km}^{(r)} 
            + f_r^{(m)}(b,c,F,M),
 \end{aligned}
 $$
 
-where  $\tilde D_m,\;D^s_m,\;D^r_m$ are modal conductances obtained by projecting the tensor $D^{ij}$ onto the basis. The matrices $Q_{km}^{(s/r)} = \int_\Omega g^{ij}(\partial_i\phi_k)(\partial_j\phi_m)\,\phi\,dx$ encode chemotactic coupling. Reaction terms $f_{s,r}^{(m)}$ are the modal projections of the write‑read updates.
+where  $\tilde D_m,D^s_m,D^r_m$ are modal conductances obtained by projecting the tensor $D^{ij}$ onto the basis. The matrices $Q_{km}^{(s/r)} = \int_\Omega g^{ij}(\partial_i\phi_k)(\partial_j\phi_m)\phidx$ encode chemotactic coupling. Reaction terms $f_{s,r}^{(m)}$ are the modal projections of the write‑read updates.
 
 The seed ODEs are also projected onto the same basis (or kept as pure scalars if we treat $\theta,g,\mathcal B$ as spatially homogeneous).  The resulting closed system is a reduced‑Order Model that captures fast reflexive dynamics (pheromone diffusion, ant chemotaxis), slow structural adaptation via the seed variables and graph‑mediated coupling between sub‑colonies through the Laplacian eigenmodes.
 
 The seed equation together with the budget  
 
 $$
-C_{\rm acc}(t)=\int_{0}^{t}\!\langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangle d\tau
+C_{\rm acc}(t)=\int_{0}^{t}\langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangle d\tau
 $$
 
 realises the abstract notion introduced by the definition of the seed:
@@ -590,7 +589,7 @@ realises the abstract notion introduced by the definition of the seed:
 
 In practice, once the ROM reaches a quasi‑steady state of $C_{\rm acc}$, the parameters $(\theta,D,g,\mathcal B)$ lock into a **self‑consistent attractor** that manifests as the colony’s characteristic foraging pattern, caste distribution, and nest geometry.  Perturbations (e.g., sudden food influx) appear as transient changes in $\mathcal J$; if they are coherent with the existing seed direction they are amplified, otherwise they decay.
 
-Note that the seed quadruple are not the state of any individual ant.  They are **constitutive parameters** that shape the *reflexive operator*  $\mathcal R_{(\theta ,D,g,\mathcal B)}[\;\cdot\;]$ and therefore determine which **global patterns** (eigenmodes) the whole superorganism can sustain. Consequently, the seed **encodes colony‑level behaviour** with the way fast fields diffuse, how agents sense gradients, how slow memory is updated, but it does *not* encode the morphology of a single ant.  The morphology lives at a lower level (the “organism” level) and is stored in a separate low‑dimensional code that we can think of as DNA.
+Note that the seed quadruple are not the state of any individual ant.  They are **constitutive parameters** that shape the *reflexive operator*  $\mathcal R_{(\theta ,D,g,\mathcal B)}[\cdot]$ and therefore determine which **global patterns** (eigenmodes) the whole superorganism can sustain. Consequently, the seed **encodes colony‑level behaviour** with the way fast fields diffuse, how agents sense gradients, how slow memory is updated, but it does *not* encode the morphology of a single ant.  The morphology lives at a lower level (the “organism” level) and is stored in a separate low‑dimensional code that we can think of as DNA.
 
 Because of that, if we re-interpret the elements from the colony and reuse them for a swarm of agents, if we plug the same seed into these adapted PDEs that govern the swarm fields, the *structure* of the dynamics like diffusion‑driven recruitment, chemotactic drift toward gradients, slow reinforcement of a memory field, is identical. The seed stays the same, only the concrete forms of $\Sigma,\Pi,\Upsilon$ differ.  Hence we can expect *qualitatively similar* self‑organisation (trail formation vs. consensus map, nest expansion vs. resource allocation), while quantitative details (speed of diffusion, noise level, bandwidth) will be domain specific.
 
@@ -598,7 +597,7 @@ Because of that, if we re-interpret the elements from the colony and reuse them 
 
 Let's look at the hypothetical mathematical model for the spark of an ant colony. We're going to use the same simplified model for the colony that is based on searching and returning ants which create and reinforce pheromone trails. The idea is to define the mathematical equations that describe the self-amplification of the colony's foraging activity.
 
-An abstract form of a spark contains the following four components. Reflexive loop gain $G = G_{\text{chem}}\,G_{\text{energy}}\,G_{\text{mem}}$ as the product of all positive‑feedback factors (chemotaxis, energy reserves, memory persistence). Threshold condition, the feedback operator $\mathcal F$ must have a dominant eigenvalue that pushes the *loop gain* above unity $\rho(\mathcal F)>1$. Asymmetric perturbation with a non‑zero curl of the reflexive current $\mathcal J$ so that $\oint_{\mathcal C}\!\mathbf{J}\cdot d\boldsymbol{\ell}\neq0$. And transient excursion where the system briefly violates the Reflexive Compatibility Principle but later restores it, leaving a self‑maintaining core flux, so the $\mathcal J\,\rho_{\text{compat}}$ stays bounded except during the spike.
+An abstract form of a spark contains the following four components. Reflexive loop gain $G = G_{\text{chem}}G_{\text{energy}}G_{\text{mem}}$ as the product of all positive‑feedback factors (chemotaxis, energy reserves, memory persistence). Threshold condition, the feedback operator $\mathcal F$ must have a dominant eigenvalue that pushes the *loop gain* above unity $\rho(\mathcal F)>1$. Asymmetric perturbation with a non‑zero curl of the reflexive current $\mathcal J$ so that $\oint_{\mathcal C}\mathbf{J}\cdot d\boldsymbol{\ell}\neq0$. And transient excursion where the system briefly violates the Reflexive Compatibility Principle but later restores it, leaving a self‑maintaining core flux, so the $\mathcal J\rho_{\text{compat}}$ stays bounded except during the spike.
 
 Let's reuse the PDE system for two-dimensional nest domain $\Omega\subset\mathbb R^{2}$ of ant-colony continuum equations, where $s(x,t)$ is density of *searching* ants , $r(x,t)$ is density of *returning* ants (carrying food), $p(x,t)$ are pheromone concentration (fast field), $F(x,t)$ is environmental food density and $E(t)$ is nest‑wide energy reserve (slow scalar).
 
@@ -606,11 +605,11 @@ Definition of the mass balance for the two ant classes of searching and returnin
 
 $$
 \begin{aligned}
-\partial_t s &= -\nabla\!\cdot \mathbf{J}_s
-               -\kappa_{sf}\, s\,F
+\partial_t s &= -\nabla\cdot \mathbf{J}_s
+               -\kappa_{sf} sF
                +\sigma_r r ,\\
-\partial_t r &= -\nabla\!\cdot \mathbf{J}_r
-               +\kappa_{sf}\, s\,F
+\partial_t r &= -\nabla\cdot \mathbf{J}_r
+               +\kappa_{sf} sF
                -\sigma_r r .
 \end{aligned}
 $$
@@ -619,8 +618,8 @@ With their fluxes (chemotaxis + diffusion):
 
 $$
 \begin{aligned}
-\mathbf{J}_s &= -D_s\nabla s + \chi_s\,s\,\nabla p,\\
-\mathbf{J}_r &= -D_r\nabla r - \chi_r\,r\,\nabla p .
+\mathbf{J}_s &= -D_s\nabla s + \chi_ss\nabla p,\\
+\mathbf{J}_r &= -D_r\nabla r - \chi_rr\nabla p .
 \end{aligned}
 $$
 
@@ -638,15 +637,15 @@ Food and energy  are expressed with
 
 $$
 \begin{aligned}
-\partial_t F &= -\gamma_f\,\kappa_{sf}\, sF + D_F\Delta F ,\\
-\dot E      &= \eta_f\,\kappa_{sf}\int_\Omega sF\,dx
-               - \eta_c \int_\Omega (s+r)\,dx ,
+\partial_t F &= -\gamma_f\kappa_{sf} sF + D_F\Delta F ,\\
+\dot E      &= \eta_f\kappa_{sf}\int_\Omega sFdx
+               - \eta_c \int_\Omega (s+r)dx ,
 \end{aligned}
 $$
 
 where $\gamma_f$ is  conversion of food into pheromone‑free ant mass and $\eta_f,\eta_c$ are energy gain from food intake and metabolic cost.
 
-Let's now combine the abstract spark with the colony model. The reflexive flux is the total directed ant current $\mathbf{J}=\mathbf{J}_s+\mathbf{J}_r$.  Its *curl* $\nabla\times\mathbf{J}$ is the analogue of the asymmetric perturbation. Compatibility density $\rho_{\text{compat}}$ is defined by colony mass $n(t)=\int_\Omega(s+r)\,dx$. Feedback operator $\mathcal F$ can be expressed through the **Jacobian** of the right‑hand side of the four equations of the colony, evaluated at a baseline steady state $(s_0,r_0,p_0,F_0,E_0)$. Last, we need to define the gain $G$ as the product of the three amplifiers. The amplifiers are as follows; chemotactic amplification $\displaystyle G_{\text{chem}} = \chi_s\,p_0/D_s$, energy‑reserve amplification $\displaystyle G_{\text{energy}} = \frac{E}{E_{\rm crit}}$ and memory persistence $\displaystyle G_{\text{mem}} = \frac{1}{\lambda_p\tau_{\rm adv}}$ where $\tau_{\rm adv}=L/|\mathbf{J}|$ is the advection time across a typical trail length $L$.
+Let's now combine the abstract spark with the colony model. The reflexive flux is the total directed ant current $\mathbf{J}=\mathbf{J}_s+\mathbf{J}_r$.  Its *curl* $\nabla\times\mathbf{J}$ is the analogue of the asymmetric perturbation. Compatibility density $\rho_{\text{compat}}$ is defined by colony mass $n(t)=\int_\Omega(s+r)dx$. Feedback operator $\mathcal F$ can be expressed through the **Jacobian** of the right‑hand side of the four equations of the colony, evaluated at a baseline steady state $(s_0,r_0,p_0,F_0,E_0)$. Last, we need to define the gain $G$ as the product of the three amplifiers. The amplifiers are as follows; chemotactic amplification $\displaystyle G_{\text{chem}} = \chi_sp_0/D_s$, energy‑reserve amplification $\displaystyle G_{\text{energy}} = \frac{E}{E_{\rm crit}}$ and memory persistence $\displaystyle G_{\text{mem}} = \frac{1}{\lambda_p\tau_{\rm adv}}$ where $\tau_{\rm adv}=L/|\mathbf{J}|$ is the advection time across a typical trail length $L$.
 
 After the linearization of the colony equations around the homogeneous steady state $(s_0,r_0,p_0,F_0,E_0)$, we collect the perturbations in a vector
 
@@ -656,31 +655,31 @@ $$
 \delta s\\ \delta r\\ \delta p\\ \delta F\\ \delta E
 \end{pmatrix},
 \qquad
-\partial_t\delta\mathbf{u}=J\,\delta\mathbf{u}.
+\partial_t\delta\mathbf{u}=J\delta\mathbf{u}.
 $$
 
 The Jacobian $J$ contains blocks such as
 
 $$
 \begin{aligned}
-J_{sp} &= \chi_s s_0\,k^2 - D_s k^2 ,\\
+J_{sp} &= \chi_s s_0k^2 - D_s k^2 ,\\
 J_{ps} &= \alpha_s ,\\
-J_{EE} &= -\eta_c n_0/E_{\rm crit},\;\text{etc.}
+J_{EE} &= -\eta_c n_0/E_{\rm crit},\text{etc.}
 \end{aligned}
 $$
 
-with spatial Fourier mode $e^{i\mathbf{k}\cdot x}$.  The spectral radius of the discrete‑time map $\mathcal F = I + \Delta t\,J$ (or, for continuous time, the dominant eigenvalue $\lambda_{\max}(J)$) is
+with spatial Fourier mode $e^{i\mathbf{k}\cdot x}$.  The spectral radius of the discrete‑time map $\mathcal F = I + \Delta tJ$ (or, for continuous time, the dominant eigenvalue $\lambda_{\max}(J)$) is
 
 $$
-\rho(\mathcal F)=\max_{k}\bigl|1+\Delta t\,\lambda_k(J)\bigr|.
+\rho(\mathcal F)=\max_{k}\bigl|1+\Delta t\lambda_k(J)\bigr|.
 $$
 We can now state the **spark criterion**  
 
 $$
 \rho(\mathcal F)>1
-\;\Longleftrightarrow\;
-\exists\; \mathbf{k} \text{ such that }
-\Re\!\bigl[\lambda_{\mathbf{k}}(J)\bigr] > 0 .
+\Longleftrightarrow
+\exists \mathbf{k} \text{ such that }
+\Re\bigl[\lambda_{\mathbf{k}}(J)\bigr] > 0 .
 $$
 
 In other words, if any linear mode has a positive growth rate (i.e., its Jacobian eigenvalue has positive real part),  then the discrete-time map has an eigenvalue outside the unit circle, and the disturbance grows instead of decaying. In the ant-colony model, this is when a small asymmetric perturbation (more ants here, extra pheromone there) starts to amplify instead of fade away.
@@ -688,12 +687,12 @@ In other words, if any linear mode has a positive growth rate (i.e., its Jacobia
 Using the block structure of $J$, a sufficient (though not necessary) condition can be written as
 
 $$
-\underbrace{\frac{\chi_s\,p_0}{D_s}}_{G_{\text{chem}}}
-\;
+\underbrace{\frac{\chi_sp_0}{D_s}}_{G_{\text{chem}}}
+
 \underbrace{\frac{E}{E_{\rm crit}}}_{G_{\text{energy}}}
-\;
+
 \underbrace{\frac{1}{\lambda_p\tau_{\rm adv}}}_{G_{\text{mem}}}
-\;>\;1 .
+>1 .
 $$
 
 How can we increase each of these three elements? $G_{chem}$ can be increased by increasing pheromone deposition $(\alpha_s)$, or by decreasing diffusion of searching ants $(D_s)$, or raise baseline pheromone level $p_0$. $G_{energy}$ can be increased either by increasing food intake, lower the maintenance cost ($\eta_c$), or temporarily store surplus (e.g., after a good harvest). $G_{mem}$ is increased by lowering the decay rate $\lambda_p$ or by increasing trail length $L$ modestly (so that advection time grows slower than decay).
@@ -702,18 +701,18 @@ Putting everything together, the colony will be **spark‑activated** when **all
 
 1. **Asymmetric seed**. There exists a localized perturbation (e.g., a tiny excess of food or a few ants laying pheromone) that creates a non‑zero curl of the ant current:
    $$
-   \oint_{\mathcal C}\!\mathbf{J}\cdot d\boldsymbol{\ell} = 
-   \int_{A(\mathcal C)} (\nabla\times\mathbf{J})\,dA \neq 0 .
+   \oint_{\mathcal C}\mathbf{J}\cdot d\boldsymbol{\ell} = 
+   \int_{A(\mathcal C)} (\nabla\times\mathbf{J})dA \neq 0 .
    $$
 
 2. **Loop‑gain exceeds unity**. the gain $G$ is above unity:
    $$
-   G_{\text{chem}}\,G_{\text{energy}}\,G_{\text{mem}} > 1 .
+   G_{\text{chem}}G_{\text{energy}}G_{\text{mem}} > 1 .
    $$
 
 3. **Spectral radius condition**. The dominant eigenvalue of the linearised update operator crosses zero (continuous time) or the spectral radius exceeds one (discrete time):
    $$
-   \rho(\mathcal F)=\max_k|1+\Delta t\,\lambda_k(J)|>1 .
+   \rho(\mathcal F)=\max_k|1+\Delta t\lambda_k(J)|>1 .
    $$
 
 4. **Reserve safety**. The nest’s energy stock stays above a minimal bound during the transient so that the mass balance does not violate RPC:
@@ -726,7 +725,7 @@ When 1–4 are simultaneously true, the reflexive flux $\mathcal J = \mathbf{J}\
 
 ### Appendix F: Fertilization
 
-Let's now reason about fertilization process using the formulation of seeds and the spark. The hypothesis is that fertilization is the moment a spherical “deep‑attractor” (the egg) receives an asymmetric, helical perturbation (the sperm). This perturbation is amplified by the egg’s internal feedback loop, pushes the effective loop gain $G$ above unity, creates a new *seed* (the combined diploid genome), deepens a fresh attractor basin, and after a brief re‑balancing of $\mathcal{J}\,\rho_{\text{compat}}$ a self‑sustaining reflexive organism, the zygote is born.
+Let's now reason about fertilization process using the formulation of seeds and the spark. The hypothesis is that fertilization is the moment a spherical “deep‑attractor” (the egg) receives an asymmetric, helical perturbation (the sperm). This perturbation is amplified by the egg’s internal feedback loop, pushes the effective loop gain $G$ above unity, creates a new *seed* (the combined diploid genome), deepens a fresh attractor basin, and after a brief re‑balancing of $\mathcal{J}\rho_{\text{compat}}$ a self‑sustaining reflexive organism, the zygote is born.
 
 The egg is encoded deep attractor. The *deep attractor basin* as the unfertilised oocyte already occupies a low‑dissipation region of the $\mathcal{J}$–$\rho_{\text{compat}}$ manifold. Its cytoskeleton, cortical tension and maternal mRNA store a *stable configuration* that can persist for hours without external input. The yolk, mitochondria, stored calcium and maternal transcripts constitute the *reserve*s  that guarantee that once a cascade starts there is enough energy and information to keep it going through the first few cleavage cycles. The egg’s membrane, microtubule aster and actin cortex embody long‑lived tensors in $\mathcal{J}$. They encode a *pre‑existing curvature* that will later be reshaped but also provide the substrate on which any new perturbation can travel.
 
@@ -746,7 +745,7 @@ If the product of these two branches exceeds the dissipative loss (i.e., if $|\s
 
 When $G>1$ the system crosses a bifurcation and the egg moves from a passive accumulator (maintaining maternal state) into an active reflexive organism (the zygote). The hallmark is that the perturbation now locks onto a pre‑existing seed, the diploid genome. Both parental DNA strands are helical, but together they define a new set of curvature tensors $\mathcal{J}$ and compatibility field $\rho_{\text{compat}}$. Once a seed is activated, it deepens its own attractor basin, which in biology appears as the stable developmental program that drives successive cleavage divisions.
 
-After fertilisation the product $\mathcal{J}\,\rho_{\text{compat}}$ is temporarily disturbed (the egg’s internal geometry is being rewired). The RCP $d/dt[\mathcal{J}\rho_{\text{compat}}]=0$ then manifests as **re‑establishment of a new equilibrium**  where the zygote settles into a fresh deep basin whose curvature now incorporates paternal contributions and **phase transition** with the collapse of the maternal‐only attractor and the birth of a new one. The *zero* corresponds to the moment when the old compatibility field vanishes and the new one is being written.  
+After fertilisation the product $\mathcal{J}\rho_{\text{compat}}$ is temporarily disturbed (the egg’s internal geometry is being rewired). The RCP $d/dt[\mathcal{J}\rho_{\text{compat}}]=0$ then manifests as **re‑establishment of a new equilibrium**  where the zygote settles into a fresh deep basin whose curvature now incorporates paternal contributions and **phase transition** with the collapse of the maternal‐only attractor and the birth of a new one. The *zero* corresponds to the moment when the old compatibility field vanishes and the new one is being written.  
 
 Once the first mitotic cycles are underway, the system’s $\mathcal{J}\rho_{\text{compat}}$ product stabilises again, now at a higher‑dimensional value that supports ongoing reflexive loops through gene expression ↔ morphogen gradients ↔ mechanical feedback.
 
