@@ -286,11 +286,7 @@ From the point of view of the super‑organism this looks exactly like the *butt
 The perturbation adds a source term to the parent’s compatibility equation:
 
 $$
-\partial_t\bigl(\mathcal J^{(\text{super})}\rho_{\text{compat}}^{(\text{super})}\bigr)
-=
--\nabla\cdot \mathbf{J}_{\text{flux}}
-+
-S_{\text{asym}}(x,t),
+\partial_t\bigl(\mathcal J^{(\text{super})}\rho_{\text{compat}}^{(\text{super})}\bigr) =-\nabla\cdot \mathbf{J}_{\text{flux}} + S_{\text{asym}}(x,t),
 $$
 
 where $S_{\text{asym}}$ is non‑zero only where the child couples to the parent.  If the integral of $S_{\text{asym}}$ over one reflexive beat exceeds the damping term, RCP is temporarily violated. Restoring RCP requires that the net change be cancelled within a few beats.  ROM gives us three complementary levers that the super‑organism can pull. Redistribution of reflexive flux $\mathcal J$, curvature adaptation and consumption of reserves. These three mechanisms are not independent. They are *coupled* through the **memory gradient** $\nabla U(M)$.  The parent follows the direction of least entropy increase (the steepest descent on its historical utility landscape).  In practice this means
@@ -324,7 +320,7 @@ We have shown that a system becomes a reflexive organism when an asymmetric pert
 
 ### Notes
 
-Let's look at the upward lift and downward projections in more details as counterparts of upward and downward operators (mathematically‑rigorous versions of the upward and downward maps).  Starting with the upward operator, for each child $Q$ we introduce a projection matrix $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The child’s field $\phi_Q(x,t)$ is first weighted by a scalar $w_Q$ (e.g. cell volume, metabolic importance) and then *embedded* into the parent space $\phi_{P}^{\text{in}}(x,t)=\sum_{Q\in\operatorname{sub}(P)} w_{Q} P_{Q}\phi_{Q}(x,t)$. Conversely the parent’s field must be injected into each child.  We define a projection matrix $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ with the write $\phi_{Q}^{\text{out}}(x,t)= R_{Q}\phi_P(x,t)$. 
+Let's look at the upward lift and downward projections in more details as counterparts of upward and downward operators (mathematically‑rigorous versions of the upward and downward maps).  Starting with the upward operator, for each child $Q$ we introduce a projection matrix $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The child’s field $\phi_Q(x,t)$ is first weighted by a scalar $w_Q$ (e.g. cell volume, metabolic importance) and then *embedded* into the parent space $\phi_{P}^{\text{in}}(x,t)=\sum_{Q\in{sub}(P)} w_{Q} P_{Q}\phi_{Q}(x,t)$. Conversely the parent’s field must be injected into each child.  We define a projection matrix $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ with the write $\phi_{Q}^{\text{out}}(x,t)= R_{Q}\phi_P(x,t)$. 
 
 The symbols $\mathcal{E}_{\uparrow}$ and $\mathcal{E}_{\downarrow}$ refer to the same maps but expressed at the level of the two fundamental ROM quantities. **Flux lift** $\mathcal{E}_{\uparrow}$ takes the child’s reflexive flux $\mathcal J^{(\text{child})}$ (which lives in a low‑dimensional space) and adds it to the parent’s flux $\mathcal J^{(\text{super})}$.  In matrix form
 
@@ -527,11 +523,11 @@ $$
 \tag{seed}
 $$
 
-where  $C_{\rm acc}(t)=\displaystyle\int_0^t \langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangled\tau$ is the accumulated coherency budget. The *seed state vector* $\psi_{\rm seed}= (\theta, D^{ij}, g_{ij},\mathcal B^{i})$ lives in a reflexive phase space equipped with the inner product $\langle\cdot,\cdot\rangle$. The flux $\mathcal J$ is the **total energetic/informational flow** through the colony, which can be expressed as  
-  $$
-  \mathcal J = - D^{ij}\nabla_j^{(g)}\phi + \chi_s g^{ij}s\nabla_j^{(g)}\phi
-            - \chi_r g^{ij}r\nabla_j^{(g)}\phi + v_{B}^{i}(s+r).
-  $$
+where  $C_{\rm acc}(t)=\displaystyle\int_0^t \langle\psi_{\rm seed}(\tau),\mathcal J(\tau)\rangle d\tau$ is the accumulated coherency budget. The *seed state vector* $\psi_{\rm seed}= (\theta, D^{ij}, g_{ij},\mathcal B^{i})$ lives in a reflexive phase space equipped with the inner product $\langle\cdot,\cdot\rangle$. The flux $\mathcal J$ is the **total energetic/informational flow** through the colony, which can be expressed as  
+
+$$
+\mathcal J = - D^{ij}\nabla_j^{(g)}\phi + \chi_s g^{ij}s\nabla_j^{(g)}\phi - \chi_r g^{ij}r\nabla_j^{(g)}\phi + v_{B}^{i}(s+r).
+$$
 
 The tensors $\Pi^{ij},\Xi_{ij},\Upsilon^{i}$ are *shape‑functions* (e.g. the dominant eigenmode of the graph Laplacian $L_{\mathcal G}$) that project the accumulated coherence onto each seed component. 
 
@@ -571,7 +567,7 @@ $$
 \end{aligned}
 $$
 
-where  $\tilde D_m,D^s_m,D^r_m$ are modal conductances obtained by projecting the tensor $D^{ij}$ onto the basis. The matrices $Q_{km}^{(s/r)} = \int_\Omega g^{ij}(\partial_i\phi_k)(\partial_j\phi_m)\phidx$ encode chemotactic coupling. Reaction terms $f_{s,r}^{(m)}$ are the modal projections of the write‑read updates.
+where  $\tilde D_m,D^s_m,D^r_m$ are modal conductances obtained by projecting the tensor $D^{ij}$ onto the basis. The matrices $Q_{km}^{(s/r)} = \int_\Omega g^{ij}(\partial_i\phi_k)(\partial_j\phi_m)\phi dx$ encode chemotactic coupling. Reaction terms $f_{s,r}^{(m)}$ are the modal projections of the write‑read updates.
 
 The seed ODEs are also projected onto the same basis (or kept as pure scalars if we treat $\theta,g,\mathcal B$ as spatially homogeneous).  The resulting closed system is a reduced‑Order Model that captures fast reflexive dynamics (pheromone diffusion, ant chemotaxis), slow structural adaptation via the seed variables and graph‑mediated coupling between sub‑colonies through the Laplacian eigenmodes.
 
@@ -668,11 +664,12 @@ J_{EE} &= -\eta_c n_0/E_{\rm crit},\text{etc.}
 \end{aligned}
 $$
 
-with spatial Fourier mode $e^{i\mathbf{k}\cdot x}$.  The spectral radius of the discrete‑time map $\mathcal F = I + \Delta tJ$ (or, for continuous time, the dominant eigenvalue $\lambda_{\max}(J)$) is
+with spatial Fourier mode $e^{i\mathbf{k}\cdot x}$.  The spectral radius of the discrete‑time map $\mathcal F = I + \Delta tJ$ or, for continuous time, the dominant eigenvalue $\lambda_{\max}(J)$ is
 
 $$
 \rho(\mathcal F)=\max_{k}\bigl|1+\Delta t\lambda_k(J)\bigr|.
 $$
+
 We can now state the **spark criterion**  
 
 $$
@@ -687,12 +684,7 @@ In other words, if any linear mode has a positive growth rate (i.e., its Jacobia
 Using the block structure of $J$, a sufficient (though not necessary) condition can be written as
 
 $$
-\underbrace{\frac{\chi_sp_0}{D_s}}_{G_{\text{chem}}}
-
-\underbrace{\frac{E}{E_{\rm crit}}}_{G_{\text{energy}}}
-
-\underbrace{\frac{1}{\lambda_p\tau_{\rm adv}}}_{G_{\text{mem}}}
->1 .
+\underbrace{\frac{\chi_sp_0}{D_s}}_{G_{\text{chem}}} \underbrace{\frac{E}{E_{\rm crit}}}_{G_{\text{energy}}} \underbrace{\frac{1}{\lambda_p\tau_{\rm adv}}}_{G_{\text{mem}}} >1 .
 $$
 
 How can we increase each of these three elements? $G_{chem}$ can be increased by increasing pheromone deposition $(\alpha_s)$, or by decreasing diffusion of searching ants $(D_s)$, or raise baseline pheromone level $p_0$. $G_{energy}$ can be increased either by increasing food intake, lower the maintenance cost ($\eta_c$), or temporarily store surplus (e.g., after a good harvest). $G_{mem}$ is increased by lowering the decay rate $\lambda_p$ or by increasing trail length $L$ modestly (so that advection time grows slower than decay).
@@ -700,25 +692,28 @@ How can we increase each of these three elements? $G_{chem}$ can be increased by
 Putting everything together, the colony will be **spark‑activated** when **all** of the following hold:
 
 1. **Asymmetric seed**. There exists a localized perturbation (e.g., a tiny excess of food or a few ants laying pheromone) that creates a non‑zero curl of the ant current:
-   $$
-   \oint_{\mathcal C}\mathbf{J}\cdot d\boldsymbol{\ell} = 
-   \int_{A(\mathcal C)} (\nabla\times\mathbf{J})dA \neq 0 .
-   $$
+   
+$$
+\oint_{\mathcal C}\mathbf{J}\cdot d\boldsymbol{\ell} =  \int_{A(\mathcal C)} (\nabla\times\mathbf{J})dA \neq 0 .
+$$
 
 2. **Loop‑gain exceeds unity**. the gain $G$ is above unity:
-   $$
-   G_{\text{chem}}G_{\text{energy}}G_{\text{mem}} > 1 .
-   $$
+
+$$
+G_{\text{chem}}G_{\text{energy}}G_{\text{mem}} > 1 .
+$$
 
 3. **Spectral radius condition**. The dominant eigenvalue of the linearised update operator crosses zero (continuous time) or the spectral radius exceeds one (discrete time):
-   $$
-   \rho(\mathcal F)=\max_k|1+\Delta t\lambda_k(J)|>1 .
-   $$
+   
+$$
+\rho(\mathcal F)=\max_k|1+\Delta t\lambda_k(J)|>1 .
+$$
 
-4. **Reserve safety**. The nest’s energy stock stays above a minimal bound during the transient so that the mass balance does not violate RPC:
-   $$
-   E(t)\ge E_{\min}>0\quad\text{for all }t\text{ while the spark is active}.
-   $$
+3. **Reserve safety**. The nest’s energy stock stays above a minimal bound during the transient so that the mass balance does not violate RPC:
+   
+$$
+E(t)\ge E_{\min}>0\quad\text{for all }t\text{ while the spark is active}.
+$$
 
 When 1–4 are simultaneously true, the reflexive flux $\mathcal J = \mathbf{J}\cdot n$ (edge‑wise current times node mass) grows, a *closed vorticity loop* forms in the pheromone field, and the colony’s foraging activity self‑amplifies. The system then settles into a new attractor basin, a self‑maintaining core flux.
 
