@@ -497,6 +497,27 @@ class AssemblyIndex:
         instance.graph = graph
         return instance
 
+    def compute_scalar_ai(self) -> float:
+        """
+        Crude scalar AI(t) ≈ average depth (level) of non-memory assemblies,
+        normalized to [0, 1].
+        """
+        if not self.nodes:
+            return 0.0
+
+        levels = [n.level for n in self.nodes.values() if getattr(n, "level", 0) > 0]
+        if not levels:
+            return 0.0
+
+        avg_level = float(np.mean(levels))
+        scale = 10.0  # saturation level: ~10 levels => AI ≈ 1
+        ai = avg_level / scale
+        if ai < 0.0:
+            ai = 0.0
+        if ai > 1.0:
+            ai = 1.0
+        return ai
+
 
 # --------------------------------------------------------------
 # 5️⃣  Cooperation scoring (Citation 1)
@@ -577,6 +598,7 @@ class RetrievalChild:
         name: Optional[str] = None,
         model_pool: Optional[List[str]] = None,
         available_models: Optional[List[str]] = None,
+        small_pool_threshold: int = 3,
     ):
         self.mem = mem
         self.name = name or f"child_{RetrievalChild._id_counter}"
@@ -593,16 +615,41 @@ class RetrievalChild:
         self.available_models = _filter_embed_models(available_models)
         # Shared bucket -> weights map
         self.model_weights: Optional[Dict[str, Dict[str, float]]] = None
+        self.model_usage_counts: Dict[str, int] = {}
         self.last_model_used: Optional[str] = None
         self.last_model_reason: Optional[str] = None
         self.last_model_candidates: Optional[List[str]] = None
         self.current_bucket: Optional[str] = None
         self.last_model_scores: Optional[Dict[str, float]] = None
+        self.small_pool_threshold = max(1, int(small_pool_threshold))
+        # Reflexive suppression state
+        self.phi_impact_ema: float = 0.0
+        self.suppression_level: float = 0.0
+        # RCP-based replication statistics
+        self.ei_star_ema: float = 0.0
+        self.coop_ema: float = 0.0
+        self.usage_count: int = 0
+        self.lineage_tag: Optional[str] = None
+        # RCP-based retirement metadata
+        self.last_used_turn: int = 0
+        self.retired: bool = False
+        # RCP-based replication statistics
+        self.ei_star_ema: float = 0.0
+        self.coop_ema: float = 0.0
+        self.usage_count: int = 0
+        self.lineage_tag: Optional[str] = None
 
     def answer(self, user_msg: str) -> str:
         """Retrieve relevant chunks, prepend a short system prompt and call the LLM."""
         try:
-            retrieved = self.mem.search_with_indices(user_msg, k=4)
+            gate_source = getattr(self, "parent", self)
+            phi_gate = getattr(gate_source, "_phi_gate", 1.0)
+            base_k = 4
+            scale_factor = 0.5 + 0.5 * phi_gate
+            k_adj = int(round(base_k * scale_factor))
+            if k_adj < 2:
+                k_adj = 2
+            retrieved = self.mem.search_with_indices(user_msg, k=k_adj)
             self.last_retrieved_indices = [idx for idx, _ in retrieved]
             self.last_retrieved_texts = [txt for _, txt in retrieved]
             sections: List[str] = []
@@ -628,17 +675,25 @@ class RetrievalChild:
             self.current_bucket = _bucket_for_text(user_msg, self.mem.emb_model)
             pool = self.available_models or self.model_pool or []
             bucket_weights = _ensure_bucket_weights(self.model_weights, self.current_bucket, pool)
-            top_candidates = _top_models_by_weight(pool, bucket_weights, k=3, tolerance=0.1)
-            selected_models = []
-            selection_reason = "random"
-            if top_candidates and len(top_candidates) > 1:
-                # Query multiple models for this question
-                selected_models = top_candidates
-                selection_reason = "multi-weighted"
+            small_pool_size = getattr(self, "small_pool_threshold", 3)
+            if len(pool) < small_pool_size:
+                selected_models, selection_reason = self._select_small_pool_models(pool, bucket_weights)
             else:
-                model_name, reason = choose_llm_model(self.model_pool, available=self.available_models, weights=bucket_weights)
-                selected_models = [model_name]
-                selection_reason = reason
+                selected_models = None
+                selection_reason = None
+
+            if selected_models is None:
+                top_candidates = _top_models_by_weight(pool, bucket_weights, k=3, tolerance=0.1)
+                selected_models = []
+                selection_reason = "random"
+                if top_candidates and len(top_candidates) > 1:
+                    # Query multiple models for this question
+                    selected_models = top_candidates
+                    selection_reason = "multi-weighted"
+                else:
+                    model_name, reason = choose_llm_model(self.model_pool, available=self.available_models, weights=bucket_weights)
+                    selected_models = [model_name]
+                    selection_reason = reason
 
             answers = []
             for m in selected_models:
@@ -676,6 +731,58 @@ class RetrievalChild:
             print(f"Error in RetrievalChild.answer: {e}")
             return f"Error processing query: {str(e)}"
 
+    def _select_small_pool_models(self, pool, bucket_weights):
+        """
+        Small-pool model selection for len(pool) < 3.
+
+        Uses a simple UCB-style score:
+            score = weight + lam / sqrt(1 + usage_count)
+        and returns either 1 or 2 models depending on how close the
+        top two scores are.
+        """
+        import math
+
+        # Ensure usage counts exist for each model in the pool
+        for m in pool:
+            self.model_usage_counts.setdefault(m, 0)
+
+        lam = 0.2  # exploration bonus strength
+        scored = []
+        for m in pool:
+            w = bucket_weights.get(m, 1.0)
+            u = self.model_usage_counts.get(m, 0)
+            bonus = lam / math.sqrt(1.0 + u)
+            scored.append((m, w + bonus))
+
+        # Sort by descending score
+        scored.sort(key=lambda x: x[1], reverse=True)
+
+        if len(scored) == 0:
+            # Fallback: no models, should not happen, return empty selection
+            return [], "small-pool-empty"
+
+        if len(scored) == 1:
+            top_models = [scored[0][0]]
+            reason = "small-pool-single"
+        else:
+            # len(scored) == 2 because we only enter this method when len(pool) < 3
+            top_score = scored[0][1]
+            second_score = scored[1][1]
+            if abs(top_score - second_score) < 0.05:
+                # Scores are similar: query both models
+                top_models = [scored[0][0], scored[1][0]]
+                reason = "small-pool-multi"
+            else:
+                # Clear winner: query only the top model
+                top_models = [scored[0][0]]
+                reason = "small-pool-single"
+
+        # Update usage counts for selected models
+        for m in top_models:
+            self.model_usage_counts[m] = self.model_usage_counts.get(m, 0) + 1
+
+        return top_models, reason
+
     def _query_model(self, system_prompt: str, context: str, user_msg: str, model_name: str) -> str:
         timeout = float(os.getenv("LLM_REQUEST_TIMEOUT", "600"))
         payload = {
@@ -698,6 +805,20 @@ class RetrievalChild:
         """
         try:
             pool = self.available_models or self.model_pool or []
+            small_pool_size = getattr(self, "small_pool_threshold", 3)
+            if len(pool) < small_pool_size:
+                # Small pool: skip peer-model scoring and choose by bucket weights
+                bucket_weights = _ensure_bucket_weights(self.model_weights, self.current_bucket, pool)
+                best_answer = None
+                best_score = float("-inf")
+                for ans in answers:
+                    model_name = ans[0]
+                    score = bucket_weights.get(model_name, 1.0)
+                    if score > best_score:
+                        best_score = score
+                        best_answer = ans
+                return best_answer
+
             used_models = {m for m, _ in answers}
             bucket = self.current_bucket or "b:global"
             bw = self.model_weights.get(bucket, {}) if self.model_weights else {}
@@ -706,10 +827,22 @@ class RetrievalChild:
             peer_models = peer_models[:2]  # primary peer set cap
 
             if not peer_models:
-                # Fallback: pick highest-weight answer
-                if self.model_weights:
+                # Fallback: pick highest-weight answer.
+                # NOTE: use the *bucket-local* weights (bw) if they exist.
+                if bw:
+                    # bw contains weights for the current bucket.
                     answers.sort(key=lambda x: bw.get(x[0], 0.0), reverse=True)
                     return answers[0]
+
+                # If this bucket has no weights, optionally fall back to a
+                # global bucket (e.g. "b:global") if available.
+                global_bw = self.model_weights.get("b:global", {}) if self.model_weights else {}
+                if global_bw:
+                    answers.sort(key=lambda x: global_bw.get(x[0], 0.0), reverse=True)
+                    return answers[0]
+
+                # If no weights at all, there is no justified "best" answer.
+                # Use a random choice instead of always returning the first.
                 return random.choice(answers)
 
             # Collect peer judgments via embeddings
@@ -727,6 +860,15 @@ class RetrievalChild:
                         num = float(np.dot(peer_emb, cemb))
                         den = float(np.linalg.norm(peer_emb) * np.linalg.norm(cemb) + 1e-8)
                         peer_scores[idx] += num / den
+                    try:
+                        norm_scores = [max(0.0, min(1.0, s)) for s in peer_scores]
+                        avg_score = float(np.mean(norm_scores)) if norm_scores else None
+                        if avg_score is not None:
+                            self._last_peer_prediction = avg_score
+                        else:
+                            self._last_peer_prediction = None
+                    except Exception:
+                        pass
                 except Exception as e:
                     print(f"Peer scoring failed for {peer}: {e}")
 
@@ -835,6 +977,7 @@ class SuperAgent:
         self._load_model_weights()
         # Exploration: every N steps, force a random model choice (per bucket)
         self.epsilon_every_n = int(self.config.get("epsilon_every_n", 0))
+        self.small_pool_threshold = int(self.config.get("small_pool_threshold", 3))
         self._step_counter = 0
 
         # ---- meta‑policy (tiny PPO) -----------------------------------------
@@ -858,6 +1001,8 @@ class SuperAgent:
         self.enable_feedback_prompt: bool = True
         self._last_feedback_text: Optional[str] = None
         self._feedback_history: List[int] = []  # binary signals
+        self._memory_use_history: List[bool] = []
+        self._retrieval_depth_history: List[float] = []
         self._graph_dirty: bool = False
         self._turn_count: int = 0
         self._lam_floor = float(os.getenv("LAM_BOOTSTRAP_START", "0.9"))
@@ -871,6 +1016,7 @@ class SuperAgent:
         self.visualization_enabled = os.getenv("ENABLE_VISUALIZATION", "0") == "1"
         self.visualizer = None
         self._visualization_dir = Path(os.getenv("VISUALIZATION_DIR", "visualizations"))
+        self.global_turn_idx: int = 0
         if self.visualization_enabled and VisualizationSystem:
             try:
                 self.visualizer = VisualizationSystem(self)
@@ -878,6 +1024,100 @@ class SuperAgent:
             except Exception as e:
                 print(f"Failed to initialize visualization system: {e}")
                 self.visualizer = None
+        # Last computed φ(t) = J(t) * ρ_compat(t) for this turn.
+        self._last_phi = None
+        # Last justification scalar J(t), coupling AI and EI*.
+        self._last_J = None
+        # Last compatibility term ρ_compat(t) between parent and children.
+        self._last_rho_compat = None
+        # Previous φ(t−1), used to measure relative change Δφ/φ.
+        self._prev_phi = None
+        # Restore any persisted conservation state from disk if available.
+        self._restore_conservation_state()
+        # Rolling history of sensing embeddings S_t (user messages) for world-coupling MI.
+        self._sense_history: List[np.ndarray] = []
+        # Rolling history of environment embeddings E_t (context / previous messages).
+        self._env_history: List[np.ndarray] = []
+        # History of (peer_pred, actual_outcome) pairs for prediction calibration.
+        self._prediction_history: List[Tuple[float, float]] = []
+        # Embedding of the last user message, reused as a simple proxy for E_{t+1}.
+        self._last_user_emb: Optional[np.ndarray] = None
+        # Last peer model prediction of correctness (0..1) for calibration.
+        self._last_peer_prediction: Optional[float] = None
+        
+        # ---- Adaptive RCP control parameters ------
+        # Current strength of conservation penalty on the policy advantage.
+        self.lambda_conserve = 0.1
+        # Lower and upper bounds for lambda_conserve.
+        self.lambda_min = 0.01
+        self.lambda_max = 1.0
+        # Target relative change |Δφ_rel| per turn; above this, conservation tightens.
+        self.target_phi_delta = 0.05
+        # EMA of |Δφ_rel|, used as a φ volatility measure.
+        self._phi_delta_ema = 0.0
+        # Smoothing factor for φ volatility EMA.
+        self._phi_delta_ema_beta = 0.9
+        # Per-turn gate in [0,1] used to modulate memory writes, retrieval, and exploration.
+        self._phi_gate = 1.0
+
+        # ---- RCP-driven spawning thresholds ------
+        # Max |Δφ_rel| to treat φ as stable enough to spawn new agents.
+        self.spawn_phi_stability_thresh = 0.05
+        # Number of recent turns used to detect EI* stagnation.
+        self.spawn_ei_stagnation_window = 5
+        # Minimum EI* improvement over the window; below this counts as stagnation.
+        self.spawn_ei_min_improvement = 0.01
+        # Minimum number of turns between spawn events.
+        self.spawn_cooldown = 10
+        # Countdown until the next spawn is allowed.
+        self._spawn_cooldown_counter = 0
+        # History of EI* values used for stagnation detection.
+        self._ei_history_for_spawning: List[float] = []
+
+        # ---- RCP-driven suppression hyperparameters ------
+        # |Δφ_rel| above this is treated as destabilizing when attributing impact to children.
+        self.suppression_phi_thresh = 0.10
+        # EMA smoothing factor for each child's φ impact.
+        self.suppression_ema_beta = 0.8
+        # Clamp range for per-child suppression_level.
+        self.suppression_max = 1.0
+        self.suppression_min = 0.0
+        # Strength of suppression when adjusting selection logits (higher => stronger down-weight).
+        self.suppression_alpha = 0.8
+        # Above this suppression_level, children are effectively hard-masked from selection.
+        self.suppression_hard_cutoff = 0.95
+
+        # ---- RCP-driven retirement hyperparameters ------
+        # Do not retire agents if total active agents would drop below this.
+        self.retire_min_agents = 4
+        # If an agent is unused for this many turns, it is considered inactive.
+        self.retire_usage_inactive_turns = 50
+        # EI* EMA below this marks an agent as low-quality.
+        self.retire_ei_thresh = 0.3
+        # Cooperation EMA below this marks an agent as poorly compatible.
+        self.retire_coop_thresh = 0.3
+        # Suppression_level above this marks an agent as highly destabilizing.
+        self.retire_supp_min = 0.7
+        # Minimum number of turns between retirement actions.
+        self.retire_cooldown = 20
+        # Countdown until the next retirement is allowed.
+        self._retire_cooldown_counter = 0
+
+        # ---- RCP-driven replication hyperparameters ------
+        # EI* EMA must be at least this high for an agent to be replicated.
+        self.replicate_ei_thresh = 0.7
+        # Cooperation EMA must be at least this high to be considered φ-compatible.
+        self.replicate_coop_thresh = 0.7
+        # Suppression_level must be below this threshold to be eligible to clone.
+        self.replicate_supp_max = 0.3
+        # Agent must have been used at least this many times before replication.
+        self.replicate_min_usage = 10
+        # Minimum number of turns between replication events.
+        self.replicate_cooldown = 20
+        # Countdown until the next replication is allowed.
+        self._replicate_cooldown_counter = 0
+        # Hard cap on total agents (children + grandchildren) in the ecology.
+        self.max_agents = 16
 
     # ------------------------------------------------------------------
     # 5️⃣ a  Hierarchical spawning (Citation 3)
@@ -895,8 +1135,10 @@ class SuperAgent:
                 assembly_index=self.assembly_index,
                 model_pool=self.model_pool,
                 available_models=self._known_models,
+                small_pool_threshold=self.small_pool_threshold,
                 name=None,
             )
+            child.parent = self
             child.model_weights = self.model_weights
             self.children.append(child)
 
@@ -908,7 +1150,9 @@ class SuperAgent:
                     name=f"{child.name}_gc",
                     model_pool=self.model_pool,
                     available_models=self._known_models,
+                    small_pool_threshold=self.small_pool_threshold,
                 )
+                gc.parent = self
                 gc.model_weights = self.model_weights
                 self.grandchildren.append(gc)
 
@@ -961,6 +1205,42 @@ class SuperAgent:
             if probs_np.ndim == 0:
                 probs_np = np.array([float(probs_np)])
 
+            # Gate exploration via phi stability by sharpening distribution
+            gate = getattr(self, "_phi_gate", 1.0)
+            tau_min = 0.5
+            tau = tau_min + (1.0 - tau_min) * gate
+            if tau > 0 and probs_np.size > 0:
+                sharpened = probs_np ** (1.0 / max(tau, 1e-6))
+                denom = sharpened.sum()
+                if denom > 0:
+                    probs_np = sharpened / denom
+
+            # Apply suppression to logits/probabilities for children/grandchildren
+            agents = list(self.children) + list(self.grandchildren)
+            if len(probs_np) == len(agents) and len(probs_np) > 0:
+                adjusted_logits = []
+                alpha = getattr(self, "suppression_alpha", 0.8)
+                min_scale = 0.1
+                hard_cut = getattr(self, "suppression_hard_cutoff", 0.95)
+                for idx, base_prob in enumerate(probs_np):
+                    agent = agents[idx]
+                    if getattr(agent, "retired", False):
+                        adjusted_logits.append(-1e9)
+                        continue
+                    supp = float(getattr(agent, "suppression_level", 0.0))
+                    scale = 1.0 - alpha * supp
+                    if scale < min_scale:
+                        scale = min_scale
+                    if supp >= hard_cut:
+                        adjusted_logits.append(-1e9)
+                    else:
+                        adjusted_logits.append(math.log(max(base_prob, 1e-12)) + math.log(scale))
+                adjusted_logits = np.array(adjusted_logits, dtype=np.float32)
+                exps = np.exp(adjusted_logits - np.max(adjusted_logits))
+                denom = exps.sum()
+                if denom > 0:
+                    probs_np = exps / denom
+
             # Ensure we don't sample from invalid indices
             valid_indices = len(probs_np)
             if valid_indices > 0:
@@ -1007,6 +1287,8 @@ class SuperAgent:
           5. log everything into the self‑model graph;
           6. perform a tiny policy gradient step.
         """
+
+        self.global_turn_idx += 1
 
         # ---- 1️⃣ decide actions -------------------------------------------
         self._last_direct_retrieval = None
@@ -1129,6 +1411,21 @@ class SuperAgent:
         if feedback_signal is not None:
             self._feedback_history.append(feedback_signal)
             self._feedback_history = self._feedback_history[-100:]
+            try:
+                peer_pred = getattr(self, "_last_peer_prediction", None)
+                if peer_pred is None:
+                    fb_arr = np.array(self._feedback_history, dtype=np.float32)
+                    if len(fb_arr) > 0:
+                        peer_pred = float(fb_arr.mean())
+                    else:
+                        peer_pred = 0.5
+                actual_outcome = float(feedback_signal)
+                if hasattr(self, "_prediction_history"):
+                    self._prediction_history.append((peer_pred, actual_outcome))
+                    if len(self._prediction_history) > 256:
+                        self._prediction_history.pop(0)
+            except Exception as e:
+                print(f"Failed to store prediction calibration entry: {e}")
         self._reinforce_models(parent_models_used, feedback_signal, bucket_for_turn)
 
         turn_id = f"t{int(now())}"
@@ -1141,10 +1438,12 @@ class SuperAgent:
         # ---- 2️⃣ optionally store user turn (meta‑policy decides via λ) ---
         try:
             if lam_for_storage > 0.5:                     # bootstrap-adjusted threshold
-                self.mem.add(user_msg)
-                annotated_answer = self._annotate_answer_with_models(parent_answer, parent_models_used)
-                self.mem.add(annotated_answer)
-                self.mem.save()
+                gate = getattr(self, "_phi_gate", 1.0)
+                if gate >= 1.0 or random.random() <= gate:
+                    self.mem.add(user_msg)
+                    annotated_answer = self._annotate_answer_with_models(parent_answer, parent_models_used)
+                    self.mem.add(annotated_answer)
+                    self.mem.save()
         except Exception as e:
             print(f"Failed to store in memory: {e}")
 
@@ -1196,6 +1495,18 @@ class SuperAgent:
         except Exception as e:
             print(f"Error updating cooperation scores: {e}")
 
+        # ---- Update last_used_turn for used children -------------------------
+        try:
+            for child in used_children:
+                if not hasattr(child, "last_used_turn"):
+                    child.last_used_turn = self.global_turn_idx
+                else:
+                    child.last_used_turn = self.global_turn_idx
+                if not hasattr(child, "usage_count"):
+                    child.usage_count = 0
+        except Exception as e:
+            print(f"[RCP] Error updating last_used_turn: {e}")
+
         # ---- 5️⃣ log turn into self‑model graph ---------------------------
         try:
             self.graph.add_node(
@@ -1218,32 +1529,387 @@ class SuperAgent:
         except Exception as e:
             print(f"Error logging to graph: {e}")
 
+        # ---- Reflexive justification & conservation update -------------------
+        try:
+            # Compute EI* using EI2 plus world-coupling and calibration
+            ei_star_t = self._compute_EI_star(ei)
+
+            # Scalar AI from assembly graph (if available)
+            ai_t = 0.0
+            if hasattr(self, "assembly_index") and self.assembly_index is not None:
+                ai_t = float(self.assembly_index.compute_scalar_ai())
+
+            # Compatibility across participating children
+            rho_compat_t = self._compute_rho_compat(used_children)
+
+            # Justification and conserved-like product
+            J_t = self._compute_justification(ai_t, ei_star_t, rho_compat_t)
+            phi_t = J_t * rho_compat_t
+
+            # Cache for later use and logging
+            self._last_J = J_t
+            self._last_rho_compat = rho_compat_t
+            self._last_phi = phi_t
+
+            # ---- Update phi volatility and adaptive lambda_conserve --------------
+            try:
+                prev_phi = self._prev_phi
+                curr_phi = self._last_phi
+
+                if prev_phi is not None and curr_phi is not None:
+                    eps_phi = 1e-6
+                    rel_change = (curr_phi - prev_phi) / (abs(prev_phi) + eps_phi)
+                    abs_rel_change = abs(rel_change)
+
+                    beta = self._phi_delta_ema_beta
+                    self._phi_delta_ema = beta * self._phi_delta_ema + (1.0 - beta) * abs_rel_change
+
+                    delta_target = self.target_phi_delta
+                    if self._phi_delta_ema > delta_target:
+                        self.lambda_conserve *= 1.0 + 0.1 * (
+                            (self._phi_delta_ema - delta_target) / (delta_target + eps_phi)
+                        )
+                    else:
+                        self.lambda_conserve *= 1.0 - 0.05 * (
+                            (delta_target - self._phi_delta_ema) / (delta_target + eps_phi)
+                        )
+
+                    if self.lambda_conserve < self.lambda_min:
+                        self.lambda_conserve = self.lambda_min
+                    if self.lambda_conserve > self.lambda_max:
+                        self.lambda_conserve = self.lambda_max
+
+                    gamma = 2.0
+                    min_gate = 0.2
+                    phi_gate = 1.0 - gamma * abs_rel_change
+                    if phi_gate < min_gate:
+                        phi_gate = min_gate
+                    if phi_gate > 1.0:
+                        phi_gate = 1.0
+                    self._phi_gate = phi_gate
+                else:
+                    self._phi_delta_ema = 0.0
+                    self.lambda_conserve = max(self.lambda_conserve, self.lambda_min)
+                    self._phi_gate = 1.0
+            except Exception as e:
+                print(f"Error updating phi volatility / lambda_conserve: {e}")
+
+            # Track EI* history (use EI* if available, EI2 otherwise)
+            ei_star_value = ei_star_t if ei_star_t is not None else ei
+            self._ei_history_for_spawning.append(ei_star_value)
+            if len(self._ei_history_for_spawning) > 100:
+                self._ei_history_for_spawning.pop(0)
+
+            # Optionally store into the self-model graph if it exists
+            try:
+                if getattr(self, "graph", None) is not None:
+                    node_id = turn_id if "turn_id" in locals() else None
+                    if node_id is not None and node_id in self.graph.nodes:
+                        self.graph.nodes[node_id]["J"] = J_t
+                        self.graph.nodes[node_id]["rho_compat"] = rho_compat_t
+                        self.graph.nodes[node_id]["phi"] = phi_t
+                        self._graph_dirty = True
+            except Exception:
+                pass
+        except Exception as e:
+            print(f"Error updating justification / conservation: {e}")
+
+        # ---- RCP-driven spawn detection ------------------------------------
+        spawn_triggered = False
+        try:
+            prev_phi = getattr(self, "_prev_phi", None)
+            curr_phi = getattr(self, "_last_phi", None)
+            eps_phi = 1e-6
+            if prev_phi is not None and curr_phi is not None:
+                phi_rel_change = abs((curr_phi - prev_phi) / (abs(prev_phi) + eps_phi))
+            else:
+                phi_rel_change = 0.0
+
+            ei_stagnant = False
+            n = getattr(self, "spawn_ei_stagnation_window", 5)
+            if len(self._ei_history_for_spawning) >= n + 1:
+                recent = self._ei_history_for_spawning[-(n + 1):]
+                improvement = recent[-1] - recent[0]
+                if improvement < self.spawn_ei_min_improvement:
+                    ei_stagnant = True
+
+            if (
+                self._spawn_cooldown_counter <= 0
+                and phi_rel_change < self.spawn_phi_stability_thresh
+                and ei_stagnant
+            ):
+                spawn_triggered = True
+
+            if self._spawn_cooldown_counter > 0:
+                self._spawn_cooldown_counter -= 1
+        except Exception as e:
+            print(f"Error evaluating RCP spawn conditions: {e}")
+
+        # ---- Update per-child φ impact and suppression -----------------------
+        try:
+            prev_phi = getattr(self, "_prev_phi", None)
+            curr_phi = getattr(self, "_last_phi", None)
+            eps_phi = 1e-6
+            abs_rel_change = 0.0
+            if prev_phi is not None and curr_phi is not None:
+                abs_rel_change = abs((curr_phi - prev_phi) / (abs(prev_phi) + eps_phi))
+
+            beta = self.suppression_ema_beta
+            phi_thresh = self.suppression_phi_thresh
+
+            for child in used_children:
+                if not hasattr(child, "phi_impact_ema"):
+                    child.phi_impact_ema = 0.0
+                if not hasattr(child, "suppression_level"):
+                    child.suppression_level = 0.0
+
+                impact = 0.0
+                if abs_rel_change > phi_thresh:
+                    impact = abs_rel_change
+
+                child.phi_impact_ema = beta * child.phi_impact_ema + (1.0 - beta) * impact
+
+                if phi_thresh > 0.0:
+                    raw_supp = child.phi_impact_ema / (phi_thresh * 2.0)
+                else:
+                    raw_supp = 0.0
+
+                if raw_supp < self.suppression_min:
+                    raw_supp = self.suppression_min
+                if raw_supp > self.suppression_max:
+                    raw_supp = self.suppression_max
+
+                child.suppression_level = float(raw_supp)
+
+            if used_children:
+                try:
+                    debug_info = [
+                        (
+                            getattr(c, "name", f"child_{i}"),
+                            getattr(c, "phi_impact_ema", 0.0),
+                            getattr(c, "suppression_level", 0.0),
+                        )
+                        for i, c in enumerate(used_children)
+                    ]
+                    print(f"[RCP] Suppression update (name, phi_ema, supp): {debug_info}")
+                except Exception:
+                    pass
+        except Exception as e:
+            print(f"[RCP] Error updating child suppression: {e}")
+
+        # ---- Update per-child EI* EMA and usage ------------------------------
+        try:
+            beta_ei = 0.8
+            for child in used_children:
+                if not hasattr(child, "ei_star_ema"):
+                    child.ei_star_ema = 0.0
+                if not hasattr(child, "usage_count"):
+                    child.usage_count = 0
+                child.ei_star_ema = beta_ei * child.ei_star_ema + (1.0 - beta_ei) * float(ei_star_value)
+                child.usage_count += 1
+        except Exception as e:
+            print(f"[RCP] Error updating child EI* stats: {e}")
+
+        # ---- Update per-child cooperation EMA --------------------------------
+        try:
+            beta_coop = 0.8
+            for child in used_children:
+                if not hasattr(child, "coop_ema"):
+                    child.coop_ema = 0.0
+                try:
+                    c_val = compute_cooperation(self, child)
+                except Exception:
+                    c_val = rho_compat_t
+                child.coop_ema = beta_coop * child.coop_ema + (1.0 - beta_coop) * float(c_val)
+        except Exception as e:
+            print(f"[RCP] Error updating child coop_ema: {e}")
+
+        if spawn_triggered:
+            try:
+                self._hierarchical_spawn(depth=1)
+                self._spawn_cooldown_counter = self.spawn_cooldown
+                total_agents = len(self.children) + len(self.grandchildren)
+                print(f"[RCP] Spawned new child agent(s). Total agents: {total_agents}")
+            except Exception as e:
+                print(f"[RCP] Error during spawning: {e}")
+
+        # ---- Replication cooldown update -------------------------------------
+        if self._replicate_cooldown_counter > 0:
+            self._replicate_cooldown_counter -= 1
+
+        # ---- Retirement cooldown update -------------------------------------
+        if self._retire_cooldown_counter > 0:
+            self._retire_cooldown_counter -= 1
+
+        # ---- RCP-driven replication ------------------------------------------
+        replicate_triggered = False
+        replicate_source = None
+        try:
+            if self._replicate_cooldown_counter <= 0:
+                candidates = []
+                for child in used_children:
+                    ei_ema = getattr(child, "ei_star_ema", 0.0)
+                    coop_ema = getattr(child, "coop_ema", 0.0)
+                    supp = getattr(child, "suppression_level", 0.0)
+                    usage = getattr(child, "usage_count", 0)
+                    if (
+                        usage >= self.replicate_min_usage
+                        and ei_ema >= self.replicate_ei_thresh
+                        and coop_ema >= self.replicate_coop_thresh
+                        and supp <= self.replicate_supp_max
+                    ):
+                        candidates.append((child, ei_ema, coop_ema, supp, usage))
+
+                total_agents = len(self.children) + len(self.grandchildren)
+                if candidates and total_agents < self.max_agents:
+                    candidates.sort(key=lambda x: x[1], reverse=True)
+                    replicate_source = candidates[0][0]
+                    replicate_triggered = True
+        except Exception as e:
+            print(f"[RCP] Error evaluating replication candidates: {e}")
+
+        if replicate_triggered and replicate_source is not None:
+            try:
+                before_children = len(self.children)
+                before_grandchildren = len(self.grandchildren)
+                self._hierarchical_spawn(depth=1)
+                after_children = len(self.children)
+                after_grandchildren = len(self.grandchildren)
+                newly_added = []
+                if after_children > before_children:
+                    newly_added.extend(self.children[before_children:after_children])
+                if after_grandchildren > before_grandchildren:
+                    newly_added.extend(self.grandchildren[before_grandchildren:after_grandchildren])
+                for new_child in newly_added:
+                    try:
+                        new_child.lineage_tag = f"clone_of_{getattr(replicate_source, 'lineage_tag', '') or id(replicate_source)}"
+                    except Exception:
+                        pass
+                self._replicate_cooldown_counter = self.replicate_cooldown
+                print(f"[RCP] Replicated child: {getattr(replicate_source, 'name', replicate_source)} -> {[getattr(c, 'name', c) for c in newly_added]}")
+            except Exception as e:
+                print(f"[RCP] Error during replication: {e}")
+        try:
+            if replicate_source is not None:
+                print(
+                    "[RCP] Replication candidate:",
+                    getattr(replicate_source, "name", str(replicate_source)),
+                    "ei_ema=",
+                    getattr(replicate_source, "ei_star_ema", 0.0),
+                    "coop_ema=",
+                    getattr(replicate_source, "coop_ema", 0.0),
+                    "supp=",
+                    getattr(replicate_source, "suppression_level", 0.0),
+                    "usage=",
+                    getattr(replicate_source, "usage_count", 0),
+                )
+        except Exception:
+            pass
+
+        # ---- RCP-driven retirement -------------------------------------------
+        try:
+            retire_candidates: List[Tuple[Any, bool, bool, bool, int]] = []
+            if self._retire_cooldown_counter <= 0:
+                agents = list(self.children) + list(self.grandchildren)
+                for agent in agents:
+                    if getattr(agent, "retired", False):
+                        continue
+                    ei_ema = getattr(agent, "ei_star_ema", 0.0)
+                    coop_ema = getattr(agent, "coop_ema", 0.0)
+                    supp = getattr(agent, "suppression_level", 0.0)
+                    usage = getattr(agent, "usage_count", 0)
+                    last_used = getattr(agent, "last_used_turn", 0)
+                    turns_since_use = self.global_turn_idx - last_used
+                    inactive = turns_since_use >= self.retire_usage_inactive_turns
+                    low_quality = (ei_ema < self.retire_ei_thresh and coop_ema < self.retire_coop_thresh)
+                    highly_suppressed = supp >= self.retire_supp_min
+                    if usage >= self.replicate_min_usage and (inactive or low_quality or highly_suppressed):
+                        retire_candidates.append((agent, inactive, low_quality, highly_suppressed, usage))
+
+            total_agents = len(self.children) + len(self.grandchildren)
+            if retire_candidates and total_agents > self.retire_min_agents:
+                def _retire_score(entry):
+                    agent, inactive, low_quality, highly_suppressed, usage = entry
+                    score = 0
+                    if highly_suppressed:
+                        score += 3
+                    if low_quality:
+                        score += 2
+                    if inactive:
+                        score += 1
+                    score += max(0, 10 - usage) * 0.1
+                    return score
+
+                retire_candidates.sort(key=_retire_score, reverse=True)
+                agent_to_retire = retire_candidates[0][0]
+                self._retire_agent(agent_to_retire)
+                self._retire_cooldown_counter = self.retire_cooldown
+                try:
+                    _, inactive, low_quality, highly_suppressed, usage = retire_candidates[0]
+                    print(
+                        "[RCP] Retirement decision:",
+                        getattr(agent_to_retire, "name", str(agent_to_retire)),
+                        "inactive=",
+                        inactive,
+                        "low_quality=",
+                        low_quality,
+                        "highly_suppressed=",
+                        highly_suppressed,
+                        "usage=",
+                        usage,
+                    )
+                except Exception:
+                    pass
+        except Exception as e:
+            print(f"[RCP] Error during retirement evaluation: {e}")
+
         # ---- 6️⃣ tiny policy-gradient step ---------------------------------
         try:
             # reward = EI (the internal signal we want to maximise)
             advantage = ei - self.ei_grid.mean()          # simple baseline
+
+            # Reflexive conservation penalty on changes in phi = J * rho_compat
+            try:
+                if self._last_phi is not None:
+                    prev_phi = self._prev_phi
+                    curr_phi = self._last_phi
+
+                    if prev_phi is not None and curr_phi is not None:
+                        eps_phi = 1e-6
+                        rel_change = (curr_phi - prev_phi) / (abs(prev_phi) + eps_phi)
+                        penalty = rel_change * rel_change
+                        advantage = advantage - self.lambda_conserve * penalty
+
+                    self._prev_phi = curr_phi
+            except Exception as e:
+                print(f"Error applying conservation penalty: {e}")
             if not chosen_idxs:  # No action taken
                 log_prob = None
             else:
-                # retrieve log‑prob of the action that was actually taken
-                obs = np.concatenate(
-                    [
-                        self.ei_grid.as_vector(),
-                        np.array([len(self.children) + len(self.grandchildren)], dtype=np.float32),
-                        self.recent_emb if self.recent_emb is not None else np.zeros(384, dtype=np.float32)
-                    ]
-                )
-                obs_tensor = torch.from_numpy(obs).float().unsqueeze(0)
-                probs, _ = self.meta_policy(obs_tensor)
-                probs_vec = probs.squeeze(0)
-                if probs_vec.ndim == 0:
-                    probs_vec = probs_vec.unsqueeze(0)
-
-                # Handle case where we might have invalid index
-                if 0 <= chosen_idxs[0] < probs_vec.shape[0]:
-                    log_prob = torch.log(probs_vec[chosen_idxs[0]])
+                log_prob = None
+                if policy_probs is not None and len(policy_probs) > chosen_idxs[0]:
+                    prob_val = float(policy_probs[chosen_idxs[0]])
+                    prob_val = max(prob_val, 1e-8)
+                    log_prob = torch.log(torch.tensor(prob_val, dtype=torch.float32))
                 else:
-                    log_prob = None
+                    try:
+                        obs = np.concatenate(
+                            [
+                                self.ei_grid.as_vector(),
+                                np.array([len(self.children) + len(self.grandchildren)], dtype=np.float32),
+                                self.recent_emb if self.recent_emb is not None else np.zeros(384, dtype=np.float32)
+                            ]
+                        )
+                        obs_tensor = torch.from_numpy(obs).float().unsqueeze(0)
+                        probs, _ = self.meta_policy(obs_tensor)
+                        probs_vec = probs.squeeze(0)
+                        if probs_vec.ndim == 0:
+                            probs_vec = probs_vec.unsqueeze(0)
+
+                        if 0 <= chosen_idxs[0] < probs_vec.shape[0]:
+                            log_prob = torch.log(probs_vec[chosen_idxs[0]])
+                    except Exception as e:
+                        print(f"Error recomputing log_prob: {e}")
 
             if log_prob is not None and log_prob.requires_grad:
                 self._policy_update(log_prob, advantage)
@@ -1268,10 +1934,160 @@ class SuperAgent:
     # Helper methods used inside the turn
     # ------------------------------------------------------------------
 
+    def _compute_rho_compat(self, used_children):
+        """
+        Compatibility rho_compat(t): average cooperation score for
+        children that participated this turn. If there are no used children,
+        return 1.0 by convention (no hierarchy to couple).
+        """
+        if not used_children:
+            return 1.0
+
+        scores = []
+        for child in used_children:
+            try:
+                scores.append(compute_cooperation(self, child))
+            except Exception:
+                continue
+
+        if not scores:
+            return 0.0
+
+        rho = float(np.mean(scores))
+        if rho < 0.0:
+            rho = 0.0
+        if rho > 1.0:
+            rho = 1.0
+        return rho
+
+    def _compute_justification(self, ai_t: float, ei_star_t: float, rho_compat_t: float) -> float:
+        """
+        Compute scalar J(t) ≈ AI(t)^{alpha(t)} * EI*(t)^{beta(t)}, squashed to [0,1].
+        """
+        eps = 1e-6
+        ai_clamped = max(ai_t, eps)
+        ei_clamped = max(ei_star_t, eps)
+
+        # Simple exponents depending on compatibility and EI*
+        k_alpha = 0.5
+        k_beta = 0.5
+
+        alpha_t = 1.0 + k_alpha * (rho_compat_t ** 2)
+        beta_t = 1.0 + k_beta * (math.log(ei_clamped) ** 2)
+
+        J = (ai_clamped ** alpha_t) * (ei_clamped ** beta_t)
+        J_norm = J / (1.0 + J)
+        return float(J_norm)
+
+    def _compute_world_coupling(self) -> float:
+        """
+        Approximate world coupling I(S;E)/H(S) via Gaussian MI between
+        sensing embeddings (user messages) and environment embeddings.
+        Returns value in [0, 1].
+        """
+        if not getattr(self, "_sense_history", None) or not getattr(self, "_env_history", None):
+            return 0.0
+
+        n = min(len(self._sense_history), len(self._env_history))
+        if n < 4:
+            return 0.0
+
+        sense = np.stack(self._sense_history[-n:], axis=0)
+        env = np.stack(self._env_history[-n:], axis=0)
+        joint = np.concatenate([sense, env], axis=1)
+
+        eps = 1e-6
+        try:
+            cov_s = np.cov(sense, rowvar=False) + eps * np.eye(sense.shape[1])
+            cov_e = np.cov(env, rowvar=False) + eps * np.eye(env.shape[1])
+            cov_joint = np.cov(joint, rowvar=False) + eps * np.eye(joint.shape[1])
+
+            sign_s, logdet_s = np.linalg.slogdet(cov_s)
+            sign_e, logdet_e = np.linalg.slogdet(cov_e)
+            sign_j, logdet_j = np.linalg.slogdet(cov_joint)
+
+            if sign_s <= 0 or sign_e <= 0 or sign_j <= 0:
+                return 0.0
+
+            mi_se = 0.5 * (logdet_s + logdet_e - logdet_j)
+        except Exception:
+            return 0.0
+
+        dim_s = float(sense.shape[1])
+        h_s_scale = math.log(dim_s + 1.0)
+        if h_s_scale <= 0:
+            return 0.0
+
+        world_coupling = mi_se / h_s_scale
+        world_coupling = max(0.0, min(1.0, world_coupling))
+        return float(world_coupling)
+
+    def _compute_prediction_calibration(self) -> float:
+        """
+        Approximate 1 - KL(p(O) || p(O_hat)) / H(O) for a binary
+        correctness variable using prediction_history.
+        Returns in [0, 1].
+        """
+        if not getattr(self, "_prediction_history", None):
+            return 0.0
+
+        preds = [x[0] for x in self._prediction_history]
+        reals = [x[1] for x in self._prediction_history]
+
+        if not preds or not reals:
+            return 0.0
+
+        p_hat = float(np.mean(preds))
+        p = float(np.mean(reals))
+
+        eps = 1e-6
+
+        def _bern_kl(p_true, p_model):
+            p_true = min(max(p_true, eps), 1.0 - eps)
+            p_model = min(max(p_model, eps), 1.0 - eps)
+            q_true = 1.0 - p_true
+            q_model = 1.0 - p_model
+            return (
+                p_true * math.log(p_true / p_model)
+                + q_true * math.log(q_true / q_model)
+            )
+
+        def _bern_ent(p_true):
+            p_true = min(max(p_true, eps), 1.0 - eps)
+            q_true = 1.0 - p_true
+            return -p_true * math.log(p_true) - q_true * math.log(q_true)
+
+        H_p = _bern_ent(p)
+        if H_p <= 0.0:
+            return 1.0
+
+        kl = _bern_kl(p, p_hat)
+        calibration = 1.0 - (kl / H_p)
+        calibration = max(0.0, min(1.0, calibration))
+        return float(calibration)
+
+    def _compute_EI_star(self, ei2_value: float) -> float:
+        """
+        Compute EI* = EI2 * world_coupling * prediction_calibration.
+        All factors are in [0, 1].
+        """
+        ei2_clamped = max(0.0, min(1.0, float(ei2_value)))
+        world_coupling = self._compute_world_coupling()
+        calibration = self._compute_prediction_calibration()
+        ei_star = ei2_clamped * world_coupling * calibration
+        ei_star = max(0.0, min(1.0, ei_star))
+        return float(ei_star)
+
     def _call_llm_direct(self, msg: str, *, override_model: Optional[str] = None) -> str:
         """Fallback when no child is selected – direct call to LM‑Studio."""
         try:
-            self._last_direct_retrieval = self.mem.search_with_indices(msg, k=4)
+            gate = getattr(self, "_phi_gate", 1.0)
+            base_k = 4
+            scale_factor = 0.5 + 0.5 * gate
+            k_adj = int(round(base_k * scale_factor))
+            if k_adj < 2:
+                k_adj = 2
+            self._last_direct_retrieval = self.mem.search_with_indices(msg, k=k_adj)
             bucket = _bucket_for_text(msg, self.mem.emb_model)
             pool = self._known_models or self.model_pool or []
             bucket_weights = _ensure_bucket_weights(self.model_weights, bucket, pool)
@@ -1340,6 +2156,10 @@ class SuperAgent:
         if not hasattr(self, "assembly_index"):
             return
 
+        gate = getattr(self, "_phi_gate", 1.0)
+        if gate < 1.0 and random.random() > gate:
+            return
+
         child_nodes: List[str] = []
 
         for child in used_children:
@@ -1386,6 +2206,34 @@ class SuperAgent:
             for node_id in mem_nodes:
                 self.assembly_index.graph.add_edge(node_id, parent_node_id)
 
+    def _retire_agent(self, agent) -> None:
+        """
+        Retire (deactivate) an agent from the ecology.
+        Removes it from children/grandchildren lists and updates the
+        meta-policy action space accordingly.
+        """
+        try:
+            try:
+                agent.retired = True
+            except Exception:
+                pass
+
+            if agent in self.children:
+                self.children.remove(agent)
+            if agent in self.grandchildren:
+                self.grandchildren.remove(agent)
+
+            total_agents = len(self.children) + len(self.grandchildren)
+            if hasattr(self, "meta_policy") and hasattr(self.meta_policy, "resize_action_space"):
+                try:
+                    self.meta_policy.resize_action_space(total_agents)
+                except Exception as e:
+                    print(f"[RCP] Error resizing action space after retirement: {e}")
+
+            print(f"[RCP] Retired agent: {agent}")
+        except Exception as e:
+            print(f"[RCP] Error in _retire_agent: {e}")
+
     def _prompt_feedback(self) -> Optional[str]:
         """Ask the user for qualitative feedback to feed EI groundedness."""
         if not self.enable_feedback_prompt:
@@ -1412,7 +2260,7 @@ class SuperAgent:
             return 0
         return None
 
-    def _peer_model_feedback(self, user_msg: str, parent_answer: str, parent_models: List[str]) -> Tuple[Optional[str], Optional[int]]:
+    def _peer_model_feedback(self, user_msg: str, parent_answer: str, parent_models: List[str]) -> Tuple[Optional[str], Optional[float]]:
         """
         Call alternative models (if available) to compare answers.
         Uses each peer's *own* answer as the expected output and compares the given answer to it.
@@ -1481,7 +2329,7 @@ class SuperAgent:
         user_msg: str,
         parent_answer: str,
         alternatives: List[str],
-    ) -> Tuple[Optional[str], Optional[int]]:
+    ) -> Tuple[Optional[str], Optional[float]]:
         peer_results: List[Tuple[str, str]] = []
         for model_name in alternatives:
             ans = self._call_llm_for_feedback(user_msg, model_name)
@@ -1509,10 +2357,14 @@ class SuperAgent:
                 details.append(f"{model_name}:{sim_norm:.2f}")
             if weight_total == 0:
                 return None, None
-            score = weighted_sum / weight_total
-            signal = 1 if score >= 0.55 else 0
+            score = max(0.0, min(1.0, weighted_sum / weight_total))
+            signal = score  # keep full [0,1] granularity
             text = f"Auto model feedback (weighted, bucket={bucket}): score {score:.2f} from {', '.join(details)}"
             print(f"[peer scores] {', '.join(details)}")
+            try:
+                self._last_peer_prediction = score
+            except Exception:
+                pass
             return text, signal
         except Exception as e:
             print(f"Model peer feedback failed: {e}")
@@ -1525,7 +2377,7 @@ class SuperAgent:
         user_msg: str,
         parent_answer: str,
         alternatives: List[str],
-    ) -> Tuple[Optional[str], Optional[int]]:
+    ) -> Tuple[Optional[str], Optional[float]]:
         scores = []
         details = []
         for model_name in alternatives:
@@ -1541,10 +2393,14 @@ class SuperAgent:
         weight_total = sum(w for _, w in scores)
         if weight_total == 0:
             return None, None
-        score = weighted_sum / weight_total
-        signal = 1 if score >= 0.55 else 0
+        score = max(0.0, min(1.0, weighted_sum / weight_total))
+        signal = score  # keep full [0,1] granularity
         text = f"Auto model feedback (contrastive, bucket={bucket}): score {score:.2f} from {', '.join(details)}"
         print(f"[peer scores] {', '.join(details)}")
+        try:
+            self._last_peer_prediction = score
+        except Exception:
+            pass
         return text, signal
 
     def _llm_score_answer(self, user_msg: str, parent_answer: str, model_name: str) -> Optional[float]:
@@ -1598,7 +2454,7 @@ class SuperAgent:
         parent_answer: str,
         used_children: List['RetrievalChild'],
         parent_models: List[str],
-    ) -> Tuple[Optional[str], Optional[int]]:
+    ) -> Tuple[Optional[str], Optional[float]]:
         """
         Collect feedback signal:
           • if multiple LLMs are available, compare their answers for agreement;
@@ -1713,6 +2569,20 @@ class SuperAgent:
         if not force and not self._graph_dirty:
             return
         try:
+            try:
+                if "parent" not in self.graph:
+                    self.graph.add_node("parent")
+                parent_node = self.graph.nodes["parent"]
+                parent_node["lambda_conserve"] = getattr(self, "lambda_conserve", None)
+                parent_node["phi_delta_ema"] = getattr(self, "_phi_delta_ema", None)
+                parent_node["phi_gate"] = getattr(self, "_phi_gate", None)
+                parent_node["target_phi_delta"] = getattr(self, "target_phi_delta", None)
+                parent_node["last_phi"] = getattr(self, "_last_phi", None)
+                parent_node["prev_phi"] = getattr(self, "_prev_phi", None)
+                parent_node["last_J"] = getattr(self, "_last_J", None)
+                parent_node["last_rho_compat"] = getattr(self, "_last_rho_compat", None)
+            except Exception as e:
+                print(f"Failed to append conservation state to self-model: {e}")
             data = json_graph.node_link_data(self.graph, edges="links")
             self.graph_path.parent.mkdir(parents=True, exist_ok=True)
             self.graph_path.write_text(json.dumps(data))
@@ -1736,6 +2606,69 @@ class SuperAgent:
         graph = nx.DiGraph()
         graph.add_node("parent")
         return graph
+
+    def _restore_conservation_state(self):
+        """
+        Restore last J, rho_compat, and phi from persisted graph nodes if present.
+        """
+        try:
+            if not getattr(self, "graph", None):
+                return
+            parent_attrs = self.graph.nodes.get("parent", {}) if hasattr(self, "graph") else {}
+            if parent_attrs:
+                try:
+                    if parent_attrs.get("lambda_conserve") is not None:
+                        self.lambda_conserve = float(parent_attrs.get("lambda_conserve"))
+                    if parent_attrs.get("phi_delta_ema") is not None:
+                        self._phi_delta_ema = float(parent_attrs.get("phi_delta_ema"))
+                    if parent_attrs.get("phi_gate") is not None:
+                        self._phi_gate = float(parent_attrs.get("phi_gate"))
+                    if parent_attrs.get("target_phi_delta") is not None:
+                        self.target_phi_delta = float(parent_attrs.get("target_phi_delta"))
+                    if parent_attrs.get("last_phi") is not None:
+                        self._last_phi = float(parent_attrs.get("last_phi"))
+                    if parent_attrs.get("prev_phi") is not None:
+                        self._prev_phi = float(parent_attrs.get("prev_phi"))
+                    if parent_attrs.get("last_J") is not None:
+                        self._last_J = float(parent_attrs.get("last_J"))
+                    if parent_attrs.get("last_rho_compat") is not None:
+                        self._last_rho_compat = float(parent_attrs.get("last_rho_compat"))
+                except Exception as e:
+                    print(f"Failed to restore conservation scalars from parent node: {e}")
+            turn_nodes = []
+            for node_id, data in self.graph.nodes(data=True):
+                if isinstance(node_id, str) and node_id.startswith("t"):
+                    turn_nodes.append(
+                        (
+                            node_id,
+                            data.get("phi"),
+                            data.get("J"),
+                            data.get("rho_compat"),
+                        )
+                    )
+            if not turn_nodes:
+                return
+
+            def _turn_sort_key(name: str):
+                try:
+                    return int(name[1:])
+                except Exception:
+                    return name
+
+            turn_nodes.sort(key=lambda x: _turn_sort_key(x[0]))
+            last = turn_nodes[-1]
+            if last[1] is not None:
+                self._last_phi = float(last[1])
+            if last[2] is not None:
+                self._last_J = float(last[2])
+            if last[3] is not None:
+                self._last_rho_compat = float(last[3])
+            if len(turn_nodes) >= 2:
+                prev = turn_nodes[-2]
+                if prev[1] is not None:
+                    self._prev_phi = float(prev[1])
+        except Exception as e:
+            print(f"Failed to restore conservation state: {e}")
 
     def _persist_policy(self):
         if not hasattr(self, "meta_policy") or not hasattr(self, "optimizer"):
@@ -1846,6 +2779,34 @@ class SuperAgent:
             self._ms_history = []
             self._policy_history = []
             self._mem_state_history = []
+            self._memory_use_history = []
+            self._retrieval_depth_history = []
+            self._last_phi = None
+            self._last_J = None
+            self._last_rho_compat = None
+            self._prev_phi = None
+            self.lambda_conserve = 0.1
+            self._phi_delta_ema = 0.0
+            self._phi_gate = 1.0
+            self._retire_cooldown_counter = 0
+            self._sense_history = []
+            self._env_history = []
+            self._prediction_history = []
+            self._last_user_emb = None
+            self._last_peer_prediction = None
+            self.spawn_phi_stability_thresh = 0.05
+            self.spawn_ei_stagnation_window = 5
+            self.spawn_ei_min_improvement = 0.01
+            self.spawn_cooldown = 10
+            self._spawn_cooldown_counter = 0
+            self._ei_history_for_spawning = []
+            self.suppression_phi_thresh = 0.10
+            self.suppression_ema_beta = 0.8
+            self.suppression_max = 1.0
+            self.suppression_min = 0.0
+            self.suppression_alpha = 0.8
+            self.suppression_hard_cutoff = 0.95
+            self._replicate_cooldown_counter = 0
             if self.visualizer:
                 self.visualizer.turn_history.clear()
                 self.visualizer._seen_turn_nodes = set()
@@ -1868,11 +2829,17 @@ class SuperAgent:
           * I(M;S): mutual information between memory state and sensing.
           * T_{M→Π}: transfer entropy from memory to policy logits.
           * Prediction groundedness: BLEU-style overlap with an expected answer.
-          * Assembly coverage: fraction of distinct memory nodes consulted.
+          * Reuse ρ = u * c * d:
+              - u: fraction of recent decisions that accessed memory.
+              - c: coverage over memory nodes consulted this turn.
+              - d: temporal depth of memory reads (older = deeper).
 
-        All sub-scores are normalized to [0,1] then combined via learned weights.
+        All sub-scores are normalized to [0,1] then combined via a geometric product with optional exponents.
         """
         eps = 1e-6
+
+        def clip(val: float, lo: float = 0.0, hi: float = 1.0) -> float:
+            return float(np.clip(val, lo, hi))
 
         # Ensure history buffers exist for running covariance/entropy estimates.
         if not hasattr(self, "_ms_history"):
@@ -1881,16 +2848,43 @@ class SuperAgent:
             self._policy_history: List[np.ndarray] = []
         if not hasattr(self, "_mem_state_history"):
             self._mem_state_history: List[np.ndarray] = []
+        if not hasattr(self, "_memory_use_history"):
+            self._memory_use_history: List[bool] = []
+        if not hasattr(self, "_retrieval_depth_history"):
+            self._retrieval_depth_history: List[float] = []
 
         try:
             user_emb = self.mem.emb_model.encode([user_msg], normalize_embeddings=True)[0]
         except Exception:
             user_emb = np.zeros(384, dtype=np.float32)
 
+        # Track sensing embedding history
+        if hasattr(self, "_sense_history"):
+            self._sense_history.append(user_emb.astype(np.float32))
+            if len(self._sense_history) > 256:
+                self._sense_history.pop(0)
+
+        # Environment embedding: use previous user embedding as proxy
+        if hasattr(self, "_last_user_emb") and self._last_user_emb is not None:
+            env_emb = self._last_user_emb
+        else:
+            env_emb = np.zeros_like(user_emb, dtype=np.float32)
+        if hasattr(self, "_env_history"):
+            self._env_history.append(env_emb.astype(np.float32))
+            if len(self._env_history) > 256:
+                self._env_history.pop(0)
+        self._last_user_emb = user_emb.astype(np.float32)
+
         # Build an aggregate memory state from the chunks retrieved for this turn.
         retrieved_chunks: List[str] = []
         try:
-            retrieved_chunks = self.mem.search(user_msg, k=4)
+            gate = getattr(self, "_phi_gate", 1.0)
+            base_k = 4
+            scale_factor = 0.5 + 0.5 * gate
+            k_adj = int(round(base_k * scale_factor))
+            if k_adj < 2:
+                k_adj = 2
+            retrieved_chunks = self.mem.search(user_msg, k=k_adj)
             if retrieved_chunks:
                 mem_embs = self.mem.emb_model.encode(retrieved_chunks, normalize_embeddings=True)
                 mem_state = np.mean(mem_embs, axis=0)
@@ -1898,6 +2892,12 @@ class SuperAgent:
                 mem_state = np.zeros_like(user_emb)
         except Exception:
             mem_state = np.zeros_like(user_emb)
+
+        used_memory = bool(retrieved_indices) or bool(retrieved_chunks)
+        self._memory_use_history.append(used_memory)
+        reuse_hist_max = 128
+        if len(self._memory_use_history) > reuse_hist_max:
+            self._memory_use_history.pop(0)
 
         # Store recent samples (bounded buffer to control conditioning).
         self._ms_history.append((mem_state, user_emb))
@@ -2001,31 +3001,140 @@ class SuperAgent:
                     consumed[tok] = cnt + 1
             lexical_grounded = overlap / len(ans_tokens)
 
-        entropy_grounded = 0.0
-        if len(self._feedback_history) >= 1:
+        # --- Peer-based groundedness from feedback history --------------------
+        feedback_level = 0.0      # how good is this answer, 0..1
+        feedback_gain = 0.0       # how much better than usual, >= 0
+
+        if hasattr(self, "_feedback_history") and len(self._feedback_history) >= 1:
             feedback_arr = np.array(self._feedback_history, dtype=np.float32)
-            p_current = feedback_arr[-1]
-            prev_mean = np.mean(feedback_arr[:-1]) if len(feedback_arr) > 1 else p_current
-            delta = p_current - prev_mean
-            entropy_grounded = max(0.0, delta)
+            p_current = float(feedback_arr[-1])
 
-        grounded = max(0.0, min(1.0, 0.6 * lexical_grounded + 0.4 * entropy_grounded))
+            # Running average over all previous feedback (including this one)
+            p_mean = float(feedback_arr.mean())
 
-        # Assembly coverage derived from distinct memory hits.
+            feedback_level = max(0.0, min(1.0, p_current))
+            # Only count positive improvement over the running mean
+            feedback_gain = max(0.0, p_current - p_mean)
+
+        # Combine level + improvement into a single peer groundedness score
+        # peer_grounded in [0,1], with more weight on "how good" than "how much better"
+        peer_grounded = 0.0
+        if feedback_level > 0.0 or feedback_gain > 0.0:
+            w_level = 0.8
+            w_gain = 0.2
+            peer_grounded = w_level * feedback_level + w_gain * feedback_gain
+            if peer_grounded < 0.0:
+                peer_grounded = 0.0
+            if peer_grounded > 1.0:
+                peer_grounded = 1.0
+
+        # Final grounded = mix of lexical similarity and peer evaluation
+        # If there is no peer signal yet, grounded falls back to lexical only.
+        w_lex = 0.5
+        w_peer = 0.5
+
+        if peer_grounded == 0.0 and feedback_level == 0.0:
+            grounded = max(0.0, min(1.0, lexical_grounded))
+        else:
+            grounded = (
+                w_lex * lexical_grounded
+                + w_peer * peer_grounded
+            )
+            if grounded < 0.0:
+                grounded = 0.0
+            if grounded > 1.0:
+                grounded = 1.0
+
+        # Reuse factor ρ = u * c * d
+        # u: fraction of recent turns that used memory
+        reuse_window = 32
+        recent_uses = self._memory_use_history[-reuse_window:]
+        if recent_uses:
+            reuse_u = sum(1 for x in recent_uses if x) / float(len(recent_uses))
+        else:
+            reuse_u = 1.0 if used_memory else 0.0
+        reuse_u = clip(reuse_u)
+
+        # c: coverage over memory nodes consulted this turn
         total_memory = max(1, len(self.mem.texts))
         if retrieved_indices:
-            coverage = len(set(retrieved_indices)) / total_memory
+            distinct_indices = [idx for idx in set(retrieved_indices) if 0 <= idx < total_memory]
+            if distinct_indices:
+                coverage_c = len(distinct_indices) / float(total_memory)
+            else:
+                coverage_c = 0.0
+        elif retrieved_chunks:
+            coverage_c = min(1.0, len(retrieved_chunks) / float(total_memory))
         else:
-            coverage = min(1.0, len(retrieved_chunks) / total_memory) if retrieved_chunks else 0.0
+            coverage_c = 0.0
+        coverage_c = clip(coverage_c)
 
-        coverage = max(0.0, min(1.0, coverage))
+        # d: temporal depth of retrieved indices (older = deeper)
+        if retrieved_indices and total_memory > 1:
+            depths = []
+            for idx in set(retrieved_indices):
+                if 0 <= idx < total_memory:
+                    age = (total_memory - 1 - idx) / float(total_memory - 1)
+                    depths.append(age)
+            if depths:
+                depth_d = float(np.mean(depths))
+            else:
+                depth_d = 0.0
+        else:
+            depth_d = 0.0
+        depth_d = clip(depth_d)
+        self._retrieval_depth_history.append(depth_d)
+        if len(self._retrieval_depth_history) > reuse_hist_max:
+            self._retrieval_depth_history.pop(0)
 
-        # Weighted combination (weights sum to 1.0)
-        weights = getattr(self, "_ei_weights", (0.35, 0.25, 0.25, 0.15))
-        w1, w2, w3, w4 = weights
-        ei_score = w1 * mi_norm + w2 * te_norm + w3 * grounded + w4 * coverage
-        print(f"[info] EI2 components mi={mi_norm:.3f}, te={te_norm:.3f}, grounded={grounded:.3f}, coverage={coverage:.3f}, score={ei_score:.3f}")
-        return max(0.0, min(1.0, float(ei_score)))
+        rho = reuse_u * coverage_c * depth_d
+        rho = clip(rho)
+
+        # Geometric combination of components (product in log space)
+        # --- Warm-start logic for EI2 components -------------------------------
+        raw_mi = mi_norm
+        raw_te = te_norm
+        raw_grounded = grounded
+        raw_rho = rho
+
+        ready_eps = 1e-3
+
+        # Readiness criteria
+        mi_ready = (len(self._ms_history) >= 8) and (raw_mi > ready_eps)
+        te_ready = (
+            len(self._policy_history) >= 8
+            and len(self._mem_state_history) >= 8
+            and raw_te > ready_eps
+        )
+        grounded_ready = raw_grounded > 0.0
+        rho_ready = raw_rho > 0.0
+
+        # Effective component values (neutral = 1.0)
+        eff_mi = raw_mi if mi_ready else 1.0
+        eff_te = raw_te if te_ready else 1.0
+        eff_grounded = raw_grounded if grounded_ready else 1.0
+        eff_rho = raw_rho if rho_ready else 1.0
+
+        components = np.array(
+            [eff_mi, eff_te, eff_grounded, eff_rho],
+            dtype=np.float32,
+        )
+        components = np.clip(components, eps, 1.0)
+
+        weights = getattr(self, "_ei_weights", None)
+        if weights is None:
+            exponents = np.ones_like(components)
+        else:
+            exponents = np.array(weights, dtype=np.float32)
+            s = float(np.sum(exponents)) or 1.0
+            exponents = exponents * (len(components) / s)
+
+        log_ei = (exponents * np.log(components)).sum()
+        ei_score = float(np.exp(log_ei))
+
+        ei_score = clip(ei_score)
+        print(f"[info] EI2 components mi={mi_norm:.3f}, te={te_norm:.3f}, grounded={grounded:.3f}, rho={rho:.3f} (u={reuse_u:.3f}, c={coverage_c:.3f}, d={depth_d:.3f}), score={ei_score:.3f}")
+        return ei_score
 
     def _compute_EI(self, user_msg: str, answer: str) -> float:
         """

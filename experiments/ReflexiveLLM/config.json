@@ -1,5 +1,6 @@
 {
   "peer_review_method": "contrastive",
-  "epsilon_every_n": 2,
-  "forced_models": ["ibm/granite-4-h-tiny", "qwen/qwen3-vl-8b"]
+  "epsilon_every_n": 10,
+  "forced_models": ["ibm/granite-4-h-tiny", "qwen/qwen3-vl-8b"],
+  "small_pool_threshold": 3
 }
