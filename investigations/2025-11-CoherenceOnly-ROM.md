@@ -8,7 +8,8 @@ We propose a reduced formulation of the Reflexive Organism Model in which **coh
 
 ## Coherence-only ROM
 
-Let 
+Let
+
 $$
 \mathcal S_{\text{coh}} = (C(x,t), J_C(x,t))
 $$
@@ -540,13 +541,13 @@ Thus we still have the generalized second law from original ROM paper. The conti
 External inputs act on the coherence field only through its boundary. The boundary perturbation operator
 
 $$
-\mathcal{B}[C](x,t)
+\mathcal{B}\lbrack C\rbrack(x,t)
 $$
 
 is defined as a functional that modifies $C$ on $\partial\Omega_t$ such that
 
 $$
-\delta C(x,t) = \mathcal{B}[C](x,t)\quad\text{for }x\in\partial\Omega_t,
+\delta C(x,t) = \mathcal{B}\lbrack C\rbrack(x,t)\quad\text{for }x\in\partial\Omega_t,
 $$
 
 and $\delta C=0$ in the interior. This operator captures all forms of sensing, environmental coupling, and external energy/matter inflow, without introducing internal sources.  Mathematically,
