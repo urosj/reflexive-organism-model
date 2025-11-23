@@ -16,14 +16,16 @@ $$
 
 represent a cohrence-only ROM, where:
 
-* $C(x,t)\ge 0$ be a **coherence density field** on a support $\Omega_t$,
-* $J_C(x,t)$ its associated **coherence flux**, with
+- $C(x,t)\ge 0$ be a **coherence density field** on a support $\Omega_t$,
+- $J_C(x,t)$ its associated **coherence flux**, with
 
 $$
 J_C = C v_C,
 $$
-  where $v_C(x,t)$ is a coherence-velocity,
-* and let $K_{\mu\nu}[C]$ denote the **coherence tensor**, i.e. the effective geometry induced by $C$ and its gradients,
+
+  where $v_C(x,t)$ is a coherence-velocity.
+  
+Let $K_{\mu\nu}[C]$ denote the **coherence tensor**, i.e. the effective geometry induced by $C$ and its gradients,
 
 $$  
 K_{\mu\nu} \equiv \underbrace{\lambda_C C g_{\mu\nu}}_{\text{coherence density term}} + \underbrace{\xi_C \nabla_\mu C \nabla_\nu C}_{\text{coherence gradient term}} +   \underbrace{\zeta_C j_\mu j_\nu}_{\text{read-back flux term}}.  
@@ -62,7 +64,7 @@ $$
 
    whose stationarity $\delta \mathcal P/\delta C = 0$ and constitutive closure for $v_C$ together generate the dynamics of $C$ and $J_C$.
 
-Thus, **coherence is the scalar field whose geometry, dynamics, and invariants encode the organism’s structural complexity, experiential groundedness, and reflexive closure. It is the conserved quantity that defines identity and the generative field from which all internal geometry and functionality of the organism emerge.
+Thus, **coherence is the scalar field whose geometry, dynamics, and invariants encode the organism’s structural complexity, experiential groundedness, and reflexive closure. It is the conserved quantity that defines identity and the generative field from which all internal geometry and functionality of the organism emerge.**
 
 ---
 
