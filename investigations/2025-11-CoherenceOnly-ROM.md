@@ -250,9 +250,11 @@ $$
 is the identity/memory/geometry update. 
 
 In summary, the entire original state
+
 $$
 \mathcal{S} = \big(\Omega, \mathcal{A}, \mathcal{G}, X, F, M, \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}, AI, \mathcal{E}\big)
 $$
+
 is mapped into the pair $(C,J_C)$ and its induced geometry $K_{\mu\nu}[C]$, with all other quantities appearing as **functionals or emergent structures** of this coherence field.
 
 ---
@@ -378,7 +380,7 @@ $\mathcal{R}_{\text{coh}}$ is the **topology‐changing update** of the coherenc
 Let $C(x,t^-)$  and $C(x,t^+)$ be the coherence fields immediately *before* and *after* a topology-changing event. Then $\mathcal{R}_{\text{coh}}:\ C(\cdot,t^-)\ \longrightarrow\ C(\cdot,t^+)$ is a non-continuous update map satisfying
 
 1. **Global coherence conservation** $\int_{\Omega_{t^-}} C(x,t^-)dV_{g[C^-]} = \int_{\Omega_{t^+}} C(x,t^+)dV_{g[C^+]}.$
-2. Topology change** $\Omega_{t^-} \not\cong \Omega_{t^+}$ or number of coherence basins changes $|{B_i(t^-)}|\neq |{B_i(t^+)}|.$
+2. **Topology change** $\Omega_{t^-} \not\cong \Omega_{t^+}$ or number of coherence basins changes $|{B_i(t^-)}|\neq |{B_i(t^+)}|.$
 3. **Viability thresholding** $V[C(\cdot,t^-)] \lessgtr \theta_{\text{coh}} \quad\Longrightarrow\quad \mathcal{R}_{\text{coh}} \text{event}.$
 4. **Local stability restoration** $C(\cdot,t^+)$ must lie in a basin of $\mathcal{P}[C]$ (a local minimum of the coherence potential).
 
@@ -459,6 +461,7 @@ V(C)\ \text{has a broad flat region}.
 $$
 
 For example
+
 $$
 V(C) = \alpha C^2 - \beta C^4 + \gamma C^6,\quad \beta^2 > 4\alpha\gamma.
 $$
@@ -537,19 +540,19 @@ Thus we still have the generalized second law from original ROM paper. The conti
 External inputs act on the coherence field only through its boundary. The boundary perturbation operator
 
 $$
-\mathcal B[C](x,t)
+\mathcal{B}[C](x,t)
 $$
 
 is defined as a functional that modifies $C$ on $\partial\Omega_t$ such that
 
 $$
-\delta C(x,t) = \mathcal B[C](x,t)\quad\text{for }x\in\partial\Omega_t,
+\delta C(x,t) = \mathcal{B}[C](x,t)\quad\text{for }x\in\partial\Omega_t,
 $$
 
 and $\delta C=0$ in the interior. This operator captures all forms of sensing, environmental coupling, and external energy/matter inflow, without introducing internal sources.  Mathematically,
 
 $$
-\mathcal B[C] = \bigl( C_{\rm ext} - C\bigr) \big|_{\partial\Omega_t} ,
+\mathcal{B}[C] = \bigl( C_{\rm ext} - C\bigr) \big|_{\partial\Omega_t} ,
 $$
 
 where $C_{\rm ext}$ encodes the environmental boundary condition (e.g. nutrient availability, stimuli, neighbor interaction). This makes sensing a boundary condition, not an internal variable.
