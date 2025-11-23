@@ -1,4 +1,4 @@
-# Coherence-only Reflexive Organims Model
+# Coherence-only Reflexive Organism Model
 
 Copyright © 2025 Uroš Jovanovič, CC BY-SA 4.0.
 
@@ -14,7 +14,7 @@ $$
 \mathcal S_{\text{coh}} = (C(x,t), J_C(x,t))
 $$
 
-represent a cohrence-only ROM, where:
+represent a coherence-only ROM, where:
 
 - $C(x,t)\ge 0$ be a **coherence density field** on a support $\Omega_t$,
 - $J_C(x,t)$ its associated **coherence flux**, with
@@ -70,7 +70,7 @@ Thus, **coherence is the scalar field whose geometry, dynamics, and invariants e
 
 ## Appendix Zero: Mapping of the classical ROM state into coherence
 
-The original ROM state was defined as a tupple
+The original ROM state was defined as a tuple
 
 $$
 \mathcal{S} = \big(\Omega, \mathcal{A}, \mathcal{G}, X(t), F(t), M(t), \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}(t), AI(t), \mathcal{E}(t)\big).
@@ -317,9 +317,9 @@ The functional defines the geometry via $g_{\mu\nu}[C]$, the dynamics via statio
 
 The funcitonal is composed of three terms: gradient term $(\displaystyle \frac{\kappa_C}{2}\nabla_\mu C \nabla^\mu C)$, potential term $V(C)$ and metric term $\sqrt{-g[C]}d^4x$. 
 
-Gradient term encodes spatial coherence. It is large if coherence varies sharply, or the field is fragmented or basins have sharp walls. It pushes the field toward smootha nd integrated configurations. This term replaces the role of the compatibility tensor in ROM.
+Gradient term encodes spatial coherence. It is large if coherence varies sharply, or the field is fragmented or basins have sharp walls. It pushes the field toward smooth and integrated configurations. This term replaces the role of the compatibility tensor in ROM.
 
-Potenital term encodes intrinsic preference for certain coherence densities. For example, double-well representing two stable coherence phases, or soft plateau representing multi-basin organism, or steep well of tightly integrated identity.  This term replaces AI, EI, reserve dynamics and spark thresholding in a single scalar potential. 
+Potential term encodes intrinsic preference for certain coherence densities. For example, double-well representing two stable coherence phases, or soft plateau representing multi-basin organism, or steep well of tightly integrated identity.  This term replaces AI, EI, reserve dynamics and spark thresholding in a single scalar potential.
 
 The metric $g_{\mu\nu}[C]$ is induced by the coherence field itself (via the coherence tensor $K_{\mu\nu}[C]$). Which implies that the *geometry* of the organism is created by coherence,
 curvature wells are the seeds, geodesics represents the eigenmodes, and metric deformations show area of learning / growth.
@@ -496,7 +496,7 @@ $$
 C_{\text{sys}} = \int_{\Omega_t} C(x,t) dV_{g[K[C]]} \qquad\text{and}\qquad \frac{d}{dt} C_{\text{sys}} = 0.
 $$
 
-If the *total coherence* is conserved, then coherence can only move within the organism, but never be created or destroyed. Conservation of total coherence implies a local conservation law for the coherence density. As the coherence flux $J_C^\mu = Cv_C^\mu$ is derived from the iduced coherence geometry, coherence evolves according to the continuity equation
+If the *total coherence* is conserved, then coherence can only move within the organism, but never be created or destroyed. Conservation of total coherence implies a local conservation law for the coherence density. As the coherence flux $J_C^\mu = Cv_C^\mu$ is derived from the induced coherence geometry, coherence evolves according to the continuity equation
 
 $$
 \partial_t C + \nabla_\mu J_C^\mu = 0,
@@ -655,7 +655,7 @@ High coherence means that signals complete the loop without distortion, structur
 
 **Coherence induces the organism’s internal geometry.** The metric is no longer stored separately and **space is where coherence lives**, and geometry is the shape coherence imposes.
 
-Coherence moves through the organism. Its **flow** determines behavior, morphology changes, learning, planning, resource allocation, organ differentiation. The velocity $v_C$ is the **policy** in the coherence-only world. In other words, **cohherence redistribution is emergent behavior**.
+Coherence moves through the organism. Its **flow** determines behavior, morphology changes, learning, planning, resource allocation, organ differentiation. The velocity $v_C$ is the **policy** in the coherence-only world. In other words, **coherence redistribution is emergent behavior**.
 
 Coherence is also viability measure. **The organism is viable precisely when coherence lies in a local minimum of the coherence potential.** This replaces reserves, risk, latency, compatibility, memory deficits, etc.
 
