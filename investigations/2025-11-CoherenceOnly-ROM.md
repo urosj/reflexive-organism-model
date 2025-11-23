@@ -87,7 +87,7 @@ with topology and metric inherited from $g_{\mu\nu}[C]$. In this sense, *“spac
 
 
 $$
-\mathcal{A} \subset \left\{ \mathcal{O}: C \mapsto C' \big| \partial_t C' + \nabla \cdot J_C'[C'] = 0, C' \ge 0 \right\}.
+\mathcal{A} \subset \{ \mathcal{O}: C \mapsto C' \big| \partial_t C' + \nabla \cdot J_C'[C'] = 0, C' \ge 0 \}.
 $$
 
 That is, an “action” is any operator that redistributes coherence while respecting conservation and non-negativity.
