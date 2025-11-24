@@ -23,14 +23,13 @@ $$
 J_C = C v_C,
 $$
 
-  where $v_C(x,t)$ is a coherence-velocity.
+where $v_C(x,t)$ is a coherence-velocity.
   
 Let $K_{\mu\nu}[C]$ denote the **coherence tensor**, i.e. the effective geometry induced by $C$ and its gradients,
 
 $$  
 K_{\mu\nu} \equiv \underbrace{\lambda_C C g_{\mu\nu}}_{\text{coherence density term}} + \underbrace{\xi_C \nabla_\mu C \nabla_\nu C}_{\text{coherence gradient term}} +   \underbrace{\zeta_C j_\mu j_\nu}_{\text{read-back flux term}}.  
 $$
-
 
 The **coherence-only ROM** is defined by:
 
@@ -54,7 +53,7 @@ $$
 g_{\mu\nu} = g_{\mu\nu}[K[C]],\qquad K_{\mu\nu} = K_{\mu\nu}[C,\nabla C,J_C],
 $$
 
-   which plays the role previously carried by the metric, assembly and active tensors.
+which plays the role previously carried by the metric, assembly and active tensors.
 
 4. A **coherence functional**
 
@@ -62,7 +61,7 @@ $$
 \mathcal P[C] = \int \Big(\frac{\kappa_C}{2}\nabla_\mu C \nabla^\mu C - V(C)\Big)\sqrt{-g[C]}d^4x
 $$
 
-   whose stationarity $\delta \mathcal P/\delta C = 0$ and constitutive closure for $v_C$ together generate the dynamics of $C$ and $J_C$.
+whose stationarity $\delta \mathcal P/\delta C = 0$ and constitutive closure for $v_C$ together generate the dynamics of $C$ and $J_C$.
 
 Thus, **coherence is the scalar field whose geometry, dynamics, and invariants encode the organism’s structural complexity, experiential groundedness, and reflexive closure. It is the conserved quantity that defines identity and the generative field from which all internal geometry and functionality of the organism emerge.**
 
@@ -88,7 +87,6 @@ with topology and metric inherited from $g_{\mu\nu}[C]$. In this sense, *“spac
 
 **Action alphabet $\mathcal{A}$ as admissible coherence deformations.** Actions are no longer organs. Each “organ class” in the old ROM defined a *pattern of allowed flows* and f*eedback channels*. In the coherence-only ROM, these become simply *patterns of how coherence may locally move*. They become admissible local deformations of the coherence field
 
-
 $$
 \mathcal{A} \subset \left\lbrace \mathcal{O}: C \mapsto C' \big| \partial_t C' + \nabla \cdot J_C'[C'] = 0, C' \ge 0 \right\rbrace.
 $$
@@ -97,8 +95,8 @@ That is, an “action” is any operator that redistributes coherence while resp
 
 **Internal network $\mathcal{G}$ as coherence-induced graph.** The explicit internal graph is replaced by an **emergent network** extracted from coherence basins and flux channels. Let
 
-* $\lbrace B_i(t)\rbrace_i$ be a partition of $\Omega_t$ into coherence basins (e.g. connected components of super-level sets of $C$),
-* and define edge weights by time-integrated flux
+- $\lbrace B_i(t)\rbrace_i$ be a partition of $\Omega_t$ into coherence basins (e.g. connected components of super-level sets of $C$),
+- and define edge weights by time-integrated flux
 
 $$
 w_{ij}(t) \equiv \int_{t-\Delta t}^{t} \int_{\partial B_i\cap\partial B_j} J_C \cdot n_{ij} dS d\tau .
@@ -159,7 +157,7 @@ $$
 \equiv \Upsilon_{\text{coh}}[C;I],
 $$
 
-so $\Upsilon$ is no longer a separate operator on $(X,F,M)$; it is the **vector field** driving $C$.
+so $\Upsilon$ is no longer a separate operator on $(X,F,M)$. It is the **vector field** driving $C$.
 
 **Reproduction/senescence $\mathcal{R}$ as topology changes of coherence support.** Reproduction and pruning are represented as topology-changing events of the coherence field. Let $\lbrace\Omega_t\rbrace_t$ be the (possibly disconnected) support of $C$. When a viability functional $V[C]$ crosses thresholds, we allow **surgical updates**
 
@@ -207,7 +205,7 @@ where $\Phi$ measures alignment between flux and coherence gradients (closed-loo
 
 The classical scalar invariants of ROM, assembly and (grounded) experience, are retained only as *coherence-derived quantities*
 
-$$ 
+$$
 C_{\text{sys}}(t) = \big(AI(t)\big)^{\alpha[C]} \big(EI^\star(t)\big)^{\beta[C]},
 $$
 
@@ -221,9 +219,9 @@ $$
 \end{aligned}
 $$
 
-A canonical pair for example $\alpha[C] = 1 + k_\alpha\frac{\mathrm{Tr}(K_{\mu\nu}[C])}{\max_x C(x,t)}$ and $\beta[C] = 1 + k_\beta \left|\frac{J_C^\mu \nabla_\mu C}{\|J_C\| \|\nabla C\|}\right|.$ 
+A canonical pair for example $\alpha[C] = 1 + k_\alpha\frac{\mathrm{Tr}(K_{\mu\nu}[C])}{\max_x C(x,t)}$ and $\beta[C] = 1 + k_\beta \left|\frac{J_C^\mu \nabla_\mu C}{\|J_C\| \|\nabla C\|}\right|.$
 
-Let's close this section now with the iterative reflexive cycle. The cycle's definition 
+Let's close this section now with the iterative reflexive cycle. The cycle's definition
 
 $$
 \begin{aligned}
@@ -302,7 +300,6 @@ $$
 \partial_t C + \nabla_\mu \left[C,D^{\mu\nu}[C],\nabla_\nu \Phi_C \right] = 0.
 $$
 
-
 ## Appendix B: Coherence functional
 
 Let's explore a bit more about the dynamics defined by **coherence functional $\mathcal P[C]$**. The coherence functional
@@ -340,12 +337,11 @@ This replaces all old ROM dynamical pieces: $\partial_t X = f(X,F,M,\Pi)$, flux 
 
 Everything now follows from:
 
-* **a conservation law** $\partial_t C + \nabla_\mu(C v_C^\mu)=0,$
-* **a constitutive law for flux:** $v_C^\mu = -D^{\mu\nu}[C]\nabla_\nu \left(\frac{\delta \mathcal{P}}{\delta C}\right),$
-* **and the variational equation** $\delta \mathcal P/\delta C = 0$.
+- **a conservation law** $\partial_t C + \nabla_\mu(C v_C^\mu)=0,$
+- **a constitutive law for flux:** $v_C^\mu = -D^{\mu\nu}[C]\nabla_\nu \left(\frac{\delta \mathcal{P}}{\delta C}\right),$
+- **and the variational equation** $\delta \mathcal P/\delta C = 0$.
 
 This is exactly analogous to a gradient-flow dynamics in the space of coherence fields.
-
 
 ## Appendix C: Coherence basin $B_i(t)$
 
@@ -373,14 +369,13 @@ where $x_i^\ast$ is a coherence maximum as above. This makes $B_i(t)$ exactly an
 
 Each basin is therefore a curvature well of the coherence field and acts as an emergent “organ” or functional subunit of the organism.
 
-Let's make a quick observation, a geometric interpretation of the basin. Coherence basins are the *natural partitions* of the coherence field. They correspond to the *stable attractor regions* of the coherence geometry. They serve as the coherence-only analogue of organs in the old ROM. Their boundaries are coherence saddles where $\nabla C = 0$ and $\nabla^2 C$ has mixed eigenvalues.
-
+Let's make a quick observation, a geometric interpretation of the basin. Coherence basins are the *natural partitions* of the coherence field. They correspond to the *stable attractor regions* of the coherence geometry. They serve as the coherence-only analog of organs in the old ROM. Their boundaries are coherence saddles where $\nabla C = 0$ and $\nabla^2 C$ has mixed eigenvalues.
 
 ## Appendix D: Topology-changing update $\mathcal{R}_{coh}$
 
 $\mathcal{R}_{\text{coh}}$ is the **topology‐changing update** of the coherence field. It is the coherence-only replacement for the ROM reproduction/pruning operator $\mathcal{R}$ (which used viability and organ states to decide when to split or collapse parts of the organism).
 
-Let $C(x,t^-)$  and $C(x,t^+)$ be the coherence fields immediately *before* and *after* a topology-changing event. Then $\mathcal{R}_{\text{coh}}:\ C(\cdot,t^-)\ \longrightarrow\ C(\cdot,t^+)$ is a non-continuous update map satisfying
+Let $C(x,t^-)$ and $C(x,t^+)$ be the coherence fields immediately *before* and *after* a topology-changing event. Then $\mathcal{R}_{\text{coh}}:\ C(\cdot,t^-)\ \longrightarrow\ C(\cdot,t^+)$ is a non-continuous update map satisfying
 
 1. **Global coherence conservation** $\int_{\Omega_{t^-}} C(x,t^-)dV_{g[C^-]} = \int_{\Omega_{t^+}} C(x,t^+)dV_{g[C^+]}.$
 2. **Topology change** $\Omega_{t^-} \not\cong \Omega_{t^+}$ or number of coherence basins changes $|{B_i(t^-)}|\neq |{B_i(t^+)}|.$
@@ -389,7 +384,7 @@ Let $C(x,t^-)$  and $C(x,t^+)$ be the coherence fields immediately *before* and 
 
 We can interpret three canonical cases for the operator.
 
-**Basin splitting (reproduction / spawning).** If a coherence basin becomes unstable at its midpoint (e.g. due to flux bifurcation), then 
+**Basin splitting (reproduction / spawning).** If a coherence basin becomes unstable at its midpoint (e.g. due to flux bifurcation), then
 
 $$
 \Omega_{t^-} = B \quad\longrightarrow\quad \Omega_{t^+} = B_1 \cup B_2,
@@ -406,7 +401,7 @@ This is the coherence-only version of making a *new organism*.
 **Basin merging (pruning / senescence).**  If a basin’s viability dips below threshold $B_i(t^-)$ then the operator collapses it and redistributes its coherence
 
 $$
-C(x,t^+) = 
+C(x,t^+) =
 \begin{cases}
 C(x,t^-)+ C_{B_i}, & x\in \text{neighbor basin(s)} \\
 0, & x\in B_i(t^-)
@@ -431,19 +426,18 @@ $$
 
 So the full dynamics are **continuous flow** of coherence, interrupted by **event-driven topology updates**.
 
-
 ## Appendix E: Potential $V(C)$
 
 In the coherence functional, the potential term $V(C)$ specifies the *internal thermodynamic landscape* of the organism in the space of coherence densities.
 It encodes which coherence configurations are energetically favored, stable, self-maintaining, viable, or unstable.
 
-Just as in physical field theories (e.g., double-well potentials in phase transitions), the shape of $V(C)$ determines how many stable states exist, whether basin creation occurs, when basins split or merge, ahd how identity persists or changes.
+Just as in physical field theories (e.g., double-well potentials in phase transitions), the shape of $V(C)$ determines how many stable states exist, whether basin creation occurs, when basins split or merge, and how identity persists or changes.
 
 In ROM all of these functions were previously spread over separate objects (compatibility, memory, reserves, reflexive operator, assembly tensors). In the coherence-only world they are *all absorbed by the shape of the potential*.
 
 We've mentioned the three canonical forms, so let's explore them.
 
-**Double-well potential**. A double-well means there are *two distinct stable coherence phases*, high-coherence state $C=C_{\text{high}}$ and low-coherence state $C=C_{\text{low}}$. This represents an organism that has two preferred modes of being. For example dormant vs active colony phases, sparse vs dense mycelial states, or exploratory vs exploitative ecological modes. We can define it as 
+**Double-well potential**. A double-well means there are *two distinct stable coherence phases*, high-coherence state $C=C_{\text{high}}$ and low-coherence state $C=C_{\text{low}}$. This represents an organism that has two preferred modes of being. For example dormant vs active colony phases, sparse vs dense mycelial states, or exploratory vs exploitative ecological modes. We can define it as
 
 $$
 V(C) = -\tfrac{a}{2}C^2 + \tfrac{b}{4}C^4,\qquad a,b>0.
@@ -471,8 +465,8 @@ $$
 
 A plateau allows multiple coherence basins (organs) to remain stable, dynamic restructuring without loss of overall identity, and “federated” organism architecture.
 
-**Steep single-well potential** state that the system has one very strongly preferred coherence density. These represents strongly integrated organism, or high coherence-pressure to remain unified. We can define it something like:
- 
+**Steep single-well potential** state that the system has one very strongly preferred coherence density. These represents strongly integrated organism, or high coherence-pressure to remain unified. We can define it something like
+
 $$
 V(C)=\tfrac{k}{2}(C-C_0)^2,\qquad k\gg 1.
 $$
@@ -486,7 +480,6 @@ Because in the coherence functional $\mathcal P[C]=\int \left( \frac{\kappa_C}{2
 $VC$ is immensely expressive. The potential shape defines the identity architecture, the gradient stiffness defines structural coupling, minima defines attractor basins, barrier height corresponds to the spark threshold and number of minima is the number of stable coherence phases. 
 
 In ROM, this is spread through $\mathcal G$, $M$, AI, EI, $\rho_{\text{compat}}$, $\Pi$, actuation rules, reserve budged and spark criteria.
-
 
 ## Appendix F: Continuity equation
 
@@ -502,7 +495,7 @@ $$
 \partial_t C + \nabla_\mu J_C^\mu = 0,
 $$
 
-which states that coherence changes at a point only through the divergence of flux. No local source or sink of coherence exists; all increase in one region corresponds to an equal decrease elsewhere. This continuity equation is the local expression of the global invariant $\frac{d}{dt}C_{\text{sys}}=0$, and replaces all explicit growth, depletion, compatibility, and reserve terms of the original ROM.
+which states that coherence changes at a point only through the divergence of flux. No local source or sink of coherence exists. All increase in one region corresponds to an equal decrease elsewhere. This continuity equation is the local expression of the global invariant $\frac{d}{dt}C_{\text{sys}}=0$, and replaces all explicit growth, depletion, compatibility, and reserve terms of the original ROM.
 
 Putting it all together, the coherence flux $J_C^\mu$ is defined by the constitutive relation
 
@@ -510,7 +503,7 @@ $$
 J_C^\mu = g^{\mu\nu}[K[C]]\left(\lambda_C \nabla_\nu C + \xi_C \nabla^\alpha C K_{\nu\alpha}[C] + \zeta_C j_\nu\right)]
 $$
 
-and total coherence is conserved. Therefore $C$ satisfies
+and total coherence is conserved. Therefore, $C$ satisfies
 
 $$
 \partial_t C = -\nabla_\mu J_C^\mu,
@@ -526,8 +519,8 @@ $$
 
 where
 
-* $S_{\text{coh}}>0$ = external coherence influx
-* $S_{\text{coh}}<0$ = external coherence loss
+- $S_{\text{coh}}>0$ defines external coherence influx,
+- $S_{\text{coh}}<0$ defines external coherence loss.
 
 In the first chapter, we initially present the *closed-system* version $S_{\text{coh}} = 0$ because it defines the internal dynamics. But the full organism must include the possibility of coherence injection. External inputs enter through the boundary as flux, not as internal creation
 
@@ -535,8 +528,7 @@ $$
 S_{\text{coh}}(x,t) = J_C^\mu n_\mu \Big|_{\partial\Omega_t}.
 $$
 
-Thus we still have the generalized second law from original ROM paper. The continuity equation expresses internal coherence conservation, while the experience-driven entropy pump persists as boundary-driven coherence influx that, through flux–curvature alignment, locally increases order without violating the global invariant.
-
+Thus, we still have the generalized second law from original ROM paper. The continuity equation expresses internal coherence conservation, while the experience-driven entropy pump persists as boundary-driven coherence influx that, through flux–curvature alignment, locally increases order without violating the global invariant.
 
 ## Appendix G: Boundary perturbation operator
 
@@ -560,7 +552,6 @@ $$
 
 where $C_{\rm ext}$ encodes the environmental boundary condition (e.g. nutrient availability, stimuli, neighbor interaction). This makes sensing a boundary condition, not an internal variable.
 
-
 ## Appendix H: Proper time
 
 In the original ROM, each hierarchical level (organ, organism, colony, guild) carried its own induced metric and therefore its own proper time. Proper time was tied to the level’s internal memory dynamics and structural curvature. Slow memory modes generated slow metrics, fast modes generated fast ones, and a hierarchy of memory timescales produced a hierarchy of proper times.
@@ -583,12 +574,11 @@ $$
 d\tau_i = \frac{1}{c}\sqrt{-g^{(i)}_{\mu\nu}[K[C]]dx^\mu dx^\nu}.
 $$
 
-Thus the hierarchy of proper times in ROM survives unchanged in meaning, but emerges without separate memory fields, update rules, or graph structures. It is now a direct consequence of coherence geometry.
+Thus, the hierarchy of proper times in ROM survives unchanged in meaning, but emerges without separate memory fields, update rules, or graph structures. It is now a direct consequence of coherence geometry.
 
 **Each coherence basin evolves according to its own induced metric, and therefore experiences its own proper time, set by the slow modes of its coherence field.**
 
 Graphs were useful scaffolding for expressing connectivity and timescale coupling in early ROM formulations. In the coherence-only picture they are no longer needed. The basin structure, induced metric and coherence flow together generate the same hierarchy of internal clocks in a continuous, geometric form.
-
 
 ## Appendix I: Coarse-graining
 
@@ -600,7 +590,7 @@ $$
 C(x,t) = \sum_{k=0}^{\infty} c_k(t) \phi_k(x), \qquad -\Delta_{g[K]} \phi_k = \lambda_k \phi_k.
 $$
 
-Low-frequency (small $\lambda_k$) modes then represent slow, large-scale patterns, interpreted as ***coarse**-grained structure*. High-frequency (large $\lambda_k$) modes represent fast fluctuations, interpreted as fine details / rapid reactions.
+Low-frequency (small $\lambda_k$) modes then represent slow, large-scale patterns, interpreted as _**coarse**-grained structure_. High-frequency (large $\lambda_k$) modes represent fast fluctuations, interpreted as fine details / rapid reactions.
 
 The coarse-grained coherence field is
 
@@ -608,7 +598,7 @@ $$
 C_{\text{coarse}}(x,t) = \sum_{\lambda_k \le \Lambda} c_k(t) \phi_k(x),
 $$
 
-where $\Lambda$  is a cutoff separating “macro” and “micro” scales. Coarse graining happens automatically in two places. First, **within each basin (intra-level coarse-graining)**. A basin $B_i$ has its own internal geometry $g^{(i)}$. Its slowest eigenmode defines its identity,  its next few modes define substructure, and its high modes define momentary microstates.  Thus the basin inherently coarse-grains itself
+where $\Lambda$ is a cutoff separating “macro” and “micro” scales. Coarse graining happens automatically in two places. First, **within each basin (intra-level coarse-graining)**. A basin $B_i$ has its own internal geometry $g^{(i)}$. Its slowest eigenmode defines its identity, its next few modes define substructure, and its high modes define momentary microstates. Thus, the basin inherently coarse-grains itself
 
 $$
 C|_{B_i} \longmapsto C_{\text{coarse}}^{(i)}.
@@ -624,7 +614,6 @@ $$
 
 Thus, coarse-graining in the coherence-only ROM is the extraction of persistent, large-scale structure from the coherence field by projecting onto its slow geometric modes. Hierarchical levels correspond to nested sets of these slow modes, and proper times correspond to their relaxation timescales.
 
-
 ## Appendix J: Additional definitions
 
 **Viability functional.** In the coherence-only ROM, the viability of an organism is defined as the negative coherence functional
@@ -634,8 +623,6 @@ V[C] = -\mathcal P[C],
 $$
 
 Stable organisms correspond to local minima of $\mathcal P[C]$ (maxima of $V[C]$). Reproduction or pruning events occur when $V[C]$ crosses threshold values, replacing the original ROM condition $V(X,F,M;I)>\theta$.
-
-
 
 ---
 
@@ -659,11 +646,11 @@ Coherence moves through the organism. Its **flow** determines behavior, morpholo
 
 Coherence is also viability measure. **The organism is viable precisely when coherence lies in a local minimum of the coherence potential.** This replaces reserves, risk, latency, compatibility, memory deficits, etc.
 
-$\partial_t C_{\text{sys}} = 0$ is the sole identity condition. Hence, **identity is the conservation of coherence budget combined with the persistence of coherence geometry.** 
+$\partial_t C_{\text{sys}} = 0$ is the sole identity condition. Hence, **identity is the conservation of coherence budget combined with the persistence of coherence geometry.**
 
 Finally, coherence is not something the organism “has.” **The organism *is* the coherence field.** All of its parts, functions, memories, organs, and actions are geometric features of that field.
 
-Organs are coherence basins. Graph is flux-induced adjacency. Memory is low-frequency coherence modes. Fast fields are high-frequency coherence modes. Policy is flux response law. Spark is the crossing an unstable point of the coherence potential. Reproduction is splitting of a coherence basin. Pruning is the collapse of a basin. Space is support of $C$. Time is evolution of coherence. Dynamics is variational flow of coherence. Geometry is curvature induced by $C$. 
+Organs are coherence basins. Graph is flux-induced adjacency. Memory is low-frequency coherence modes. Fast fields are high-frequency coherence modes. Policy is flux response law. Spark is the crossing an unstable point of the coherence potential. Reproduction is splitting of a coherence basin. Pruning is the collapse of a basin. Space is support of $C$. Time is evolution of coherence. Dynamics is variational flow of coherence. Geometry is curvature induced by $C$.
 
 Coherence is not a quantity evolving *within* space and time. It is the generative substance *from which* space and time arise.
 

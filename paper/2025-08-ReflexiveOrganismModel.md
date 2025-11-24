@@ -4,7 +4,7 @@ author:
   - Uroš Jovanovič
 date: 2025-10-17
 header-includes:
-  - \newcommand{\subtitle}{Version 0.9.5}
+  - \newcommand{\subtitle}{Version 0.9.7}
 ---
 Copyright © 2025 Uroš Jovanovič, CC BY-SA 4.0.
 
@@ -82,12 +82,12 @@ We'll deal with alignment of interests and organism-like integration later, for 
 
 The main problem to scale the idea of the superorganism hides in the reproduction unit problem, as in, making copies of the organism itself, replicating completely. Which for the forest or the ecosystem doesn't seem to fit. However, what if we look at them from the perspective of growing units? What if they do reproduce, we just don't recognize the "fetus" stage of them until they are fully developed? What happens if we don't simply look for seeking organisms that are making discrete copies of themselves but instead view these organisms as growing, self-propagating units and thus reframing the reproduction as propagation of self-organizing units.
 
- **Forests as Growing, Reproducing Units**
- 
- - **Expansion as reproduction** A forest expands outward as seeds establish on its periphery. The “fetus stage” of a new forest is just a few pioneer trees + microbes + fungi, but we don’t call it a “forest embryo.” After enough growth, we retroactively label it a “new forest.”
- - **Fission-like processes** Large forests sometimes fragment, and fragments grow into separate stable ecosystems (like a colony splitting). That’s analogous to **asexual reproduction** in biology.
- - **Succession as ontogeny** Bare ground → grasses → shrubs → pioneer trees → mature forest. This is the **developmental trajectory** (ontogeny) of a forest superorganism. Each stage is like embryonic, juvenile, mature phases of an organism.
- - **Clonal analogy** In _Pando_ (the giant clonal aspen forest), the forest really is one genetic organism. But even diverse forests replicate “functionally” as new patches inherit structure (soil, fungi, canopy layers) from existing ones.
+**Forests as Growing, Reproducing Units**
+
+- **Expansion as reproduction** A forest expands outward as seeds establish on its periphery. The “fetus stage” of a new forest is just a few pioneer trees + microbes + fungi, but we don’t call it a “forest embryo.” After enough growth, we retroactively label it a “new forest.”
+- **Fission-like processes** Large forests sometimes fragment, and fragments grow into separate stable ecosystems (like a colony splitting). That’s analogous to **asexual reproduction** in biology.
+- **Succession as ontogeny** Bare ground → grasses → shrubs → pioneer trees → mature forest. This is the **developmental trajectory** (ontogeny) of a forest superorganism. Each stage is like embryonic, juvenile, mature phases of an organism.
+- **Clonal analogy** In _Pando_ (the giant clonal aspen forest), the forest really is one genetic organism. But even diverse forests replicate “functionally” as new patches inherit structure (soil, fungi, canopy layers) from existing ones.
 
 **Ecosystems as “reproducing”**: Coral reefs seed new reefs through larval dispersal. Grasslands spread via rhizomes and soil community inheritance. Rivers create new floodplain ecosystems that inherit nutrient cycles. Earth itself has long been argued (Gaia hypothesis) to maintain and “self-propagate” conditions for life, even across mass extinctions.
 
@@ -256,7 +256,7 @@ Let the spatial habitat be a bounded domain $\Omega\subset\mathbb{R}^2$ with bou
 - $p(x,t)$ — **pheromone** concentration (short-term field, “nervous” substrate).
 - $F(x,t)$ — **food** density in the environment.
 - $E(t)$ — **nest energy**/resource stock (metabolic reserve).
-- $\mathcal{N}\subset\Omega$ — nest region; $\mathbf{n}(t)=\int_{\Omega}(s+r)\,dx$ — colony size.
+- $\mathcal{N}\subset\Omega$ — nest region; $\mathbf{n}(t)=\int_{\Omega}(s+r)\ dx$ — colony size.
 
 Let's now tale a look at the **dynamics (continuum chemotaxis/transport with deposition & depletion)**. Let $D_s,D_r,D_p>0$ be diffusion constants; $\chi_p,\chi_f\ge 0$ chemotactic sensitivities; $\lambda_p>0$ evaporation; $\gamma>0$ food pickup; $q_s,q_r\ge 0$ deposition rates; $u_{\text{nest}}$ net production of new workers. We can describe the activity as follows:
 
@@ -274,9 +274,9 @@ $$
 with reflecting boundary on $\partial\Omega$ for $s,r,p,F$ (no-flux). Let's look at the **I/O (sensing & actuation)**:
 
 - **Inputs** $I(t)$ as external odor/food field $F$ (taste/smell), hazard field $H(x,t)$ (touch/pain), temperature $T(x,t)$. Sensing operator $\Sigma_{\text{col}}: (F,H,T)\mapsto \big(\nabla F,\nabla p,\nabla H, T\big)$, biasing motion via the advection terms above.
-- **Outputs** $O(t)$ as **pheromone writing** $p$ (neural signaling), **food transport** flux to nest $J_{\text{food}}(t)=\int_{\Omega} \gamma sF\,dx$, and **excavation/construction** (optional extra state $C(x,t)$ with $\dot C=\xi r-\delta C$.
+- **Outputs** $O(t)$ as **pheromone writing** $p$ (neural signaling), **food transport** flux to nest $J_{\text{food}}(t)=\int_{\Omega} \gamma sF\ dx$, and **excavation/construction** (optional extra state $C(x,t)$ with $\dot C=\xi r-\delta C$.
 
-In the end let's look propose **reproduction (swarming)** mechanism. Define colony **fitness/viability** as $\mathcal{V}(t)=E(t)-\alpha\,\text{latency}(t)-\beta\,\text{risk}(t)$. When $\mathcal{V}>\theta$ and $\mathbf{n}(t)>\bar n$, launch $k$ **daughter nests** at locations $y\in\Omega$ drawn from an **argmax of expected intake** $y^* \in \arg\max_{y\in\Omega}\ \int_0^{\tau}\!\!\int_{\Omega} K(x-y)\,F(x,t)\,dx\,dt$, with dispersal kernel $K$. Each daughter starts with initial $s_0,r_0,p_0$ inherited from parental parameters (“genetic/cultural memory”).
+In the end let's look propose **reproduction (swarming)** mechanism. Define colony **fitness/viability** as $\mathcal{V}(t)=E(t)-\alpha\ \text{latency}(t)-\beta\ \text{risk}(t)$. When $\mathcal{V}>\theta$ and $\mathbf{n}(t)>\bar n$, launch $k$ **daughter nests** at locations $y\in\Omega$ drawn from an **argmax of expected intake** $y^* \in \arg\max_{y\in\Omega}\ \int_0^{\tau}\ \ \int_{\Omega} K(x-y)\ F(x,t)\ dx\ dt$, with dispersal kernel $K$. Each daughter starts with initial $s_0,r_0,p_0$ inherited from parental parameters (“genetic/cultural memory”).
 
 To observe the colony from this perspective doesn't require a lot of imagination. Let's look if we apply the same logic to something else.
 
@@ -288,7 +288,7 @@ Let's look at the definitions. Domain $\Omega$ as above; trees (or guilds) $i=1,
 
 - $b_i(x,t)$ — biomass density of guild ii (leaves/wood).
 - $W(x,t)$, $N(x,t)$ — soil **water** and **nutrient** fields.
-- $v(x,t)$ — airborne **VOC** signaling field (short-term “nervous” substrate aboveground). 
+- $v(x,t)$ — airborne **VOC** signaling field (short-term “nervous” substrate aboveground).
 - $M(x,t)$ — belowground **mycelial density** (conductive substrate).
 - Node stocks $C_u(t)$, $\sigma_u(t)$ — carbon and signal at tree $u\in V$ (for network transfer).
 
@@ -298,14 +298,14 @@ The core of the model is defined by the **dynamics (resource, growth, signaling)
 
 $$
 \begin{aligned}
-\dot C_u &= S_u(P_i,b_i) - R_u(C_u) - A_u(C_u) - G_u + \!\sum_v w_{uv}(C_v-C_u),\\
-\dot\sigma_u &= s_u(H_u) - \lambda_\sigma \sigma_u + \!\sum_v w_{uv}(\sigma_v-\sigma_u),
+\dot C_u &= S_u(P_i,b_i) - R_u(C_u) - A_u(C_u) - G_u + \ \sum_v w_{uv}(C_v-C_u),\\
+\dot\sigma_u &= s_u(H_u) - \lambda_\sigma \sigma_u + \ \sum_v w_{uv}(\sigma_v-\sigma_u),
 \end{aligned}
 $$
 
-with $G_u=\int \alpha_{g,i}\,\kappa_u(x)\,b_i\,dx$ (carbon used for growth in footprint). $S_u$ is an **aggregation (sampling) operator** that turns a spatial field into the scalar seen/owned by tree $u$. It s defined as $S_u[f] = \int_{\Omega}\kappa_u(x)f(x)dx,$ where $\kappa_u(x)\ge 0$ is a weighting kernel over $u$’s canopy/root footprint (often normalized so $\int\kappa_u=1$). In the carbon ODE it’s applied to the local photosynthate production density $P_i(L,W,N),b_i(x,t)$ (units: carbon · area$^{-1}$ time$^{-1}$), so $S_u(P_i b_i)$ has units carbon · time$^{-1}$— the photosynthesis influx into node $u$. $R_u$ is the node’s **respiration loss** (carbon cost) at tree $u$. It typically includes maintenance (and optionally growth) respiration, often modeled as a function of the carbon pool and temperature $R_u(C_u,T)=r_0\,C_u\,\theta^{\,T- T_{\mathrm{ref}}}\quad\text{(Q(*{10})/Arrhenius-type modifier)},$ or split as $R_u=R_{m,u}(C_u,T)+R_{g,u}(G_u)$. Units are carbon · time$^{-1}$, matching the other terms in $\dot C_u$.
+with $G_u=\int \alpha_{g,i}\ \kappa_u(x)\ b_i\ dx$ (carbon used for growth in footprint). $S_u$ is an **aggregation (sampling) operator** that turns a spatial field into the scalar seen/owned by tree $u$. It s defined as $S_u[f] = \int_{\Omega}\kappa_u(x)f(x)dx,$ where $\kappa_u(x)\ge 0$ is a weighting kernel over $u$’s canopy/root footprint (often normalized so $\int\kappa_u=1$). In the carbon ODE it’s applied to the local photosynthate production density $P_i(L,W,N),b_i(x,t)$ (units: carbon · area$^{-1}$ time$^{-1}$), so $S_u(P_i b_i)$ has units carbon · time$^{-1}$— the photosynthesis influx into node $u$. $R_u$ is the node’s **respiration loss** (carbon cost) at tree $u$. It typically includes maintenance (and optionally growth) respiration, often modeled as a function of the carbon pool and temperature $R_u(C_u,T)=r_0\ C_u\ \theta^{\ T- T_{\mathrm{ref}}}\quad\text{(Q(*{10})/Arrhenius-type modifier)},$ or split as $R_u=R_{m,u}(C_u,T)+R_{g,u}(G_u)$. Units are carbon · time$^{-1}$, matching the other terms in $\dot C_u$.
 
-**Biomass PDE (no physical diffusion)**: 
+**Biomass PDE (no physical diffusion)**:
 
 $$
 \partial_t b_i(x,t) = \underbrace{\alpha_{g,i}S_{u(i)}^{-1}\big(G_{u(i)}(x,t)\big)}_{\text{growth/assimilation}} - \underbrace{m_i b_i(x,t)}_{\text{mortality}} -\underbrace{h_i\big(b_i(x,t),H(x,t),v(x,t)\big)}_{\text{loss (herbivory/harvest)}} + \underbrace{(\mathcal K_i * \phi_i(b_i))(x,t)}_{\text{recruitment by dispersal}}
@@ -316,32 +316,31 @@ with $\mathcal{K}_i$​ as the **seed-dispersal kernel** for guild $i$ which
 **Soil & VOC**:  
 
 $$
-  \begin{aligned}
-  \partial_t W &= I_{\text{rain}} - \sum_i U^W_i(b_i,W) + \nabla\!\cdot(D_W\nabla W),\\
-  \partial_t N &= I_{\text{min}} + \text{decomp}(b) - \sum_i U^N_i(b_i,N) + \nabla\!\cdot(D_N\nabla N),\\
-  \partial_t v &= D_v\Delta v - \lambda_v v + \sum_i \epsilon_i\,\Psi_i(b_i,H).
-  \end{aligned}
-  $$
+\begin{aligned}
+\partial_t W &= I_{\text{rain}} - \sum_i U^W_i(b_i,W) + \nabla\ \cdot(D_W\nabla W),\\
+\partial_t N &= I_{\text{min}} + \text{decomp}(b) - \sum_i U^N_i(b_i,N) + \nabla\ \cdot(D_N\nabla N),\\
+\partial_t v &= D_v\Delta v - \lambda_v v + \sum_i \epsilon_i\ \Psi_i(b_i,H).
+\end{aligned}
+$$
 
-**Mycelium–edge coupling**:   
+**Mycelium–edge coupling**:
 
 $$
-  \partial_t M = D_M\Delta M + \rho_M \sum_u \kappa_u C_u - \delta_M M,\qquad
-  w_{uv}= \bar w_{uv}\left[\int_{\Gamma_{uv}} M ds\right]^\beta,
-  $$
+\partial_t M = D_M\Delta M + \rho_M \sum_u \kappa_u C_u - \delta_M M,\qquad w_{uv}= \bar w_{uv}\left[\int_{\Gamma_{uv}} M ds\right]^\beta,
+$$
   
 states about how it spreads and how well the trees are connected.
 
-**Seed dispersal / patch propagation** $\partial_t b_i \ \text{gets} \ + \ (\mathcal{K}_i \!*\, \text{fecundity}_i(b_i))$  with kernel $\mathcal{K}_i(x)=\frac{1}{2\pi \sigma_i^2}e^{-\|x\|^2/2\sigma_i^2}$.
+**Seed dispersal / patch propagation** $\partial_t b_i \ \text{gets} \ + \ (\mathcal{K}_i \ *\  \text{fecundity}_i(b_i))$  with kernel $\mathcal{K}_i(x)=\frac{1}{2\pi \sigma_i^2}e^{-\|x\|^2/2\sigma_i^2}$.
 
 Let's define now **I/O (sensing & actuation)** of a forest:
 
 - **Inputs** $I(t)$: $L(x,t)$ (light), $W,N$ (touch/internal state of water/nutrients), $H(x,t)$ (herbivory/pain), $T(x,t)$ (temperature), $F_{\text{fire}}$ (disturbance) with a sensing operator $\Sigma_{\text{for}}:(L,W,N,H,T)\mapsto \big(P_i(L,W,N),\ H,\ \nabla W,\ \nabla N\big)$.
-- **Outputs** $O(t)$: (i) **VOC field** $v$ (airborne signaling influencing herbivores, predators, ants) with **mycorrhizal transfers** $\sum_v w_{uv}(C_v-C_u)$ (resource reallocation),  **root exudates/litter** that modify $N$,  **seed rain** via $\mathcal{K}_i\!*\,\cdot$ (reproduction/expansion) and **canopy cooling** (microclimate actuation), modeled as $Q_{\text{latent}}(x,t)=\alpha_{\text{ET}}\,b_{\text{leaf}}(x,t)\,f(W,T),$ feeding back on $T$.
+- **Outputs** $O(t)$: (i) **VOC field** $v$ (airborne signaling influencing herbivores, predators, ants) with **mycorrhizal transfers** $\sum_v w_{uv}(C_v-C_u)$ (resource reallocation),  **root exudates/litter** that modify $N$,  **seed rain** via $\mathcal{K}_i\ *\ \cdot$ (reproduction/expansion) and **canopy cooling** (microclimate actuation), modeled as $Q_{\text{latent}}(x,t)=\alpha_{\text{ET}}\ b_{\text{leaf}}(x,t)\ f(W,T),$ feeding back on $T$.
 
-**Reproduction** only happens when the conditions are right. Hence, we need a **summary score** that tells, at time $t$, whether the forest is “doing well enough” to expand (or should contract/reset). 
+**Reproduction** only happens when the conditions are right. Hence, we need a **summary score** that tells, at time $t$, whether the forest is “doing well enough” to expand (or should contract/reset).
 
-$\mathcal{V}(t) = \underbrace{\int_{\Omega}\Big[\sum_i P_i(L,W,N), b_i - \sum_i m_i, b_i\Big]dx}_{\text{net primary production (NPP) proxy}} - \beta\,\underbrace{{fire}_{risk}(t)}_{\text{disturbance penalty}} - \gamma\,\underbrace{{water}_{deficit}(t)}_{\text{stress penalty}}$
+$\mathcal{V}(t) = \underbrace{\int_{\Omega}\Big[\sum_i P_i(L,W,N), b_i - \sum_i m_i, b_i\Big]dx}_{\text{net primary production (NPP) proxy}} - \beta\ \underbrace{{fire}_{risk}(t)}_{\text{disturbance penalty}} - \gamma\ \underbrace{{water}_{deficit}(t)}_{\text{stress penalty}}$
 
 $P_i b_i$ represents instantaneous **carbon gain rate** (photosynthesis per area × biomass present) for guild $i$. $m_i b_i$ os**background losses** (mortality/turnover) for guild $i$. The **integral over $\Omega$** sums gains–losses across space → a landscape-scale net productivity rate. ${fire}_{risk}(t)$ is a scalar proxy for how burn-prone the system is (higher = worse). An example: Fuel load × dryness: $\displaystyle \int_\Omega \underbrace{B_{\text{fine}}(x,t)}_{\text{litter/grass}} \underbrace{[1-\theta(W(x,t))]}_{\text{dryness}}dx$. Or a precomputed fire-weather index averaged over $\Omega$. Scale with $\beta>0$ so units match the NPP term. ${water}_{deficit}(t)$ as a scalar drought stress measure, e.g. $\int_\Omega \max\{0,W^*(x)-W(x,t)\}dx$ or $\int_\Omega \big(1-f_W(W,T)\big)B_{\text{leaf}}(x,t)dx,$ and $\gamma>0$ weights how strongly deficit reduces viability.
 
@@ -361,7 +360,7 @@ where:
 - $\mathcal{A}=\{a_1,\dots,a_k\}$, a set of **organ classes** (e.g., scouts/workers, tree guilds). Each has density/state $x_j(\cdot,t)$.
 - $\mathcal{G}$ represents internal **networks** (trail graph, mycorrhizae) with Laplacian $L_{\mathcal{G}}$.
 - $X(t)$ are concatenated **organ states** (PDE/ODE on $\Omega$ and nodes $V$).
-- F(t) are **fast shared fields** (“nervous” substrates; pheromone, VOC, electrical plant signals) governed by linear parabolic SPDEs $\partial_t F = \mathcal{D}\Delta F - \Lambda F + S_F(X;I)$, with diffusion $\mathcal{D}$, decay $\Lambda$, sources $S_F$. 
+- F(t) are **fast shared fields** (“nervous” substrates; pheromone, VOC, electrical plant signals) governed by linear parabolic SPDEs $\partial_t F = \mathcal{D}\Delta F - \Lambda F + S_F(X;I)$, with diffusion $\mathcal{D}$, decay $\Lambda$, sources $S_F$.
 - $M(t)$ is **slow memory/morphology** (architecture, nest/cavity structure, long-term archive parameters) with drift $\partial_t M=\Phi(X,F,M)$.
 - $\Sigma$ is a **sensing operator** mapping environment $I(t)$ and internal state to sensed signals $S(t)=\Sigma(I,X,F)$.
 - $\Pi$ holds **policy/controller** producing actions $U(t)=\Pi(S,M)$ (could be RL/optimal control/threshold rules).
@@ -385,7 +384,7 @@ Here $\Gamma$ selects observable actuations (transport fluxes, emissions, constr
 Let $H$ be the interaction graph among organs (edges when coupled via $F$ or $L_{\mathcal{G}}$). A simple structural index of integrated individuality is
 	$\mathcal{I}(\mathcal{S})=\lambda_2\big(L_H\big)\quad\text{(algebraic connectivity)}$,
 and a dynamical one is **mutual information** between spatial partitions $A,B\subset\Omega$:
-	$\mathcal{I}_{\text{dyn}}=\frac{1}{T}\int_0^T I\big(X_A(t);X_B(t)\big)\,dt$,
+	$\mathcal{I}_{\text{dyn}}=\frac{1}{T}\int_0^T I\big(X_A(t);X_B(t)\big)\ dt$,
 both high when the system behaves as a single coordinated unit.
 
 The following equations are a **minimal** realisation of the abstract super‑organism template. Note that for the colony, we focused on _dynamic behavioural states_ that any ant can occupy at a given moment. In many ant species _any_ worker can become a forager or a carrier depending on local need. Modelling them as two _states_ captures this flexibility without having to track a fixed caste hierarchy. In the continuum description they are the variables that actually drive the fast pheromone field pp and the material flux of food.
@@ -434,7 +433,7 @@ Let's dive into explanations and examples of the components of the model:
 
 **Reproduction Operator ($\mathcal{R}$)** treats the **whole system as an individual that grows, reproduces, and dies.**  Superorganisms also have life cycles. Ant colonies swarm to make new colonies. Forests spread seeds and regrow after fire. AI swarms may clone themselves into new instances.
 
-This model doesn’t just describe ants or forests. It gives a **general blueprint for “living wholes” made of many agents** — whether biological, ecological, or artificial. 
+This model doesn’t just describe ants or forests. It gives a **general blueprint for “living wholes” made of many agents** — whether biological, ecological, or artificial.
 
 It is a **unified framework across domains**. Existing models of colonies (ant PDEs, agent-based) and forests (succession, resource dynamics) are usually siloed. Here we’ve given a **common dynamical template** (states $X$, fast fields $F$, slow memory $M$, networks $\mathcal{G}$, sensing $\Sigma$, policy $\Pi$, actuation $\Upsilon$, reproduction $\mathcal{R}$). That means you can study an _ant colony, a forest, a coral reef, or even a swarm of AI agents_ with **the same mathematics**.
 
@@ -485,7 +484,9 @@ We are slightly simplifying the assembly pathways here for the sake of clarity. 
 
 Growth intent is more interesting. In biology, we consider intent as equivalent to fitness, pushing toward higher assembly pathways to improve survival. However, in the context of a superorganism the intent can be seen as goal functions that reward assembly steps leading to better integration and capability. While Assembly Theory itself does not posit an intrinsic optimization principle, we introduce a **growth directive**
 
-$$\max_{\Pi} \ \mathbb{E}[AI(t+T) \mid AI(t)]$$
+$$
+\max_{\Pi} \ \mathbb{E}[AI(t+T) \mid AI(t)]
+$$
 
 Growth now has direction towards higher-order structures. It is not conscious purpose, but directed assembly trajectory encoded in system dynamics. Colony doesn't just add numbers, it builds functional stages. Forests don't just add biomass, ti builds layers (soil → understory → canopy → seed dispersal). Assembly pathways constrain growth, hence the superorganism follows predictable life cycles. AT gives us a language to talk about purposeful growth in superorganisms.
 
@@ -504,23 +505,28 @@ We enrich the model with two new components:
 
 We now have the abstract model:
 
-$$\mathcal{S}_{AT} = \big(\Omega, \mathcal{A}, \mathcal{G}, X(t), F(t), M(t), \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}(t), AI(t)\big)$$
+$$
+\mathcal{S}_{AT} = \big(\Omega, \mathcal{A}, \mathcal{G}, X(t), F(t), M(t), \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}(t), AI(t)\big)
+$$
 
 The extensions allow us to define growth law and intent principle. **Growth Law**:
 
-$$\partial_t AI = G\big(X,F,M,\Pi;I\big) - L\big(D\big),$$
+$$
+\partial_t AI = G\big(X,F,M,\Pi;I\big) - L\big(D\big),
+$$
 
 where $G$ represents growth term, ie. assembly of new structures from existing ones, directed by policy $\Pi$. $L$ is loss term. ie. disturbances $D$, senescence, fragmentation. And  **Intent Principle** where policies $\Pi$ are guided not only by survival but also by assembly depth maximization: 
 
-$$\Pi^* = \arg\max_{\Pi} \ \mathbb{E}[AI(t+\Delta t) \mid AI(t)]$$
+$$
+\Pi^* = \arg\max_{\Pi} \ \mathbb{E}[AI(t+\Delta t) \mid AI(t)]
+$$
 
 This is the **assembly-driven intent**; the superorganism acts to climb its assembly pathway.
 
 Growth law is defined slightly differently from what the assembly theory uses. Let's make a bridge between our ODE and AT's graph definition. In the model, $\mathcal{G}$ represents internal network which also represents the order in which construction events have happened. We can treat $\mathcal G$ as the *carrier* of all possible assembly pathways and compute the index from it:
 
 $$
-AI(t)=\underbrace{\mathcal I[\mathcal G(t)]}_{\text{graph functional}} 
-   = \min_{\text{directed paths }p\subseteq\mathcal G(t)}|p|.
+AI(t)=\underbrace{\mathcal I[\mathcal G(t)]}_{\text{graph functional}} = \min_{\text{directed paths }p\subseteq\mathcal G(t)}|p|.
 $$
 
 How the growth term $G$ modifies the graph? The general model already contains an actuation operator $\Upsilon$ that writes actions into the fast fields, the slow memory field and the network.  A convenient way to make this explicit is:
@@ -536,19 +542,17 @@ In concrete terms, an ant colony may either increase the conductance $w_{uv}$ of
 Because $\Gamma$ is **explicitly** a function of $(X,F,M,\Pi)$, we can write the *growth term* in the AI ODE as the **chain rule**:
 
 $$
-G = \frac{\partial\mathcal I}{\partial\mathcal G}\!:\!\dot{\mathcal G}
-  = \frac{\partial\mathcal I}{\partial\mathcal G}\!:\!
+G = \frac{\partial\mathcal I}{\partial\mathcal G}\ :\ \dot{\mathcal G}
+  = \frac{\partial\mathcal I}{\partial\mathcal G}\ :\
     \Gamma\bigl(X,F,M,\Pi;I\bigr).
 $$
 
 The colon “:” denotes the double‑contraction of a tensor (the gradient of the functional) with the graph‑update matrix.  In words: *AI grows in proportion to how many new admissible assembly steps the policy actually creates*.
 
-
-What about the loss term $L$? Disturbances $D$ (e.g. fire, predation, pathogen attack) are modelled as **edge‑removal** or node‑death events $\dot{\mathcal G}_{\text{loss}} = -\, \Lambda(D),$ with $\Lambda$ a non‑negative operator that deletes edges (or lowers conductances to zero).  The corresponding contribution to the AI dynamics is
+What about the loss term $L$? Disturbances $D$ (e.g. fire, predation, pathogen attack) are modelled as **edge‑removal** or node‑death events $\dot{\mathcal G}_{\text{loss}} = -\  \Lambda(D),$ with $\Lambda$ a non‑negative operator that deletes edges (or lowers conductances to zero).  The corresponding contribution to the AI dynamics is
 
 $$
-L = -\frac{\partial\mathcal I}{\partial\mathcal G}\!:\!\dot{\mathcal G}_{\text{loss}}
-   = \frac{\partial\mathcal I}{\partial\mathcal G}\!:\!\Lambda(D).
+L = -\frac{\partial\mathcal I}{\partial\mathcal G}\ :\ \dot{\mathcal G}_{\text{loss}} = \frac{\partial\mathcal I}{\partial\mathcal G}\ :\ \Lambda(D).
 $$
 
 Thus the **loss term** in the ODE is simply the *negative* effect of graph degradation on the assembly index.
@@ -556,9 +560,7 @@ Thus the **loss term** in the ODE is simply the *negative* effect of graph degra
 Substituting the two in the original growth law gives a fully **graph‑consistent** AI evolution:
 
 $$
-\partial_t AI
-   = \frac{\partial\mathcal I}{\partial\mathcal G}\!:\!
-     \Bigl[\,\Gamma\bigl(X,F,M,\Pi;I\bigr)-\Lambda(D)\Bigr].
+\partial_t AI = \frac{\partial\mathcal I}{\partial\mathcal G}\ :\  \Bigl[\ \Gamma\bigl(X,F,M,\Pi;I\bigr)-\Lambda(D)\Bigr].
 $$
 
 Because the Assembly Index in the AT is *defined on the graph*, any change in the graph automatically changes AI. Conversely, the ODE tells us exactly how a desired change in AI must be implemented as an edge‑addition/removal operation. **The growth term $G$ is nothing but “add edges that increase the shortest admissible path length”**.
@@ -566,28 +568,24 @@ Because the Assembly Index in the AT is *defined on the graph*, any change in th
 Let's look at how this would work in the case of an ant colony. We write the growth term as a **graph‑update operator** $\Gamma$ (the rate at which the internal network $\mathcal G$ gains nodes/edges) plus any *direct* production of new agents that do not require an edge (e.g. queen egg laying, seed release).  Using the chain rule we have
 
 $$
-G = 
-\underbrace{\frac{\partial\mathcal I}{\partial\mathcal G}\!:\!\Gamma\bigl(X,F,M,\Pi\bigr)}_{\text{network‑driven AI increase}}
-\;+\;
-\underbrace{g_{\rm prod}(X,F,M,\Pi;I)}_{\text{direct agent production}}.
+G = \underbrace{\frac{\partial\mathcal I}{\partial\mathcal G}\ :\ \Gamma\bigl(X,F,M,\Pi\bigr)}_{\text{network‑driven AI increase}}
+\ +\  \underbrace{g_{\rm prod}(X,F,M,\Pi;I)}_{\text{direct agent production}}.
 $$
 
 We need to define the graph operator (let's call it $\Gamma_{\rm ant}$). The internal network $\mathcal G$ for ants is the **trail graph** whose edge weight $w_{uv}$ measures how strongly two locations are linked by a pheromone trail. A biologically plausible rule that turns fast pheromone flux into permanent trail reinforcement is  
 
 $$
-\dot w_{uv}= \underbrace{\alpha_P\,\int_{\Omega_{uv}} P(\mathbf x,t)\,d\mathbf x}_{\text{pheromone‑driven reinforcement}}
-       \;-\;
-\underbrace{\beta_w\,w_{uv}}_{\text{natural decay}}
+\dot w_{uv}= \underbrace{\alpha_P\ \int_{\Omega_{uv}} P(\mathbf x,t)\ d\mathbf x}_{\text{pheromone‑driven reinforcement}} \ -\  \underbrace{\beta_w\ w_{uv}}_{\text{natural decay}} 
 $$
 
-The integral is over the spatial segment that connects node $u$ to node $v$; it captures how much pheromone has passed, while $\alpha_P$ converts a *fast* flux into a *slow* increase of the memory field; the decay term models trail erosion. 
+The integral is over the spatial segment that connects node $u$ to node $v$; it captures how much pheromone has passed, while $\alpha_P$ converts a *fast* flux into a *slow* increase of the memory field; the decay term models trail erosion.
 
 If a **new foraging site** appears (detected by high food cue $I_{\rm food}$), the policy creates a brand‑new edge:
 
 $$
-w_{u,\text{new}} = 
+w_{u,\text{new}} =
 \begin{cases}
-\gamma_f \, I_{\rm food}(\mathbf{x}_{\rm new}) & \text{if } P > P_{\rm th},\\\\[4pt]
+\gamma_f \  I_{\rm food}(\mathbf{x}_{\rm new}) & \text{if } P > P_{\rm th}, \\
 0 & \text{otherwise}
 \end{cases}
 $$
@@ -595,21 +593,14 @@ $$
 Thus $\Gamma_{\rm ant}$ requires both. Ants increase their **individual count** independently of trails:
 
 $$
-g_{\rm prod}^{\rm ant}= 
-\underbrace{\eta_Q\, f_{Q}(I)}_{\text{queen egg‑laying rate}}
-+\;
-\underbrace{\eta_W\, f_{W}(P,I)}_{\substack{\text{worker recruitment}\\ \text{(pheromone‐stimulated)}}}
--\;
-\underbrace{\delta_U\,U}_{\text{mortality}} .
+g_{\rm prod}^{\rm ant}=
+\underbrace{\eta_Q\  f_{Q}(I)}_{\text{queen egg‑laying rate}} +\  \underbrace{\eta_W\  f_{W}(P,I)}_{\substack{\text{worker recruitment}\\ \text{(pheromone‐stimulated)}}} -\  \underbrace{\delta_U\ U}_{\text{mortality}} .
 $$
 
 $f_Q(I)$ grows with food and temperature and $f_W$ rises when pheromone concentration exceeds a threshold (workers are recruited to reinforce successful trails).   Putting everything together, the **ant‑colony growth term** reads
 
 $$
-G_{\rm ant}= 
-\frac{\partial\mathcal I}{\partial\mathcal G}\!:\!\Gamma_{\rm ant}(X,F,M,\Pi)
-\;+\;
-g_{\rm prod}^{\rm ant}(X,F,M,\Pi;I) .
+G_{\rm ant}= \frac{\partial\mathcal I}{\partial\mathcal G}\ :\ \Gamma_{\rm ant}(X,F,M,\Pi) \ +\  g_{\rm prod}^{\rm ant}(X,F,M,\Pi;I) .
 $$
 
 Because $\Gamma_{\rm ant}$ adds edges (or strengthens them) that increase the shortest directed assembly pathway in $\mathcal G$, the first term directly raises the Assembly Index, exactly what the Intent Principle demands.
@@ -624,9 +615,11 @@ Let's make another extension to the model. So far, the model has intent, but it 
 
 In order to include these ideas, we need to add a new axis to the model. It's no longer just about building structures but also experiencing the structure through feedback, where experience is defined as fast-slow loop closed inward. In other words, the organism senses what is has built/dissolved and reflects back into its self-model. We're going to reuse the idea from the assembly part and analogously add an **experience index**, $\mathcal{E}(t)$. The new model now becomes:
 
-$$\mathcal{S}_{AT} = \big(\Omega, \mathcal{A}, \mathcal{G}, X(t), F(t), M(t), \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}(t), AI(t), \mathcal{E}(t)\big)$$
+$$
+\mathcal{S}_{AT} = \big(\Omega, \mathcal{A}, \mathcal{G}, X(t), F(t), M(t), \Sigma, \Pi, \Upsilon, \mathcal{R}, \mathcal{P}(t), AI(t), \mathcal{E}(t)\big)
+$$
 
-Just as the assembly index provides a quantitative measure of its structural complexity, so does the experience index $\mathcal{E}(t)$ quantifies the _feedback richness_ between fast and slow layers, as in, how much of what is written into slow memory is also _sensed and looped back_ into decision-making. 
+Just as the assembly index provides a quantitative measure of its structural complexity, so does the experience index $\mathcal{E}(t)$ quantifies the _feedback richness_ between fast and slow layers, as in, how much of what is written into slow memory is also _sensed and looped back_ into decision-making.
 
 We can observe this already. In humans as sensory reflection, emotional states and even self-narratives. In ecosystems we can observe resilience feedback like how forest fire scars change species assembly. Or even something we take as ordinary; a _nutrient pulsing after massive leaf‑fall events_, where the sudden influx of organic matter reshapes microbial community structure, which in turn changes decomposition rates for future litter inputs.
 
@@ -654,7 +647,9 @@ Let's define **experience index** ($EI$) now. How should it behave? As stated, w
 
 Let $S_t$ be sensed state, $A_t$ actions, $O_t$ outcomes, $M_t$ memory, $E_t$ exogenous inputs (environment). Then we can define $EI$ in natural, normalized score in $[0,1]$ as:
 
-$$\mathrm{EI} \;=\; \underbrace{\frac{I(M_{t-\tau};\,S_t \mid E_{t-\tau:t})}{H(S_t)}}_{\text{Memory→Sensing influence}} \cdot \underbrace{\frac{TE(M_{t-\tau}\!\to\!\Pi_t \mid E_{t-\tau:t})}{C_{\Pi}}}_{\text{Memory→Policy causality}} \cdot \underbrace{\frac{I(O_t;\,\hat O_t)}{H(O_t)}}_{\text{Grounded prediction}} \cdot \underbrace{\rho}_{\text{Reuse \& coverage}},$$
+$$
+\mathrm{EI} \ =\  \underbrace{\frac{I(M_{t-\tau};\ S_t \mid E_{t-\tau:t})}{H(S_t)}}_{\text{Memory→Sensing influence}} \cdot \underbrace{\frac{TE(M_{t-\tau}\ \to\ \Pi_t \mid E_{t-\tau:t})}{C_{\Pi}}}_{\text{Memory→Policy causality}} \cdot \underbrace{\frac{I(O_t;\ \hat O_t)}{H(O_t)}}_{\text{Grounded prediction}} \cdot \underbrace{\rho}_{\text{Reuse \& coverage}},
+$$
 
 where:
 
@@ -674,11 +669,13 @@ where:
 
 What does it all mean? First factor deals with how much **what’s in memory** shows up in **what is sensed as self-relevant** (felt). Second part is all **causal** influence of memory on decisions (not just correlation). Third part is the system’s **predictions match reality** (avoids hallucinated loops). And fourth deals how memory is **actually used**, broadly, and at **depth**.
 
-This definition gives as a nice property as we can also compute **multi-scale** $EI$  by summing over lags $\tau$: $\mathrm{EI}_\mathrm{multi} = \sum_{\tau \in \mathcal{T}} w_\tau \, \mathrm{EI}(\tau),\ \ \sum w_\tau=1$.
+This definition gives as a nice property as we can also compute **multi-scale** $EI$  by summing over lags $\tau$: $\mathrm{EI}_\mathrm{multi} = \sum_{\tau \in \mathcal{T}} w_\tau \  \mathrm{EI}(\tau),\ \ \sum w_\tau=1$.
 
 In order to stay "grounded" and not fall in the self-referential loop of "overthinking without acting" and thus having a fake experience, we need to penalize self-referential echo that ignores the world. Using the Kullback–Leibler (KL) divergence between two probability distributions, we get exactly what we need:
 
-$$\mathrm{EI}^\star = \mathrm{EI} \cdot \underbrace{\frac{I(S_t;E_{t-\tau:t})}{H(S_t)}}_{\text{world-coupling}} \cdot \underbrace{\Big(1 - \frac{D_{\mathrm{KL}}(p(O_t)\,\|\,p(\hat O_t))}{H(O_t)}\Big)}_{\text{prediction calibration}}$$
+$$
+\mathrm{EI}^\star = \mathrm{EI} \cdot \underbrace{\frac{I(S_t;E_{t-\tau:t})}{H(S_t)}}_{\text{world-coupling}} \cdot \underbrace{\Big(1 - \frac{D_{\mathrm{KL}}(p(O_t)\ \|\ p(\hat O_t))}{H(O_t)}\Big)}_{\text{prediction calibration}}
+$$
 
 World-coupling factor ensures sensed state still tracks exogenous reality.  Calibration term penalizes confidently wrong self-models.
 
@@ -689,8 +686,8 @@ In an **ant colony**, the source of information is stored in the pheromone trail
 - **Signals:** $S$ = local antennation + pheromone gradient; $A$ = route choice; $O$ = food return/time; $M$ = nest layout + stored pheromone density maps.
 - **Compute:**
     - $u$: fraction of trips with **trail reads** before choice.
-    - $I(M\!\to\!S)$: k-N MI between local pheromone patches and antennation state.
-    - $TE(M\!\to\!\Pi)$: transfer entropy from recent trail map to route choice.
+    - $I(M\ \to\ S)$: k-N MI between local pheromone patches and antennation state.
+    - $TE(M\ \to\ \Pi)$: transfer entropy from recent trail map to route choice.
     - $I(O;\hat O)$: compare predicted haul success vs actual.
 - **Expectation:** EI rises with **recruitment and consolidation**; falls if pheromone suppressed or nest tampered.
 
@@ -699,7 +696,7 @@ In the **forest**, we can observe mycorrhizal carbon fluxes:
 - **Signals:** $S$ = plant stress sensing; $A$ = allocation (photosynthate, defense); $O$ = growth/survival; $M$ = soil carbon & mycorrhizal network state. 
 - **Compute:**
     - $u$: fraction of allocation events preceded by **mycorrhizal read** (carbon inflow/outflow).
-    - $TE(M\!\to\!\Pi)$: carbon-flux TE to allocation decisions (eddy covariance + isotopes).
+    - $TE(M\ \to\ \Pi)$: carbon-flux TE to allocation decisions (eddy covariance + isotopes).
     - $I(O;\hat O)$: stand-level growth predicted from sensed VOC + network signals.
 - **Expectation:** EI predicts **resilience** post-fire better than biomass alone.
 
@@ -710,7 +707,9 @@ Now that we've defined and described $EI$, let's combine it with $AI$.  We now h
 
 Given these two objectives, we would like to define something that simultaneously rewards construction and self‑aware experience. Taking their weighted product, it furnishes a single scalar that defines a **purpose functional** 
 
-$$\mathcal{J} = \big(\mathrm{AI}\big)^\alpha \cdot \big(\mathrm{EI}^\star\big)^\beta,$$
+$$
+\mathcal{J} = \big(\mathrm{AI}\big)^\alpha \cdot \big(\mathrm{EI}^\star\big)^\beta,
+$$
 
 with viability constraints (energy, safety). Here $\alpha>0$ favors building whike $\beta>0$ favors experience. Set $\beta$ higher if **self-realization** is the principal intent.
 
@@ -753,8 +752,7 @@ The **H-theorem** says entropy increases monotonically, $\frac{dH}{dt} \leq 0$. 
 This gives us a way to rewrite the classical H-theorem as 
 
 $$
-\frac{dH}{dt}= \underbrace{\sigma_{\text{coll}}}_{\text{AI growth}} 
-               + \underbrace{\underbrace{0}_{\text{no EI feedback}}}_{\text{classical limit}}.
+\frac{dH}{dt}= \underbrace{\sigma_{\text{coll}}}_{\text{AI growth}} + \underbrace{\underbrace{0}_{\text{no EI feedback}}}_{\text{classical limit}}.
 $$
 
 However, written in this form, we can already see that there is an effect that the EI has.
@@ -778,65 +776,65 @@ Let's recast Boltzmann's kinetic equation as a loop between fast particle distri
 
 - $f(\mathbf{r},\mathbf{p},t)$: one-particle distribution (fast layer).
 - $M(\mathbf{r},t)$: **slow memory/assembly field** (AI carrier).
-- $\mathbf{j}(\mathbf{r},t)=\!\int \mathbf{v} f\,d^3p$: particle current (EI carrier).
+- $\mathbf{j}(\mathbf{r},t)=\ \int \mathbf{v} f\ d^3p$: particle current (EI carrier).
 - External force $\mathbf{F}_{\text{ext}}$ as usual.
 - **Read operator**: memory $\to$ force,
-    $\mathbf{F}_M(\mathbf{r},t)\equiv -\nabla_{\mathbf{r}} U\!\big(M(\mathbf{r},t)\big)$,
+    $\mathbf{F}_M(\mathbf{r},t)\equiv -\nabla_{\mathbf{r}} U\ \big(M(\mathbf{r},t)\big)$,
     i.e., the system “reads” slow memory as a potential shaping fast dynamics.
 - **Write operator**: fast $\to$ slow memory,
-    $W[f](\mathbf{r},t)\equiv a_0\,n + a_1\,\nabla\!\cdot\!\mathbf{j}+a_2\,\nabla\!\!:\!\!\boldsymbol{\Pi}+\cdots$,
-    where $n=\!\int f\,d^3p$ and $\boldsymbol{\Pi}$ is the momentum-flux tensor.
+    $W[f](\mathbf{r},t)\equiv a_0\ n + a_1\ \nabla\ \cdot\ \mathbf{j}+a_2\ \nabla\ \ :\ \ \boldsymbol{\Pi}+\cdots$,
+    where $n=\ \int f\ d^3p$ and $\boldsymbol{\Pi}$ is the momentum-flux tensor.
 
 Let's define kinetic equation with memory feedback (the **read** path, forming EI and fast dynamics):
 
-$\frac{\partial f}{\partial t} +\mathbf{v}\!\cdot\!\nabla_{\mathbf{r}} f +\big(\mathbf{F}_{\text{ext}}+\mathbf{F}_M\big)\!\cdot\!\nabla_{\mathbf{p}} f = \Big(\frac{\partial f}{\partial t}\Big)_{\!\text{coll}} \;-\;\nabla_{\mathbf{p}}\!\cdot\!\Big(\boldsymbol{\Gamma}_R\,f\Big)$
+$\frac{\partial f}{\partial t} +\mathbf{v}\ \cdot\ \nabla_{\mathbf{r}} f +\big(\mathbf{F}_{\text{ext}}+\mathbf{F}_M\big)\ \cdot\ \nabla_{\mathbf{p}} f = \Big(\frac{\partial f}{\partial t}\Big)_{\ \text{coll}} \ -\ \nabla_{\mathbf{p}}\ \cdot\ \Big(\boldsymbol{\Gamma}_R\ f\Big)$
 
-The added drift $-\nabla_{\mathbf{p}}\!\cdot(\boldsymbol{\Gamma}_R f)$ is an **active, memory-conditioned policy term** (e.g., alignment/actuation in active matter, controller in AI swarms). It adds a mechanism for the fast layer to act back on the memory. It vanishes in the passive limit.
+The added drift $-\nabla_{\mathbf{p}}\ \cdot(\boldsymbol{\Gamma}_R f)$ is an **active, memory-conditioned policy term** (e.g., alignment/actuation in active matter, controller in AI swarms). It adds a mechanism for the fast layer to act back on the memory. It vanishes in the passive limit.
 
 Similarly, a slow memory/assembly field (the **write** path; AI dynamics):
 
-$\frac{\partial M}{\partial t} = W[f]\;-\;\Lambda\,M\;+\;D_M\,\Delta M \;-\;\nabla\!\cdot\!\big(\mathbf{u}_M\,M\big)$
+$\frac{\partial M}{\partial t} = W[f]\ -\ \Lambda\ M\ +\ D_M\ \Delta M \ -\ \nabla\ \cdot\ \big(\mathbf{u}_M\ M\big)$
 
-$W[f]$ writes outcomes into $M$ (construction).  $\Lambda>0$ is forgetting/senescence; $D_M$ spreads memory; $\mathbf{u}_M$ adverts memory with the medium (e.g., flow, migration). If $U\equiv 0,\ \boldsymbol{\Gamma}_R\!\equiv\!0$ it reduces to classical Boltzmann. If $W\equiv 0$, $M$ decays/diffuses and hence there is no assembly.
+$W[f]$ writes outcomes into $M$ (construction).  $\Lambda>0$ is forgetting/senescence; $D_M$ spreads memory; $\mathbf{u}_M$ adverts memory with the medium (e.g., flow, migration). If $U\equiv 0,\ \boldsymbol{\Gamma}_R\ \equiv\ 0$ it reduces to classical Boltzmann. If $W\equiv 0$, $M$ decays/diffuses and hence there is no assembly.
 
 Let's define a **local EI density** (dimensionless) that quantifies closed-loop read↔effectiveness:
 
-$\varepsilon(\mathbf{r},t) =\underbrace{\frac{\mathbf{F}_M\!\cdot\!\mathbf{j}}{k_B T\, n}}_{\text{read effectiveness}} \;\times\; \underbrace{\frac{\|W[f]\|}{\|W\|_{\max}}}_{\text{write activity}} \;\times\; \underbrace{\chi(\text{reuse, coverage, depth})}_{\in[0,1]}$
+$\varepsilon(\mathbf{r},t) =\underbrace{\frac{\mathbf{F}_M\ \cdot\ \mathbf{j}}{k_B T\  n}}_{\text{read effectiveness}} \ \times\  \underbrace{\frac{\|W[f]\|}{\|W\|_{\max}}}_{\text{write activity}} \ \times\  \underbrace{\chi(\text{reuse, coverage, depth})}_{\in[0,1]}$
 
 Looking at its properties, the $\varepsilon$ grows when memory gradients actually steer currents **and** currents write back robustly into $M$.  We can use the spatial average $\overline{\varepsilon}=\langle \varepsilon\rangle$ to modulate $\boldsymbol{\Gamma}_R$ or adjust $U(M)$, so that higher $\varepsilon$ means stronger feedback control.
 
-Let's use this to define an **entropy/H-theorem with feedback** (aka. where the physics lives). First, let $S_f=-k_B\!\int f\ln f\,d^3r\,d^3p$ be kinetic entropy. Also, let a convex **memory entropy** $S_M=\int s(M)\,d^3r$ with $s''(M)\!\ge\!0$. Then we can define:
+Let's use this to define an **entropy/H-theorem with feedback** (aka. where the physics lives). First, let $S_f=-k_B\ \int f\ln f\ d^3r\ d^3p$ be kinetic entropy. Also, let a convex **memory entropy** $S_M=\int s(M)\ d^3r$ with $s''(M)\ \ge\ 0$. Then we can define:
 
-$\frac{d}{dt}(S_f+S_M) =\underbrace{\sigma_{\text{coll}}}_{\ge 0} \;-\; \underbrace{\Phi_{\text{EI}}}_{\text{feedback order}} \;+\; \mathcal{B},$
+$\frac{d}{dt}(S_f+S_M) =\underbrace{\sigma_{\text{coll}}}_{\ge 0} \ -\  \underbrace{\Phi_{\text{EI}}}_{\text{feedback order}} \ +\  \mathcal{B},$
 where
 
-$\Phi_{\text{EI}} =\int \frac{\mathbf{F}_M\!\cdot\!\mathbf{j}}{T}\,d^3r \;+\; \int \big(-s'(M)\,W[f]\big)\,d^3r, \quad \mathcal{B}=\text{boundary terms}.$
+$\Phi_{\text{EI}} =\int \frac{\mathbf{F}_M\ \cdot\ \mathbf{j}}{T}\ d^3r \ +\  \int \big(-s'(M)\ W[f]\big)\ d^3r, \quad \mathcal{B}=\text{boundary terms}.$
 
-$\sigma_{\text{coll}}\!\ge\!0$ is standard collisional entropy production. **$\Phi_{\text{EI}}$ is the experience-driven entropy pump**. When memory gradients guide currents and currents write reliable records, the closed loop **reduces** net entropy production locally (creates order) **at an energetic cost**. However, by using **Landauer-type bound (energetic consistency)** $\mathcal{P}_{\text{in}}\ \ge\ k_B T\ \Phi_{\text{EI}},$ we make sure that **any EI-driven reduction in entropy growth must be paid by input power** $\mathcal{P}_{\text{in}}$ (work, metabolism, control). Thus the second law is safe.
+$\sigma_{\text{coll}}\ \ge\ 0$ is standard collisional entropy production. **$\Phi_{\text{EI}}$ is the experience-driven entropy pump**. When memory gradients guide currents and currents write reliable records, the closed loop **reduces** net entropy production locally (creates order) **at an energetic cost**. However, by using **Landauer-type bound (energetic consistency)** $\mathcal{P}_{\text{in}}\ \ge\ k_B T\ \Phi_{\text{EI}},$ we make sure that **any EI-driven reduction in entropy growth must be paid by input power** $\mathcal{P}_{\text{in}}$ (work, metabolism, control). Thus the second law is safe.
 
 We can now expose the macroscopic consequences by taking velocity moments of kinetic equation with memory feedback.  This moment expansion yields the **hydrodynamic closure** for the particle current $\mathbf{j}=n\mathbf{u}$,
 
-$\partial_t (n\mathbf{u}) + \nabla\!\cdot\!\boldsymbol{\Pi} = \frac{n}{m}\Big(\mathbf{F}_{\text{ext}}-\nabla U(M)\Big) \;-\;\frac{1}{\tau}\,n\mathbf{u} \;+\;\underbrace{\mathbf{J}_{\text{act}}}_{\propto\ \boldsymbol{\Gamma}_R},$
+$\partial_t (n\mathbf{u}) + \nabla\ \cdot\ \boldsymbol{\Pi} = \frac{n}{m}\Big(\mathbf{F}_{\text{ext}}-\nabla U(M)\Big) \ -\ \frac{1}{\tau}\ n\mathbf{u} \ +\ \underbrace{\mathbf{J}_{\text{act}}}_{\propto\ \boldsymbol{\Gamma}_R},$
 
 so memory gradients appear as **internal fields** that steer flow (read), while $\mathbf{J}_{\text{act}}$ captures policy-like actuation. A simple **Ohm-like law** emerges in steady linear response:
 
-$\mathbf{j} =\sigma\,\Big(\mathbf{E}_{\text{ext}}+\mathbf{E}_M\Big) +\mathbf{j}_{\text{act}}, \qquad \mathbf{E}_M\ \equiv\ -\frac{1}{q}\,\nabla U(M).$
+$\mathbf{j} =\sigma\ \Big(\mathbf{E}_{\text{ext}}+\mathbf{E}_M\Big) +\mathbf{j}_{\text{act}}, \qquad \mathbf{E}_M\ \equiv\ -\frac{1}{q}\ \nabla U(M).$
 
 Here $\mathbf{E}_M$ is the **experience/effective electric field** induced by memory; **AI** lives in $M$ (the “magnetic-like” structural backbone), and **EI** appears as currents driven by $\mathbf{E}_M$.
 
 Having introduced the kinetic framework, we now make electromagnetic analogy explicit. We have **Assembly field (AI)** as the slow, curl-supporting morphology encoded in $M$ (and its vector potential-like surrogates from $U(M)$). It changes slowly, stores history (like $\mathbf{B}$). And **Experience field (EI)** as the effective $\mathbf{E}_M$ that **drives currents** $\mathbf{j}$, i.e., the felt gradients of what has been assembled.
 
-The interaction between how the experience field reshapes the assembly field can be expressed in a differential equation, a **Maxwell-type coupling** (schematic, in a morpho-field $\mathbf{A}_M$ with $\mathbf{B}_A=\nabla\times \mathbf{A}_M)$ $\partial_t \mathbf{B}_A = -\,\nabla\times \mathbf{E}_M \quad\text{with}\quad \mathbf{E}_M\propto -\nabla U(M),$ i.e. experience flows reshape assembly; conversely, assembly sets the potentials that shape future experience. 
+The interaction between how the experience field reshapes the assembly field can be expressed in a differential equation, a **Maxwell-type coupling** (schematic, in a morpho-field $\mathbf{A}_M$ with $\mathbf{B}_A=\nabla\times \mathbf{A}_M)$ $\partial_t \mathbf{B}_A = -\ \nabla\times \mathbf{E}_M \quad\text{with}\quad \mathbf{E}_M\propto -\nabla U(M),$ i.e. experience flows reshape assembly; conversely, assembly sets the potentials that shape future experience. 
 
 How would we measure EI in a kinetic system? From data or simulation, compute $M$ (a coarse-grained field; e.g., concentration, alignment, built morphology), estimate $U'(M)$, then evaluate:
 
-$\Phi_{\text{EI}} = \int \frac{(-\nabla U(M))\cdot \mathbf{j}}{T}\,d^3r \quad\text{and}\quad \overline{\varepsilon}=\Big\langle \frac{(-\nabla U)\cdot \mathbf{j}}{k_BT\,n}\cdot \frac{\|W\|}{\|W\|_{\max}}\Big\rangle$. 
+$\Phi_{\text{EI}} = \int \frac{(-\nabla U(M))\cdot \mathbf{j}}{T}\ d^3r \quad\text{and}\quad \overline{\varepsilon}=\Big\langle \frac{(-\nabla U)\cdot \mathbf{j}}{k_BT\ n}\cdot \frac{\|W\|}{\|W\|_{\max}}\Big\rangle$. 
 
 ### Oh no, what have we done?
 
 In short, the familiar Boltzmann framework becomes a _dual electromagnetism_ of superorganisms. Collisions write structure, streaming flows experience; the read/write operators close the loop and enable living systems to _steer_ their own entropy production. The mathematics is unchanged; only the **interpretation** shifts from “particles + forces” to “information flow + memory architecture”. Let's dissect this a bit more.
 
-Let's start with the **experience as an explicit dynamical term**. In standard Boltzmann/statistical mechanics, _entropy production_ is purely mechanical: collisions drive the H-theorem. In active matter extensions, self-propulsion terms are added, but they’re treated as forces, not as *feedback from memory.*  We explicitly introduce a memory field $M$** that  is **written** by fast micro-dynamics (collision as inscription), and is **read back** to steer future dynamics. This makes “feedback experience” a **formal operator**, not just metaphor. Mathematically, that closes the loop $f \;\to\; M \;\to\; f$,  instead of one-way entropy growth. That loop has not been represented in Boltzmann kinetics before, it’s essentially a **Boltzmann equation with endogenous memory feedback**.
+Let's start with the **experience as an explicit dynamical term**. In standard Boltzmann/statistical mechanics, _entropy production_ is purely mechanical: collisions drive the H-theorem. In active matter extensions, self-propulsion terms are added, but they’re treated as forces, not as *feedback from memory.*  We explicitly introduce a memory field $M$** that  is **written** by fast micro-dynamics (collision as inscription), and is **read back** to steer future dynamics. This makes “feedback experience” a **formal operator**, not just metaphor. Mathematically, that closes the loop $f \ \to\  M \ \to\  f$,  instead of one-way entropy growth. That loop has not been represented in Boltzmann kinetics before, it’s essentially a **Boltzmann equation with endogenous memory feedback**.
 
 Now let's review **a new entropy balance with feedback term**. Boltzmann’s H-theorem states $\dot S \ge 0$. Our extension however is  $\frac{d}{dt}(S_f+S_M) = \sigma_{\text{coll}} - \Phi_{\text{EI}} + \mathcal{B}$, where $\Phi_{\text{EI}}$ is the **experience-driven entropy pump**. Entropy production is no longer monotonic, it can be _locally reduced_ or _steered_, provided external work supplies energy. That’s a **generalized second law**, *“entropy increases unless experience feedback extracts and directs order, bounded by power input.”* No classical H-theorem has this feedback/experience term explicitly. It formalizes **how reflexive organisms fit into thermodynamics** without violating the second law.
 
@@ -850,7 +848,7 @@ Let's finish with a bit of prediction about **bridging physics, life, reflection
 
 Can we observe and confirm the theory? If any of experiments or simulations would show $\Phi_{\text{EI}} \neq 0$, we would have **quantified experience as a physical feedback term**, a brand-new invariant alongside entropy. Switching from speculation to testable physics/biology/AI.
 
-Let's consider a proof for $\Phi_{\text{EI}} \neq 0$ in case of an ant colony. The definitions are $\Phi_{\text{EI}} = \int \frac{(-\nabla U(M))\cdot \mathbf{j}}{T}\,d^3r$ and $\overline{\varepsilon}=\left\langle \frac{(-\nabla U)\cdot \mathbf{j}}{k_BT\,n}\cdot \frac{\|W\|}{\|W\|_{\max}} \right\rangle$. Let’s map this to ant colony behavior:
+Let's consider a proof for $\Phi_{\text{EI}} \neq 0$ in case of an ant colony. The definitions are $\Phi_{\text{EI}} = \int \frac{(-\nabla U(M))\cdot \mathbf{j}}{T}\ d^3r$ and $\overline{\varepsilon}=\left\langle \frac{(-\nabla U)\cdot \mathbf{j}}{k_BT\ n}\cdot \frac{\|W\|}{\|W\|_{\max}} \right\rangle$. Let’s map this to ant colony behavior:
 
 - $M$ is the pheromone concentration field (coarse-grained memory)
 - $\nabla U(M)$ is the gradient of "cost function" or attractiveness, e.g., steep drop in pheromone means high cost to follow that path
@@ -864,12 +862,10 @@ We state that in foraging ants  (e.g., *Formica* or *Lasius*), this integral is 
 Let’s define $U(M) = -k_B T \ln M$, so $\nabla U(M) = -k_B T \frac{\nabla M}{M}$. Then
 
 $$
--\nabla U(M) = k_B T \frac{\nabla M}{M}
-\quad\Rightarrow\quad
-(-\nabla U(M)) \cdot \mathbf{j} = k_B T \left( \frac{\nabla M}{M} \right) \cdot \mathbf{j}
+-\nabla U(M) = k_B T \frac{\nabla M}{M} \quad\Rightarrow\quad (-\nabla U(M)) \cdot \mathbf{j} = k_B T \left( \frac{\nabla M}{M} \right) \cdot \mathbf{j}
 $$
 
-Now, the foraging ants move **up the pheromone gradient**, $\mathbf{j}$ is aligned with $\nabla M$. Therefore, $(\nabla M) \cdot \mathbf{j} > 0$. Because $(-\,\nabla U(M))\!\cdot\!\mathbf j > 0$, the ants perform **negative mechanical work on the potential**, i.e. they move up the pheromone gradient and thereby *write* additional memory that strengthens (reinforces) the trail structure. But crucially, the system doesn’t just decay; it *amplifies signals*. The pheromone trail is **rewritten** based on current flow. That’s feedback:  $\text{current} \Rightarrow \text{memory update} \Rightarrow \text{future current}$.
+Now, the foraging ants move **up the pheromone gradient**, $\mathbf{j}$ is aligned with $\nabla M$. Therefore, $(\nabla M) \cdot \mathbf{j} > 0$. Because $(-\ \nabla U(M))\ \cdot\ \mathbf j > 0$, the ants perform **negative mechanical work on the potential**, i.e. they move up the pheromone gradient and thereby *write* additional memory that strengthens (reinforces) the trail structure. But crucially, the system doesn’t just decay; it *amplifies signals*. The pheromone trail is **rewritten** based on current flow. That’s feedback:  $\text{current} \Rightarrow \text{memory update} \Rightarrow \text{future current}$.
 
 Therefore $(-\nabla U(M)) \cdot \mathbf{j} > 0$ over space and time and thus $\Phi_{\text{EI}} > 0$. An example of non-equilibrium thermodynamics with feedback. Entropy can be locally reduced if the system has a memory gradient and an external power source.
 
@@ -892,7 +888,7 @@ These tensors are not arbitrary; they are constructed so that:
 
 Let's define the full effective stress-energy tensor $T_{\mu\nu}$ to include them:
 
-$T^{\text{eff}}_{\mu\nu} \;=\; T_{\mu\nu}\;+\;\alpha\,A_{\mu\nu}[AI]\;+\;\beta\,\Theta_{\mu\nu}[EI]$,
+$T^{\text{eff}}_{\mu\nu} \ =\  T_{\mu\nu}\ +\ \alpha\ A_{\mu\nu}[AI]\ +\ \beta\ \Theta_{\mu\nu}[EI]$,
 
 The constants $\alpha,\beta$ set the relative weight of history and feedback compared to ordinary matter. In regions where AI is large (deeply built structures, e.g., galaxy cores or black‑hole horizons), $A_{\mu\nu}$​ dominates; in highly dynamical, feedback‑rich environments (star‑forming regions, active galactic nuclei), $\Theta_{\mu\nu}$ becomes significant.
 
@@ -900,7 +896,7 @@ Let's look at how it fits the model as well, not just GR:
 
 - **AI → $A_{\mu\nu}$** (the “structural” source): Use slow memory $M$ as the substrate for an **assembly density** $a(x)$ (AI per spacetime volume) and its anisotropy. From $a$ and its gradients, form a covariant tensor $A_{\mu\nu}$ (think “assembly strain/rigidity” of the medium). This is **$\mathbf{B}$-like** part in the AI↔EI electromagnetic analogy: durable, geometry-shaping structure.
 - **EI → $\Theta_{\mu\nu}$** (the “feedback” source): From EI’s read-back currents $j^\mu$ (the $\mathbf{E}$-like piece), build a symmetric, divergence-controlled tensor $\Theta_{\mu\nu}[j]$ that behaves like **active stress** (akin to bulk/shear viscosity or non-equilibrium stresses in active matter). Where EI is high, coherent feedback **modulates inertia/pressure** without violating covariance.
-- **Local GR intact, global memory allowed:** On short time/length scales (or where AI, EI vary slowly), $A_{\mu\nu}\!\to\!0, \Theta_{\mu\nu}\!\to\!0$, and you recover plain GR. Over long assemblies (galaxies, biosphere-like superstructures), the effective source remembers path-dependence of the **field-coupled superorganism** extended to spacetime itself.
+- **Local GR intact, global memory allowed:** On short time/length scales (or where AI, EI vary slowly), $A_{\mu\nu}\ \to\ 0, \Theta_{\mu\nu}\ \to\ 0$, and you recover plain GR. Over long assemblies (galaxies, biosphere-like superstructures), the effective source remembers path-dependence of the **field-coupled superorganism** extended to spacetime itself.
 - **Boltzmann-Experience link:** In the kinetic picture, _collisions write structure_ while _streaming carries feedback_. The same read/write loop that steers entropy in the extended H-balance now **feeds a gravitational memory:** $W[f]$ writes to $M$ (AI), which sets a potential $U(M)$ that in turn shapes currents $j^\mu$ (EI). The $A_{\mu\nu}$ and $\Theta_{\mu\nu}$ are just the covariant packaging of that loop.
 
 We now have a model that reframes living/evolving things as **field-coupled superorganisms** with **fast fields, slow memory, and a reproduction/assembly operator**. Gravity, in this telling, is not “another force to add,” but **the way spacetime registers the depth of assembly (AI) and the intensity of self-coupled experience (EI)** — a curvature that **remembers** how the universe built itself and **responds** to how it continues to use that memory. It’s GR, but with **sources that live in the AI↔EI plane** instead of being frozen to instantaneous mass–energy alone.
@@ -929,12 +925,14 @@ Based on the model then, **gravity is the _perception_ of structure when viewed 
 
 Let's now connect all the dots and define spacetime as structure. An **organismic spacetime** at a resolution scale $\ell$ is the pair
 
-$$\;\mathfrak{S}_\ell \;=\; \big(\,\mathcal{U},\; \mathcal{Q}_\ell\,\big)\;,$$
+$$
+\mathfrak{S}_\ell \ =\  \big(\ \mathcal{U},\  \mathcal{Q}_\ell\ \big)\ ,
+$$
 
 where:
 
 - $\mathcal{U}$ is a **universal superorganism** (the “world as a reflexive organism”) specified microscopically by $\mathcal{U}=\big(\Omega,\ \mathcal{G},\ F,\ M,\ AI,\ EI\big)$.
-- $\mathcal{Q}_\ell$ is a **coarse-graining functor** at scale $\ell$ that sends $(\mathcal{G},F,M,AI,EI)$ to continuum fields: $\mathcal{Q}_\ell:\ (\mathcal{G},F,M,AI,EI)\longmapsto\big(g_{\mu\nu}^{(\ell)},\; \nabla^{(\ell)},\; u^{\mu}_{(\ell)},\; \text{tensors from }F,M,AI,EI\big)$. Intuitively, local connectivity + memory densities define **spatial distances**, EI currents define a **time direction**, fast/slow gradients define **stresses**.
+- $\mathcal{Q}_\ell$ is a **coarse-graining functor** at scale $\ell$ that sends $(\mathcal{G},F,M,AI,EI)$ to continuum fields: $\mathcal{Q}_\ell:\ (\mathcal{G},F,M,AI,EI)\longmapsto\big(g_{\mu\nu}^{(\ell)},\  \nabla^{(\ell)},\  u^{\mu}_{(\ell)},\  \text{tensors from }F,M,AI,EI\big)$. Intuitively, local connectivity + memory densities define **spatial distances**, EI currents define a **time direction**, fast/slow gradients define **stresses**.
 
 An **organismic spacetime** is a _two‑part construction_ that packages all of the microscopic ingredients that an organism (the “world as a reflexive super‑organism”) possesses, together with a rule that tells us how to read those ingredients out at any chosen observational resolution $\ell$.
 
@@ -943,7 +941,7 @@ In this view, geometry (the metric $g_{\mu\nu}^{(\ell)}$, and connection $\nabla
 **Spatial metric from $\mathcal{G}$ and $M,AI$.**  
 Let $L_{\mathcal{G}}$ be a weighted Laplacian built from edge conductances $w$. Now define an $\ell$-scale **diffusion kernel** $K_\ell=\exp(-\ell^2 L_{\mathcal{G}})$ and weight it by structural density $\sigma(x)=\sigma\big(M(x),AI(x)\big)$. This links more persistent memory/assembly with tighter coupling. The **$\ell$-scale spatial distance** between nearby points $x,y\in\Omega$ is:
 
-$d_\ell^2(x,y) \;=\; \big\|\,\sigma^{1/2}K_\ell(x,\cdot)-\sigma^{1/2}K_\ell(y,\cdot)\,\big\|_2^2$,
+$d_\ell^2(x,y) \ =\  \big\|\ \sigma^{1/2}K_\ell(x,\cdot)-\sigma^{1/2}K_\ell(y,\cdot)\ \big\|_2^2$,
 
 whose quadratic form defines a **Riemannian 3-metric** $h_{ab}^{(\ell)}$. High-AI, high-$M$ regions “pull nodes closer,” making space locally stiffer/denser.
 
@@ -953,11 +951,15 @@ Let $j^\mu$ be the coarse EI **current** (from read-back work rate $\Phi_{\mathr
 **Assemble the Lorentzian metric.**  
 Project with $u^\mu$:$h_{\mu\nu}=g_{\mu\nu}+u_\mu u_\nu$. Take:
 
-$$\;g_{\mu\nu}^{(\ell)} \;=\; -\,u_\mu u_\nu \;+\; \Omega^2(M,AI)\ \tilde h_{\mu\nu}[\mathcal{G};M,AI]\;+\;\Xi_{\mu\nu}[M,EI]\;,$$
+$$
+g_{\mu\nu}^{(\ell)} \ =\  -\ u_\mu u_\nu \ +\  \Omega^2(M,AI)\ \tilde h_{\mu\nu}[\mathcal{G};M,AI]\ +\ \Xi_{\mu\nu}[M,EI],
+$$
 
 where $\tilde h_{\mu\nu}$ is the 3-metric induced by $d_\ell$ (extended trivially in time), $\Omega(M,AI)$ is a conformal factor from structural density (slow memory + assembly depth) and $\Xi_{\mu\nu}[M,EI]$ is a small anisotropic correction from **memory gradients** and **feedback shear** (non-equilibrium structure). Let's now define a **structural action** at scale $\ell$:
 
-$$\;S[\mathcal{U}] \;=\; \int d^4x\,\sqrt{-g^{(\ell)}}\Big[\tfrac{1}{16\pi G}R\big(g^{(\ell)}\big)\;+\;\mathcal{L}_{\text{fast}}[F]\;+\;\mathcal{L}_{\text{mem}}[M,AI]\;+\;\mathcal{L}_{\text{active}}[u^\mu,EI]\Big]\;$$
+$$
+S[\mathcal{U}] \ =\  \int d^4x\ \sqrt{-g^{(\ell)}}\Big[\tfrac{1}{16\pi G}R\big(g^{(\ell)}\big)\ +\ \mathcal{L}_{\text{fast}}[F]\ +\ \mathcal{L}_{\text{mem}}[M,AI]\ +\ \mathcal{L}_{\text{active}}[u^\mu,EI]\Big],
+$$
 
 with:
 - $\mathcal{L}_{\text{fast}}$ as usual kinetic/matter content of fast fields $F$.
@@ -966,15 +968,19 @@ with:
 
 Crucially, the metric $g_{\mu\nu}^{(\ell)}$ is **not independent**. It is the image of $\mathcal{Q}_\ell(\mathcal{G},M,AI,EI)$. Varying $S$ with respect to the **primitive structural variables** and using the chain rule,
 
-$\delta S \;=\; \int \frac{\delta S}{\delta g_{\mu\nu}}\frac{\delta g_{\mu\nu}}{\delta \psi}\,\delta \psi \;+\; \ldots,\quad \psi\in\{\text{weights }w,\,M,\,AI,\,EI\}$.
+$\delta S \ =\  \int \frac{\delta S}{\delta g_{\mu\nu}}\frac{\delta g_{\mu\nu}}{\delta \psi}\ \delta \psi \ +\  \ldots,\quad \psi\in\{\text{weights }w,\ M,\ AI,\ EI\}$.
 
 Stationarity for all admissible $\delta\psi$ implies $\delta S/\delta g_{\mu\nu}=0$, giving
 
-  $$G_{\mu\nu}\big[g^{(\ell)}\big] \;=\; 8\pi G\, T^{\text{eff}}_{\mu\nu}[F,M,AI,EI]\;$$
+$$
+G_{\mu\nu}\big[g^{(\ell)}\big] \ =\  8\pi G\  T^{\text{eff}}_{\mu\nu}[F,M,AI,EI]
+$$
 
 with
 
-$$T^{\text{eff}}_{\mu\nu}\;=\;T^{(F)}_{\mu\nu}\;+\;\underbrace{\kappa\Big(\nabla_\mu M\nabla_\nu M-\tfrac12 g_{\mu\nu}(\nabla M)^2\Big)-g_{\mu\nu}V(M,AI)}_{\text{slow-memory (AI/M) block}}\;+\;\underbrace{\Pi^{\text{active}}_{\mu\nu}[u^\alpha;EI]}_{\text{experience (non-eq) block}}.$$
+$$
+T^{\text{eff}}_{\mu\nu}\ =\ T^{(F)}_{\mu\nu}\ +\ \underbrace{\kappa\Big(\nabla_\mu M\nabla_\nu M-\tfrac12 g_{\mu\nu}(\nabla M)^2\Big)-g_{\mu\nu}V(M,AI)}_{\text{slow-memory (AI/M) block}}\ +\ \underbrace{\Pi^{\text{active}}_{\mu\nu}[u^\alpha;EI]}_{\text{experience (non-eq) block}}.
+$$
 
 Because the model's micro-laws are **relabel-/diffeo-invariant** (no privileged coordinates; only relations/flows matter), Noether/Bianchi identities give $\nabla^\mu G_{\mu\nu}=0\Rightarrow\nabla^\mu T^{\text{eff}}_{\mu\nu}=0$, which are precisely the **conservation laws** the read/write loop enforces; what’s written into $M$ and what’s read back must balance to the power/viability budgets that are tracked.
 
@@ -982,13 +988,13 @@ Thus **Einstein’s equations appear as constraints** that any admissible config
 
 This would imply some interesting outcomes. **Gravitational hysteresis:** at fixed present-day mass, regions with deeper **assembly history** (high AI written earlier) slightly over-curve versus newly assembled twins—**history-dependent lensing/kinematics** as a small residual. **Feedback–gravity coupling:** systems with stronger **EI** (more intense internal read-back/feedback) exhibit tiny **active-stress** contributions to $T^{\text{eff}}$, predicting correlations between EI proxies and curvature residuals (same mass, different use-of-memory → slightly different geometry).
 
-Note that at the beginning, we defined stress-energy as $T^{\text{eff}}_{\mu\nu} \;=\; T_{\mu\nu}\;+\;\alpha\,A_{\mu\nu}[AI]\;+\;\beta\,\Theta_{\mu\nu}[EI]$. Now, after identifying _spacetime itself_ with $(M,AI,EI,F,G)$, we’ve actually derived the assembly and active tensors.
+Note that at the beginning, we defined stress-energy as $T^{\text{eff}}_{\mu\nu} \ =\  T_{\mu\nu}\ +\ \alpha\ A_{\mu\nu}[AI]\ +\ \beta\ \Theta_{\mu\nu}[EI]$. Now, after identifying _spacetime itself_ with $(M,AI,EI,F,G)$, we’ve actually derived the assembly and active tensors.
 
-$A_{\mu\nu}[AI] = T^{(M,AI)}_{\mu\nu} \;=\; \kappa\Big(\nabla_\mu M \nabla_\nu M - \tfrac{1}{2} g_{\mu\nu}(\nabla M)^2\Big) - g_{\mu\nu}\,V(M,AI)$
-$\Theta_{\mu\nu}[EI] = \Pi^{\text{active}}_{\mu\nu}[u^\alpha;EI] \;\;\sim\;\; p_{\text{act}}(EI)\,h_{\mu\nu} \;+\; \eta(EI)\,\sigma_{\mu\nu}(u) \;+\; \zeta(EI)\, \theta\, h_{\mu\nu} \;+\;\cdots$
+$A_{\mu\nu}[AI] = T^{(M,AI)}_{\mu\nu} \ =\  \kappa\Big(\nabla_\mu M \nabla_\nu M - \tfrac{1}{2} g_{\mu\nu}(\nabla M)^2\Big) - g_{\mu\nu}\ V(M,AI)$
+$\Theta_{\mu\nu}[EI] = \Pi^{\text{active}}_{\mu\nu}[u^\alpha;EI] \ \ \sim\ \  p_{\text{act}}(EI)\ h_{\mu\nu} \ +\  \eta(EI)\ \sigma_{\mu\nu}(u) \ +\  \zeta(EI)\  \theta\  h_{\mu\nu} \ +\ \cdots$
 where $h_{\mu\nu}$ is the spatial projector, $\sigma_{\mu\nu}$ the shear, $\theta$ the expansion.
 
-This definition $\;T^{\text{eff}}_{\mu\nu}\;=\; T^{(F)}_{\mu\nu}\;+\;T^{(M,AI)}_{\mu\nu}\;+\;\Pi^{\text{active}}_{\mu\nu}[EI]\;$ is exactly the same structural decomposition as the beginning definition, only more integrated.
+This definition $\ T^{\text{eff}}_{\mu\nu}\ =\  T^{(F)}_{\mu\nu}\ +\ T^{(M,AI)}_{\mu\nu}\ +\ \Pi^{\text{active}}_{\mu\nu}[EI]\ $ is exactly the same structural decomposition as the beginning definition, only more integrated.
 
 What we have now is that we can treat **spacetime = (network $\mathcal{G}$, fast fields $F$, slow memory $M$, assembly $AI$, experience $EI$)**. A scale-aware coarse-graining $\mathcal{Q}_\ell$ turns that structure into a Lorentzian metric and connection. Demanding stationarity of a structural action (with the metric _induced_ from the structure) **yields Einstein’s equations with an effective source** that carries **memory** and **feedback**. *The universe is a reflexive superorganism; curvature is just its structured connectivity seen as a continuum.*
 
@@ -998,7 +1004,7 @@ $\mathcal{S}_{\text{full}}=\big(\Omega,\ \mathcal{A},\ \mathcal{G},\ X(t),\ F(t)
 
 An action for the **organism**:
 
-$S=\!\int\!\sqrt{-g}\,\Big[\tfrac{1}{16\pi G}R+\mathcal L_F[F]+\mathcal L_{M,AI,\mathcal P}-\underbrace{V\big(M,AI;\mathcal P\big)}_{\text{assembly pathway potential}}+\mathcal L_{\text{active}}[u;\Sigma,\Pi,\Upsilon,EI]\Big]$.
+$S=\ \int\ \sqrt{-g}\ \Big[\tfrac{1}{16\pi G}R+\mathcal L_F[F]+\mathcal L_{M,AI,\mathcal P}-\underbrace{V\big(M,AI;\mathcal P\big)}_{\text{assembly pathway potential}}+\mathcal L_{\text{active}}[u;\Sigma,\Pi,\Upsilon,EI]\Big]$.
 
 - $\mathcal L_F$: fast fields (ordinary matter/radiation).
 - $\mathcal L_{M,AI,\mathcal P}$: slow memory stiffness + assembly-pathway costs (growth directed toward deeper $AI$).
@@ -1009,7 +1015,7 @@ Reproduction $\mathcal R$ appears as **topology-changing events** (new patches/s
 
 Varying **primitive variables** and using $g_{\mu\nu}^{(\ell)}=\mathcal Q_\ell(\cdot)$ gives
 
-$G_{\mu\nu}=8\pi G\,T^{\text{eff}}_{\mu\nu},\qquad T^{\text{eff}}_{\mu\nu}=\underbrace{T^{(F)}_{\mu\nu}}_{\text{fast}}+\underbrace{T^{(M,AI,\mathcal P)}_{\mu\nu}}_{\text{slow/assembly}}+\underbrace{\Pi^{\text{active}}_{\mu\nu}[u;\Sigma,\Pi,\Upsilon,EI]}_{\text{experience/agency}}\,$,
+$G_{\mu\nu}=8\pi G\ T^{\text{eff}}_{\mu\nu},\qquad T^{\text{eff}}_{\mu\nu}=\underbrace{T^{(F)}_{\mu\nu}}_{\text{fast}}+\underbrace{T^{(M,AI,\mathcal P)}_{\mu\nu}}_{\text{slow/assembly}}+\underbrace{\Pi^{\text{active}}_{\mu\nu}[u;\Sigma,\Pi,\Upsilon,EI]}_{\text{experience/agency}}\ $,
 
 exactly the earlier decomposition—but now **derived from the full organism**, with $\Pi^{\text{active}}$ sourced by the **EI feedback** (the entropy-pump/active-matter block).
 
@@ -1077,11 +1083,13 @@ In this view, EM fields don’t “know” about the deep internal AI of a charg
 
 Suppose we have an **organism** $\mathcal{O}$ with state $\mathcal{S}(\mathcal{O}) = (\mathcal{G},F,M,AI,EI,\ldots)$. Inside $\mathcal{O}$, there are **sub-organisms** (e.g. organs, cells, particles), each with their own state $\mathcal{S}(\mathcal{O}_i)$. So structurally:
 
-$$\mathcal{O} = \bigcup_i \mathcal{O}_i,\qquad \mathcal{S}(\mathcal{O}) = \mathcal{F}\big(\{\mathcal{S}(\mathcal{O}_i)\}\big).$$
+$$
+\mathcal{O} = \bigcup_i \mathcal{O}_i,\qquad \mathcal{S}(\mathcal{O}) = \mathcal{F}\big(\{\mathcal{S}(\mathcal{O}_i)\}\big).
+$$
 
 Each sub-organism $\mathcal{O}_i$ has **fine-grained structure**, its own detailed pathways, assembly records, feedback loops. The **parent organism** cannot (and need not) keep track of all this detail. Instead, it sees only a **compressed representation**: a _field variable_. Mathematically:
 
-$\mathcal{Q}_\ell : \{\mathcal{S}(\mathcal{O}_i)\} \;\longrightarrow\; \Phi(x)$
+$\mathcal{Q}_\ell : \{\mathcal{S}(\mathcal{O}_i)\} \ \longrightarrow\  \Phi(x)$
 
 where $\Phi(x)$ is a **field** (electromagnetic potential, stress-energy tensor, etc.) at scale $\ell$. $\mathcal{Q}_\ell$ is a **coarse-graining map**: averages, integrates, or smooths out the sub-structures into a continuous parameter field and $\ell$ is resolution scale of the parent.
 
@@ -1089,7 +1097,7 @@ In general, **for every nested organism, the parent perceives the child’s inte
 
 ### Biological evidence: hierarchy & smoothing
 
-In living systems, hierarchy and smoothing are not speculative. We can observe them as _daily facts of life_. 
+In living systems, hierarchy and smoothing are not speculative. We can observe them as _daily facts of life_.
 
 Let's explore the case of **cells → tissues → organs → organism** hierarchy. Each cell has its own internal complexity (gene regulation, metabolic networks, protein assemblies). The tissue or organ that hosts the cells does not track every molecular detail. Instead, it interacts with **field-like summaries** through mechanisms like hormone levels (a field of concentration, smoothing over many individual secretions) or membrane potentials or electrical fields in tissues (e.g. heart, brain) or stress/strain fields in connective tissue. The parent organism _relates to the organ through these fields_, not through raw intra-cellular complexity.
 
@@ -1152,7 +1160,7 @@ We begin with *reflexive loop* between a **parent organism** $P$ and its set of 
 The steps in the loop are as follows:
 
 1. **Parent $\rightarrow$ children (write)**
-	1. Start with the **parent’s coarse description**. The parent already holds a field $\Phi_P(x)$. 
+	1. Start with the **parent’s coarse description**. The parent already holds a field $\Phi_P(x)$.
 	2. **Encode the field**: $W_P\bigl(\Phi_P\bigr)=\mathcal{E}_P.$ This step is fast (e.g., neural firing, hormonal release) and produces an *encoding* that can be sent to all children.
 	3. **Broadcast to children**: Each child receives $\mathcal{E}_P$.  The child interprets it according to its own internal rules.
 2. **Child $\rightarrow$ parent (write)**
@@ -1161,12 +1169,12 @@ The steps in the loop are as follows:
 	3. **Encode back to parent**: Each child produces an encoding of its updated state $\Psi_{O_i} = G_i\bigl(\mathcal{S}_{new}(O_i)\bigr),$ where $G_i$ is a *write* map that compresses the fine structure into a message.
 3. **Parent reads children's messages**
 	1. **Collect all child encodings**: $\{\Psi_{O_i}\}_{i=1}^N.$
-	2. **Coarse‑grain into a new field**: Apply the parent’s coarse‑graining map $\Phi_P^{new}(x)=\mathcal{Q}_\ell^{(P)}\!\bigl(\{\Psi_{O_i}\}_{i=1}^N\bigr).$ This is precisely the mapping where the parent *cannot* keep all fine details; it only perceives a smoothed field.
+	2. **Coarse‑grain into a new field**: Apply the parent’s coarse‑graining map $\Phi_P^{new}(x)=\mathcal{Q}_\ell^{(P)}\ \bigl(\{\Psi_{O_i}\}_{i=1}^N\bigr).$ This is precisely the mapping where the parent *cannot* keep all fine details; it only perceives a smoothed field.
 	3. **Optional refinement**:  If desired, feed $\Phi_P^{new}$ back through $W_P$ to generate a new encoding $\mathcal{E}_P^{new}$, closing the loop.
 
 **Iterative Reflexive Cycle**: the whole process can be written as an iteration:
 
-$\begin{aligned}\mathcal{E}_P^{(k)} &= W_P\!\bigl(\Phi_P^{(k)}\bigr) ,\\ \Psi_{O_i}^{(k)} &= G_i\!\Bigl(F_i\!\bigl(\mathcal{E}_P^{(k)}\bigr)\Bigr), \\ \Phi_P^{(k+1)}(x) &= \mathcal{Q}_\ell^{(P)}\!\Bigl(\{\Psi_{O_i}^{(k)}\}_{i=1}^N\Bigr).\end{aligned}$
+$\begin{aligned}\mathcal{E}_P^{(k)} &= W_P\ \bigl(\Phi_P^{(k)}\bigr) ,\\ \Psi_{O_i}^{(k)} &= G_i\ \Bigl(F_i\ \bigl(\mathcal{E}_P^{(k)}\bigr)\Bigr), \\ \Phi_P^{(k+1)}(x) &= \mathcal{Q}_\ell^{(P)}\ \Bigl(\{\Psi_{O_i}^{(k)}\}_{i=1}^N\Bigr).\end{aligned}$
 
 Here $k$ indexes discrete time steps or “cycles”.  
 
@@ -1180,19 +1188,21 @@ Let's try to sketch out a mathematically explicit model that takes the above alg
 
 The essential layers for every organism $P$ are organs, fast and slow fields. Organs $\mathcal{A}_P=\{O_i^P\}_{i=1}^{N_P}$ represent discrete functional units (cells, tissues, colonies). Each has an internal state $x_{i}^P(t)\in\mathbb{R}^{d_x}$.  Fast fields $\phi_P(x,t)\in\mathbb{R}^{d_\phi}$ are spatially distributed signals (pheromones, electric potential, etc.) that obey a diffusion‑decay PDE. Slow memory $M_P(t)\in\mathcal{M}_P\subset \mathbb{R}^{d_M}$ holds the structural variables (architecture, caste distribution, vascular network). These are updated only on long time scales.
 
-The key idea is that each layer feeds into the next via linear/non‑linear operators that are *self‑similar* across scales, i.e., the same functional form can be used for a child organism $O_i^P$ and for its own parent $P$. 
+The key idea is that each layer feeds into the next via linear/non‑linear operators that are *self‑similar* across scales, i.e., the same functional form can be used for a child organism $O_i^P$ and for its own parent $P$.
 
 We start with the agent dynamics in the fast field. Each organ $O_i^P$ evolves according to an ODE that depends on its own internal state, on the local value of the fast field $\phi_P$, and on the influence of other organs through a *communication graph* $\mathcal{G}_P=(V,E)$.
 
 Let $L_{\mathcal{G}_P}$ be the graph Laplacian of $\mathcal{G}_P$.  The **evolution of each organ’s state** is governed by
 
-$$\dot{x}_{i}^P = f\!\bigl(x_{i}^P,\, \phi_P(r_i,t),\, (L_{\mathcal{G}_P}x^P)_i\bigr) + \sigma\,\eta_i(t)$$
+$$
+\dot{x}_{i}^P = f\ \bigl(x_{i}^P,\  \phi_P(r_i,t),\  (L_{\mathcal{G}_P}x^P)_i\bigr) + \sigma\ \eta_i(t)
+$$
 
-where: 
+where:
 
 - $r_i$ is the physical location of organ $O_i^P$;  
 - $\phi_P(r_i,t)$ is the field sampled at that point;  
-- $(L_{\mathcal{G}_P}x^P)_i = \sum_{j}\! w_{ij}(x_j^P-x_i^P)$ encodes diffusive coupling on the graph;  
+- $(L_{\mathcal{G}_P}x^P)_i = \sum_{j}\  w_{ij}(x_j^P-x_i^P)$ encodes diffusive coupling on the graph;  
 - $f$ may be a nonlinear function (e.g., logistic growth, threshold firing);  
 - $\eta_i(t)$ is Gaussian noise and $\sigma$ its strength.
 
@@ -1200,28 +1210,38 @@ This way we capture *fast* interactions within the organism while still allowing
 
 Next, let's look at the **fast field dynamics**. The field obeys a *reaction‑diffusion* equation whose source term aggregates contributions from all organs:
 
-$$\partial_t \phi_P(x,t) = D\,\Delta \phi_P - \kappa\,\phi_P + S\!\bigl(\{x_i^P(t)\}_{i=1}^{N_P}\bigr),$$
+$$
+\partial_t \phi_P(x,t) = D\ \Delta \phi_P - \kappa\ \phi_P + S\ \bigl(\{x_i^P(t)\}_{i=1}^{N_P}\bigr),
+$$
 
-with $D$ is the diffusion coefficient,  $\kappa$ a decay rate and $S$ is a *source* operator that maps organ states to field production (e.g., secretion of pheromone proportional to metabolic activity). A convenient choice for $S$ could be $S(\{x_i^P\}) = \sum_{i=1}^{N_P} g(x_i^P)\,\delta(x-r_i)$, where $g:\mathbb{R}^{d_x}\to\mathbb{R}^{d_\phi}$ converts organ activity into field output, and $\delta$ is the Dirac delta localised at each organ.
+with $D$ is the diffusion coefficient,  $\kappa$ a decay rate and $S$ is a *source* operator that maps organ states to field production (e.g., secretion of pheromone proportional to metabolic activity). A convenient choice for $S$ could be $S(\{x_i^P\}) = \sum_{i=1}^{N_P} g(x_i^P)\ \delta(x-r_i)$, where $g:\mathbb{R}^{d_x}\to\mathbb{R}^{d_\phi}$ converts organ activity into field output, and $\delta$ is the Dirac delta localised at each organ.
 
 Next in the big three is the definition of the **slow memory dynamics**. The slow component $M_P(t)$ aggregates past experiences and structural changes. It evolves according to a *discrete* update that integrates over many fast cycles:
 
-$$M_P(k+1)= \mathcal{Q}_P\!\bigl(M_P(k),\, \overline{x}^P(k),\, \overline{\phi}_P(k)\bigr)$$
+$$
+M_P(k+1)= \mathcal{Q}_P\ \bigl(M_P(k),\  \overline{x}^P(k),\  \overline{\phi}_P(k)\bigr)
+$$
 
 where:  
 
 - $k$ indexes *coarse‑grained* time steps (e.g., days, generations);  
-- $\overline{x}^P(k)=\frac{1}{T}\int_{t_k}^{t_{k+1}}\!\!x^P(t)\,dt$ is a time‑averaged (coarse‑grained) value of the fast variable $x^P(t)$ and similarly 
-- $\overline{\phi}_P(k)(x)=\frac{1}{T}\int_{t_k}^{t_{k+1}}\!\phi_P(x,t)\,dt$  for the field;
+- $\overline{x}^P(k)=\frac{1}{T}\int_{t_k}^{t_{k+1}}\ \ x^P(t)\ dt$ is a time‑averaged (coarse‑grained) value of the fast variable $x^P(t)$ and similarly 
+- $\overline{\phi}_P(k)(x)=\frac{1}{T}\int_{t_k}^{t_{k+1}}\ \phi_P(x,t)\ dt$  for the field;
 - $\mathcal{Q}_P$ is a *coarse‑graining operator* that may perform averaging, thresholding, or structural adaptation (e.g., adding/removing nodes in the communication graph).
 
-The memory update can be written as an ODE with a very small time constant, for example $\tau_M \dot{M}_P = -M_P + \mathcal{F}\!\bigl(\overline{x}^P,\,\overline{\phi}_P\bigr), \tau_M\gg 1 .$
+The memory update can be written as an ODE with a very small time constant, for example $\tau_M \dot{M}_P = -M_P + \mathcal{F}\ \bigl(\overline{x}^P,\ \overline{\phi}_P\bigr), \tau_M\gg 1 .$
 
-Let's consider a more general **hierarchical coupling**, not only an organism with organs, but an organism $P$ that itself contains sub-organisms. Let's define two operators based on the location of their activity. On the parent level, we have an **upward operator** $\mathcal{U}$, which aggregates the fields of children  $\phi_P^{\text{in}}(x,t)= \sum_{Q\in \text{sub}(P)} w_Q\,\phi_Q(x,t),$ where  are weighting factors (e.g., proportional to the size of child ).  The children receive a coarse-grained field from the parent via **downward operator** $\mathcal{D}$ and inject them into their own: $\phi_Q^{\text{out}}(x,t)= \mathcal{D}\!\bigl(M_P(t),\,\phi_P(x,t)\bigr).$  These operators are chosen to preserve the *self‑similar* structure: if $P$ is a single organ, $\mathcal{D}$ and $\mathcal{U}$ reduce to identity.
+Let's consider a more general **hierarchical coupling**, not only an organism with organs, but an organism $P$ that itself contains sub-organisms. Let's define two operators based on the location of their activity. On the parent level, we have an **upward operator** $\mathcal{U}$, which aggregates the fields of children  $\phi_P^{\text{in}}(x,t)= \sum_{Q\in \text{sub}(P)} w_Q\ \phi_Q(x,t),$ where  are weighting factors (e.g., proportional to the size of child ).  The children receive a coarse-grained field from the parent via **downward operator** $\mathcal{D}$ and inject them into their own: $\phi_Q^{\text{out}}(x,t)= \mathcal{D}\ \bigl(M_P(t),\ \phi_P(x,t)\bigr).$  These operators are chosen to preserve the *self‑similar* structure: if $P$ is a single organ, $\mathcal{D}$ and $\mathcal{U}$ reduce to identity.
 
 Collecting it all for every organism in the hierarchy yields a **coupled multi‑scale dynamical system**:
 
-$$\begin{cases}\dot{x}_{i}^P = f\!\bigl(x_{i}^P,\, \phi_P(r_i,t),\, (L_{\mathcal{G}_P}x^P)_i\bigr) + \sigma\,\eta_i(t),\\ \partial_t \phi_P(x,t) = D\,\Delta \phi_P - \kappa\,\phi_P + \displaystyle\sum_{j=1}^{N_P} g(x_j^P)\,\delta(x-r_j),\\ \tau_M \dot{M}_P = -M_P + \mathcal{F}\!\bigl(\overline{x}^P,\,\overline{\phi}_P\bigr),\end{cases}\qquad\text{with hierarchical coupling via } \mathcal{D},\;\mathcal{U}.$$
+$$
+\begin{cases}
+\dot{x}_{i}^P = f\ \bigl(x_{i}^P,\  \phi_P(r_i,t),\  (L_{\mathcal{G}_P}x^P)_i\bigr) + \sigma\ \eta_i(t),\\
+\partial_t \phi_P(x,t) = D\ \Delta \phi_P - \kappa\ \phi_P + \displaystyle\sum_{j=1}^{N_P} g(x_j^P)\ \delta(x-r_j),\\
+\tau_M \dot{M}_P = -M_P + \mathcal{F}\ \bigl(\overline{x}^P,\ \overline{\phi}_P\bigr),
+\end{cases} \qquad \text{with hierarchical coupling via } \mathcal{D},\ \mathcal{U}.
+$$
 
 Let's investigate the definitions a bit. We defined *spatial realism* through diffusion equation for fields rather than abstract “encoding”.  *Graph coupling* captures non‑local interactions without resorting to continuous averaging. The scalar $\tau_M>0$ is a **time‑constant** (or *memory lag*) that determines how rapidly the slow memory can respond to changes in the fast variables, or, **$\tau_M$** is the *characteristic time* over which slow memory $M_P$ integrates fast fluctuations.  Its meaning and practical implications are:
 
@@ -1269,12 +1289,12 @@ The parent _creates_ and _sends_ the field → this is what the parent calls
 The parent sends its *coarse‑grained* field to its children via an **downward operator** $\mathcal{D}$.  
 The *downward* operator $\mathcal{D}$ thus supplies a field that each child $O_i$ receives from its immediate parent $P$:
 
-$\phi_{O_i}^{\text{in}}(x,t) = \mathcal{D}\!\bigl(\Phi_P(x,t)\bigr) = w_P\,\Phi_P(x,t),$
+$\phi_{O_i}^{\text{in}}(x,t) = \mathcal{D}\ \bigl(\Phi_P(x,t)\bigr) = w_P\ \Phi_P(x,t),$
 
 where $w_P$ is a weight (e.g., proportional to the child’s size or coupling strength).  
 In practice, this term appears in the child’s field equation:
 
-$\partial_t \phi_{O_i}(x,t) = D\,\Delta \phi_{O_i} - \kappa\,\phi_{O_i} + \sum_{j=1}^{N_{O_i}} g(x_j^{O_i})\,\delta(x-r_j) + \phi_{O_i}^{\text{in}}(x,t).$
+$\partial_t \phi_{O_i}(x,t) = D\ \Delta \phi_{O_i} - \kappa\ \phi_{O_i} + \sum_{j=1}^{N_{O_i}} g(x_j^{O_i})\ \delta(x-r_j) + \phi_{O_i}^{\text{in}}(x,t).$
 
 Thus the downward operator acts as an *external source* that is added to the field dynamics of every child. We denote the field generated by the downward operator as $\phi^{\text{in}}_{Q}$ when we view it from the child’s perspective, and equivalently as $\phi^{\text{out}}_{Q}$ when we treat it as the output of the parent’s downward step. The two symbols refer to the same quantity: $\phi^{\text{in}}_{Q} = \phi^{\text{out}}_{Q}$.
 
@@ -1282,11 +1302,11 @@ Thus the downward operator acts as an *external source* that is added to the fie
 
 After a child has produced its encoding $\Psi_{O_i}$ (which depends on its own fast state), the parent aggregates all of them into a new field:
 
-$\Phi_P^{\text{new}}(x) = \mathcal{U}\!\bigl(\{\Psi_{O_i}\}_{i=1}^{N_P}\bigr)  = \mathcal{Q}_\ell^{(P)}\!\Bigl(\{\Psi_{O_i}\}\Bigr).$
+$\Phi_P^{\text{new}}(x) = \mathcal{U}\ \bigl(\{\Psi_{O_i}\}_{i=1}^{N_P}\bigr)  = \mathcal{Q}_\ell^{(P)}\ \Bigl(\{\Psi_{O_i}\}\Bigr).$
 
 Equation is simply the third line of the reflexive cycle, now labeled as $\mathcal{U}$. It becomes a *boundary condition* for the parent’s field equation:
 
-$\partial_t \phi_P(x,t) = D\,\Delta \phi_P - \kappa\,\phi_P + \sum_{j=1}^{N_P} g(x_j^P)\,\delta(x-r_j) + \underbrace{\bigl(\Phi_P^{\text{new}}(x) - \Phi_P(x,t)\bigr)}_{\text{upward feedback term}}.$
+$\partial_t \phi_P(x,t) = D\ \Delta \phi_P - \kappa\ \phi_P + \sum_{j=1}^{N_P} g(x_j^P)\ \delta(x-r_j) + \underbrace{\bigl(\Phi_P^{\text{new}}(x) - \Phi_P(x,t)\bigr)}_{\text{upward feedback term}}.$
 
 In many implementations the upward term simply *replaces* the old field value at discrete update steps (i.e., $\phi_P \leftarrow \Phi_P^{\text{new}}$).  The key point is that $\mathcal{U}$ injects the children’s coarse information back into the parent’s dynamics.
 
@@ -1294,7 +1314,7 @@ In many implementations the upward term simply *replaces* the old field value at
 
 When you stack these operators across many levels, you obtain a **coupled multi‑scale dynamical system**:
 
-$\begin{aligned}&\dot{\phi}_P = F_P(\phi_P,\;\phi_P^{\text{in}},\;M_P),\\ &\dot{\phi}_Q = F_Q(\phi_Q,\;\phi_Q^{\text{out}},\;M_Q), \end{aligned}$
+$\begin{aligned}&\dot{\phi}_P = F_P(\phi_P,\ \phi_P^{\text{in}},\ M_P),\\ &\dot{\phi}_Q = F_Q(\phi_Q,\ \phi_Q^{\text{out}},\ M_Q), \end{aligned}$
 
 with $F_P,F_Q$ being the intrinsic dynamics of each level.  The hierarchy thus becomes a reflexive loop: the parent’s field shapes its children, while the aggregated feedback from all children reshapes the parent.
 
@@ -1316,9 +1336,9 @@ So while the equations look like simple averages, they’re really shorthand for
 
 Let's make an explicit algorithmic description of a reflexive cycle within a hierarchy using the upward and downward operators. It ties neatly the dynamics of a fast-slow cycle to include the hierarchical flow of information. An iteration of the fast-slow reflexive loop can be defined via operators as follows:
 
-1. **Parent aggregates children via $\mathcal{U}$.**  The parent collects all child encodings $\{\Psi_{O_i}\}$ and applies its coarse‑graining map  $\Phi_P^{\text{new}}(x,t)=\mathcal{U}\bigl(\{\Psi_{O_i}\}\bigr)=\mathcal{Q}_\ell^{(P)}\!\bigl(\{\Psi_{O_i}\}\bigr).$
-2. Parent pushes the new field down. Each **child receives the updated parent field through $\mathcal{D}$** as an external input: $\phi_{O_i}^{\text{in}}(x,t)=\mathcal{D}_i\bigl(\Phi_P^{\text{new}}\bigr) =\sum_{Q\in\text{sub}(P)}w_Q\,\Phi_P^{\text{new}}.$
-3. **Child follows the guidance**, the received field $\phi_{O_i}^{\text{in}}$ enters its fast dynamics. 
+1. **Parent aggregates children via $\mathcal{U}$.**  The parent collects all child encodings $\{\Psi_{O_i}\}$ and applies its coarse‑graining map  $\Phi_P^{\text{new}}(x,t)=\mathcal{U}\bigl(\{\Psi_{O_i}\}\bigr)=\mathcal{Q}_\ell^{(P)}\ \bigl(\{\Psi_{O_i}\}\bigr).$
+2. Parent pushes the new field down. Each **child receives the updated parent field through $\mathcal{D}$** as an external input: $\phi_{O_i}^{\text{in}}(x,t)=\mathcal{D}_i\bigl(\Phi_P^{\text{new}}\bigr) =\sum_{Q\in\text{sub}(P)}w_Q\ \Phi_P^{\text{new}}.$
+3. **Child follows the guidance**, the received field $\phi_{O_i}^{\text{in}}$ enters its fast dynamics.
 4. **Child’s trajectory generates new data** like sensor readings, actions, currents. These are written into the child’s local memory, the “record” part of the EI.  
 5. **Child writes its record to the parent**. The *write* operation that the parent will later read. In practice this means each child contributes a term $\Psi_{O_i}$ back to the pool that the next $\mathcal{U}$ call will aggregate.
 
@@ -1340,16 +1360,22 @@ Furthermore, reflexive model introduces a hierarchy of organisms, each with thei
 
 First, let us write down the core equations for one organism $O$ (this could be any member of the hierarchy; the notation is identical).
 
-- **Fast dynamics**  $\dot{x}^{\mu}_{F}(t)=v^{\mu}\bigl(x_{F},\,j^\nu(t)\bigr),$ where $x_{F}$ are the fast variables (e.g., charge densities, field amplitudes) and $j^\nu$ are the read‑back currents that feed into EI.
+- **Fast dynamics**  $\dot{x}^{\mu}_{F}(t)=v^{\mu}\bigl(x_{F},\ j^\nu(t)\bigr),$ where $x_{F}$ are the fast variables (e.g., charge densities, field amplitudes) and $j^\nu$ are the read‑back currents that feed into EI.
 - **Memory update**  $\dot{M}(t)= -\frac{1}{\tau_{M}}\bigl(M(t)-M_{\text{eq}}[x_{F}]\bigr).$ The equilibrium $M_{\text{eq}}$ is a functional of the fast variables; it captures how the organism “stores” the recent history of its internal dynamics.
-- **Emergent metric**  $g_{\mu\nu}^{(\ell)}(x,t)=\mathcal{Q}_{\ell}\!\bigl(M(t),\,AI(t)\bigr).$ The map $\mathcal{Q}_{\ell}$ is the organism’s *self‑reflection*, it interprets the current state of memory and assembly as a coarse‑grained geometry.  Importantly, $g_{\mu\nu}^{(\ell)}$ is *time‑dependent* because both $M(t)$ and $AI(t)$ evolve.
-- **Proper time along an organism’s worldline**  $d\tau_{O}= \frac{1}{c}\sqrt{-\,g_{\mu\nu}^{(\ell)}(x,t)\,dx^{\mu}dx^{\nu}}.$ Since $g_{\mu\nu}^{(\ell)}$ varies on the timescale $\tau_{M}$, the rate at which proper time elapses for $O$ is modulated by how fast its memory can update.
+- **Emergent metric**  $g_{\mu\nu}^{(\ell)}(x,t)=\mathcal{Q}_{\ell}\ \bigl(M(t),\ AI(t)\bigr).$ The map $\mathcal{Q}_{\ell}$ is the organism’s *self‑reflection*, it interprets the current state of memory and assembly as a coarse‑grained geometry.  Importantly, $g_{\mu\nu}^{(\ell)}$ is *time‑dependent* because both $M(t)$ and $AI(t)$ evolve.
+- **Proper time along an organism’s worldline**  $d\tau_{O}= \frac{1}{c}\sqrt{-\ g_{\mu\nu}^{(\ell)}(x,t)\ dx^{\mu}dx^{\nu}}.$ Since $g_{\mu\nu}^{(\ell)}$ varies on the timescale $\tau_{M}$, the rate at which proper time elapses for $O$ is modulated by how fast its memory can update.
 
 Now, consider a **parent organism** $P$ and one of its **child organs** $O_i$.  Each has its own reflexive loop, but they are coupled in two ways. One, the organ’s fast dynamics generate *read‑back currents* $j^\mu_{i}(t)$. These currents are summed over all organs and fed into the parent’s memory $M_P$. Thus, the parent “writes” its geometry from the aggregate of its children. Second, the parent’s emergent metric $g_{\mu\nu}^{(\ell)}(P)$, updated on a slower timescale $\tau_{M,P}$, is broadcast to each organ as part of the *slow* background field that modulates their fast dynamics. In effect, the child reads its environment from the parent’s coarse‑grained geometry.
 
 Mathematically we write:
 
-$\begin{aligned} \dot{M}_P(t) &= -\frac{1}{\tau_{M,P}}\left(M_P - M_{\text{eq}}\left[ j^\mu_i \right]\right), \\  g^{(\ell)}_{\mu\nu}(P,t) &= \mathcal{Q}_{\ell}\left( M_P(t), AI_P(t) \right), \\     \dot{x}^{\alpha}_{i,F}(t) &= v^\alpha\left( x_{i,F}, j^\beta_i, g_{\mu\nu}^{(\ell)}(P,t) \right). \end{aligned}$
+$$
+\begin{aligned}
+\dot{M}_P(t) &= -\frac{1}{\tau_{M,P}}\left(M_P - M_{\text{eq}}\left[ j^\mu_i \right]\right), \\
+g^{(\ell)}_{\mu\nu}(P,t) &= \mathcal{Q}_{\ell}\left( M_P(t), AI_P(t) \right), \\
+\dot{x}^{\alpha}_{i,F}(t) &= v^\alpha\left( x_{i,F}, j^\beta_i, g_{\mu\nu}^{(\ell)}(P,t) \right).
+\end{aligned}
+$$
 
 The *time* that each organ experiences is thus a **function of the parent’s memory** and vice versa. Because $\tau_{M,P}$ is usually much larger than $\tau_{M,i}$, the parent’s proper time drifts slowly relative to its organs, which can adapt rapidly.
 
@@ -1364,33 +1390,26 @@ Rewards are mostly seen as external feedback, imposed as optimization criterion.
 In the reflexive organism model, the “reward” is not external, it’s **how much the loop is closed**. So instead of $R_t$, we use the **instantaneous experience index** $EI_t$:
 
 $$
-\Pi^* \;=\; \arg\max_{\Pi}\; \mathbb{E}_\Pi\!\left[\sum_{t=0}^\infty \gamma^t \, EI_t \right].
+\Pi^* \ =\  \arg\max_{\Pi}\  \mathbb{E}_\Pi\ \left[\sum_{t=0}^\infty \gamma^t \  EI_t \right].
 $$
 
-where 
+where
 
-$$EI_t \;=\; 
-\underbrace{\frac{I(M_{t-\tau};\,S_t \mid E_{t-\tau:t})}{H(S_t)}}_{\text{Memory→sensing}} \;
-\cdot\;
-\underbrace{\frac{TE(M_{t-\tau}\!\to\!\Pi_t \mid E_{t-\tau:t})}{C_{\Pi}}}_{\text{Memory→policy}} \;
-\cdot\;
-\underbrace{\frac{I(O_t;\,\hat O_t)}{H(O_t)}}_{\text{Prediction groundedness}} \;
-\cdot\;
-\underbrace{\rho_t}_{\text{reuse/coverage}}.$$
+$$
+EI_t \ =\ \underbrace{\frac{I(M_{t-\tau}; S_t \mid E_{t-\tau:t})}{H(S_t)}}_{\text{Memory→sensing}} \cdot \underbrace{\frac{TE(M_{t-\tau}\to\Pi_t \mid E_{t-\tau:t})}{C_{\Pi}}}_{\text{Memory→policy}} \cdot \underbrace{\frac{I(O_t;\hat O_t)}{H(O_t)}}_{\text{Prediction groundedness}} \cdot\underbrace{\rho_t}_{\text{reuse/coverage}}.
+$$
 
 So the reward isn’t a number handed down externally, it’s calculated internally from **information flows** between memory, sensing, policy, and outcomes. This is the **EI-RL principle** to optimize for trajectories that maximize reflexive experience over time.
 
 However, this is only one part of the loop. We need to include AI as well. This could produce a **log-product** reward metric, something like:
 
 $$
-r_t \;=\; \underbrace{\alpha\,\log \big(\mathrm{AI}_t+\epsilon\big)}_{\text{build}}\;+\;\underbrace{\beta\,\log \big(\mathrm{EI}^{\star}_t+\epsilon\big)}_{\text{experience}}
-\quad\Rightarrow\quad
-\max_{\Pi}\ \mathbb{E}_\Pi\!\Big[\sum_t \gamma^t r_t\Big].
+r_t \ =\  \underbrace{\alpha\ \log \big(\mathrm{AI}_t+\epsilon\big)}_{\text{build}}\ +\ \underbrace{\beta\ \log \big(\mathrm{EI}^{\star}_t+\epsilon\big)}_{\text{experience}} \quad\Rightarrow\quad \max_{\Pi}\ \mathbb{E}_\Pi\ \Big[\sum_t \gamma^t r_t\Big].
 $$
 
-Or **power-product** like $R_{\text{episode}} \;=\; \prod_{t} \Big(\mathrm{AI}_t^{\alpha}\,(\mathrm{EI}^{\star}_t)^{\beta}\Big)^{\gamma^t}.$
+Or **power-product** like $R_{\text{episode}} \ =\  \prod_{t} \Big(\mathrm{AI}_t^{\alpha}\ (\mathrm{EI}^{\star}_t)^{\beta}\Big)^{\gamma^t}.$
 
-An example of reward for practical drop-in is presented in $r_t$ as $r_t \;=\; \alpha\,\log \big(\mathrm{AI}_t+\epsilon\big)\;+\;\beta\,\log \big(\mathrm{EI}_t \cdot \tfrac{I(S_t;E_{t-\tau:t})}{H(S_t)} \cdot (1-\tfrac{D_{\mathrm{KL}}(p(O_t)\,\|\,p(\hat O_t))}{H(O_t)}) + \epsilon\big)\;-\;\lambda\,c_t.$ 
+An example of reward for practical drop-in is presented in $r_t$ as $r_t \ =\  \alpha\ \log \big(\mathrm{AI}_t+\epsilon\big)\ +\ \beta\ \log \big(\mathrm{EI}_t \cdot \tfrac{I(S_t;E_{t-\tau:t})}{H(S_t)} \cdot (1-\tfrac{D_{\mathrm{KL}}(p(O_t)\ \|\ p(\hat O_t))}{H(O_t)}) + \epsilon\big)\ -\ \lambda\ c_t.$
 
 ### Rewards through hierarchy
 
@@ -1400,11 +1419,8 @@ The intent is to reuse the upward $\mathcal U$ and downward $\mathcal D$ operato
 
 $$
 \begin{aligned}
-\phi_{\mathcal{O}_i}^{\text{out}}&=\mathcal U\!\big(M_P,\phi_P\big),\quad
-\phi_P^{\text{in}}=\sum_{\mathcal{O}_i\in \mathcal{O}}w_{\mathcal{O}_i}\,\phi_{\mathcal{O}_i},
-\\
-\dot{\phi}_P&=F_P(\phi_P,\phi_P^{\text{in}},M_P),\quad
-\dot{\phi}_{\mathcal{O}_i}=F_{\mathcal{O}_i}(\phi_{\mathcal{O}_i},\phi_{\mathcal{O}_i}^{\text{out}},M_{\mathcal{O}_i}). 
+\phi_{\mathcal{O}_i}^{\text{out}}&=\mathcal U\ \big(M_P,\phi_P\big),\quad \phi_P^{\text{in}}=\sum_{\mathcal{O}_i\in \mathcal{O}}w_{\mathcal{O}_i}\ \phi_{\mathcal{O}_i},\\
+\dot{\phi}_P&=F_P(\phi_P,\phi_P^{\text{in}},M_P),\quad \dot{\phi}_{\mathcal{O}_i}=F_{\mathcal{O}_i}(\phi_{\mathcal{O}_i},\phi_{\mathcal{O}_i}^{\text{out}},M_{\mathcal{O}_i}).
 \end{aligned}
 $$
 
@@ -1413,11 +1429,7 @@ These realize the “parent shapes child, children reshape parent” reflexive l
 Looking at **downward** responsiveness from the parent to a child, what we're interested in is whether the parent’s broadcast of $\phi_P^{\text{out}}$ actually enter the child’s sensing and *causally* shape its policy. Thus the **downward quality** is defined as
 
 $$
-C_{\downarrow}(\mathcal{O}_i\!\mid\!P)_t
-\;=\;
-\frac{I\!\big(S_{\mathcal{O}_i,t};\,\phi_{P,t}^{\text{out}}\big)}{H(S_{\mathcal{O}_i,t})}
-\cdot
-\frac{TE\!\big(\phi_{P,t-\tau:t}^{\text{out}}\!\to\!\Pi_{\mathcal{O}_i,t}\big)}{\mathcal{C}_{\Pi_{\mathcal{O}_i}}}
+C_{\downarrow}(\mathcal{O}_i\ \mid\ P)_t \ =\  \frac{I\ \big(S_{\mathcal{O}_i,t};\ \phi_{P,t}^{\text{out}}\big)}{H(S_{\mathcal{O}_i,t})} \cdot \frac{TE\ \big(\phi_{P,t-\tau:t}^{\text{out}}\ \to\ \Pi_{\mathcal{O}_i,t}\big)}{\mathcal{C}_{\Pi_{\mathcal{O}_i}}}
 $$
 
 The first factor measures readability, it deals with how much the children actually see the parent. The second factor measures usefulness and is all about how much the parent changes the child's decisions. So $C_{\downarrow}$ is a **dimensionless quality score** for the *downward* interface.
@@ -1425,49 +1437,30 @@ The first factor measures readability, it deals with how much the children actua
 Now, let's do the other way around and look at **upward** fidelity, that is, do the children’s aggregated messages match the parent’s predicted/desired in-field and inform the parent’s policy. The **upward quality** is thus defined as
 
 $$
-C_{\uparrow}(P\!\mid\!\mathcal{O})_t
-\;=\;
-\Big(1-\frac{D\!\big(\phi_{P,t}^{\text{in}}\;\|\;\widehat{\phi}_{P,t}^{\text{pred}}\big)}{Z}\Big)
-\cdot
-\frac{TE\!\big(\{\phi_{Q_j,t-\tau:t}\}\!\to\!\Pi_{P,t}\big)}{\mathcal{C}_{\Pi_P}}
+C_{\uparrow}(P\ \mid\ \mathcal{O})_t \ =\  \Big(1-\frac{D\ \big(\phi_{P,t}^{\text{in}}\ \|\ \widehat{\phi}_{P,t}^{\text{pred}}\big)}{Z}\Big) \cdot \frac{TE\ \big(\{\phi_{Q_j,t-\tau:t}\}\ \to\ \Pi_{P,t}\big)}{\mathcal{C}_{\Pi_P}}
 $$
 
-The first factor is about model calibration, it deals with how much the children match what the parent thinks they will send. $Z$ is the normalization constant or the upper bound, something like $Z=\max_{t}\,D\!\big(\phi_{P,t}^{\text{in}}\;\|\;\widehat{\phi}_{P,t}^{\text{pred}}\big)$ and $\mathcal{C}_{\Pi_P}$ is the policy execution cost. The second factor is about casual usefulness and deals with how much the children's past messages cause the parent's decisions. In other words, **$C_{\uparrow}$** is the score for *“My children tell me exactly what I expected and what they tell me actually changes what I do.”*
+The first factor is about model calibration, it deals with how much the children match what the parent thinks they will send. $Z$ is the normalization constant or the upper bound, something like $Z=\max_{t}\ D\ \big(\phi_{P,t}^{\text{in}}\ \|\ \widehat{\phi}_{P,t}^{\text{pred}}\big)$ and $\mathcal{C}_{\Pi_P}$ is the policy execution cost. The second factor is about casual usefulness and deals with how much the children's past messages cause the parent's decisions. In other words, **$C_{\uparrow}$** is the score for *“My children tell me exactly what I expected and what they tell me actually changes what I do.”*
 
 Now let's define local rewards that use AI, EI as well as coupling quality. We need to define them at each level. A reward for the child $Q$ under parent $P$ is defined as follows:
 
 $$
-r_{\mathcal{O}_i,t}
-=
-\alpha_\ell \log\big(AI_{\mathcal{O}_i,t}\!+\!\varepsilon\big)
-+\beta_\ell \log\big(EI_{\mathcal{O}_i,t}\!+\!\varepsilon\big)
-+\kappa_\ell \log\big(\mathcal{C}_{\downarrow}(\mathcal{O}_i\!\mid\!P)_t\!+\!\varepsilon\big)
--\lambda_\ell\,c_{\mathcal{O}_i,t}
+r_{\mathcal{O}_i,t} = \alpha_\ell \log\big(AI_{\mathcal{O}_i,t}\ +\ \varepsilon\big) +\beta_\ell \log\big(EI_{\mathcal{O}_i,t}\ +\ \varepsilon\big) +\kappa_\ell \log\big(\mathcal{C}_{\downarrow}(\mathcal{O}_i\ \mid\ P)_t\ +\ \varepsilon\big) -\lambda_\ell\ c_{\mathcal{O}_i,t}
 $$
 
 Let's look at the parent $P$ over children $\mathcal O$:
 
-$$\begin{split}
-r_{P,t}
-=
-\alpha_{\ell+1} \log\big(AI_{P,t}\!+\!\varepsilon\big)
-+\beta_{\ell+1}\log\big(EI_{P,t}\!+\!\varepsilon\big)
-+ \\
-\xi_\ell \sum_{\mathcal{O}_j\in\mathcal O} w_j \log\big(EI_{\mathcal{O}_j,t}\!+\!\varepsilon\big)
-+\mu_\ell \log\big(C_{\uparrow}(P\!\mid\!\mathcal O)_t\!+\!\varepsilon\big)
--\lambda_{\ell+1} c_{P,t}
+$$
+\begin{split}
+r_{P,t} = \alpha_{\ell+1} \log\big(AI_{P,t}\ +\ \varepsilon\big) +\beta_{\ell+1}\log\big(EI_{P,t}\ +\ \varepsilon\big) + \\
+\xi_\ell \sum_{\mathcal{O}_j\in\mathcal O} w_j \log\big(EI_{\mathcal{O}_j,t}\ +\ \varepsilon\big) +\mu_\ell \log\big(C_{\uparrow}(P\ \mid\ \mathcal O)_t\ +\ \varepsilon\big) -\lambda_{\ell+1} c_{P,t}
 \end{split}
 $$
 
 So the parent is rewarded for its own purpose, for his children being reflexive (a log-mean), and for **faithful, policy-relevant aggregation** from children. Which enables us now to define a **multi-level objective**:
 
 $$
-\max_{\{\Pi\}}
-\ \mathbb{E}\!\left[\sum_{t=0}^\infty \gamma^t
-\left(
-\sum_{\ell=0}^{L} W_\ell
-\sum_{k\in\mathcal S^{(\ell)}} r^{(\ell)}_{k,t}
-\right)\right]
+\max_{\{\Pi\}} \mathbb{E}\ \left[\sum_{t=0}^\infty \gamma^t \left( \sum_{\ell=0}^{L} W_\ell \sum_{k\in\mathcal S^{(\ell)}} r^{(\ell)}_{k,t} \right)\right]
 $$
 
 Note that this recurses cleanly because $\mathcal U,\mathcal D$ are defined at every parent/child boundary, and the fast–slow, write–read cycles already span levels. Let's look at some outcomes that these rewards offer.
@@ -1493,24 +1486,19 @@ The dynamics at the edges might help explain why certain species go extinct. The
 Let's add two definitions. First, a general form for a **local purpose at the species** (per step)
 
 $$
-r_{S,t}
-= \alpha\log(AI_{S,t}\!+\!\varepsilon)
-+ \beta\log(EI_{S,t}\!+\!\varepsilon)
-+ \kappa\log(C_{\downarrow,t}\!+\!\varepsilon)
-+ \mu\log(C_{\uparrow,t}\!+\!\varepsilon)
-- \lambda\,c_{S,t}.
+r_{S,t} = \alpha\log(AI_{S,t}\ +\ \varepsilon) + \beta\log(EI_{S,t}\ +\ \varepsilon) + \kappa\log(C_{\downarrow,t}\ +\ \varepsilon) + \mu\log(C_{\uparrow,t}\ +\ \varepsilon) - \lambda\ c_{S,t}.
 $$
 
 Next, something that spans over time, like **reflexive viability (long-run return):**
 
 $$
-\bar V_S\;\equiv\;\liminf_{T\to\infty}\frac{1}{T}\sum_{t=1}^{T}\mathbb{E}[\,r_{S,t}\,].
+\bar V_S\ \equiv\ \liminf_{T\to\infty}\frac{1}{T}\sum_{t=1}^{T}\mathbb{E}[\ r_{S,t}\ ].
 $$
 
 Assume costs $c_{S,t}$ are bounded below by $c_{\min}\ge0$, and $AI,EI$ are bounded above (physically reasonable). If along a time window of positive density,
 $C_{\downarrow,t}\xrightarrow{}0$ and $C_{\uparrow,t}\xrightarrow{} 0,$ then $\bar V_S=-\infty$ or $\bar V_S<0,$ hence any demographic model that couples growth to $\bar V_S$ (e.g., $\dot N = N(\bar V_S-\delta)$) enters a decline basin.
 
-**Proof sketch.** As $C_{\downarrow},C_{\uparrow}\to 0$, $\log(C_{\downarrow}\!+\!\varepsilon),\log(C_{\uparrow}\!+\!\varepsilon)\to-\infty$. Because $AI,EI$ are bounded while costs are non-negative, the negative edge terms dominate the sum, forcing the time-average below zero.
+**Proof sketch.** As $C_{\downarrow},C_{\uparrow}\to 0$, $\log(C_{\downarrow}\ +\ \varepsilon),\log(C_{\uparrow}\ +\ \varepsilon)\to-\infty$. Because $AI,EI$ are bounded while costs are non-negative, the negative edge terms dominate the sum, forcing the time-average below zero.
 
 ## Altruism vs. selfishness
 
@@ -1522,19 +1510,17 @@ Let's set the ground right from the start. Altruism is not a moral choice made b
 In the reflexive model this manifests as a bidirectional, self‑referential loop:
 
 $$
-\underbrace{\mathcal{U}}_{\text{parent → child}}
-\;\longleftrightarrow\;
-\underbrace{\mathcal{D}}_{\text{child  → parent}}
+\underbrace{\mathcal{U}}_{\text{parent → child}} \ \longleftrightarrow\  \underbrace{\mathcal{D}}_{\text{child  → parent}}
 $$
 
 where $\mathcal{U}$ aggregates the parent’s coarse state into a field that is then injected into each child through $\mathcal{D}$.  Let's make a formal definition for altruism now. We've already provided the foundations, so let $P$ be a parent level, $O_1,\dots,O_k$ its children,  $AI_P$, $EI_P$ and $AI_{O_i}$, $EI_{O_i}$ their respective indices, $\Pi_P, \Pi_{O_i}$ the policies that map perceptions to actions.
 
 **Altruism** holds iff for every parent–child pair $(P,O_i)$ the following holds:
 
-1. **Parent‑driven support**. The child’s reward function contains a term proportional to the parent’s EI: $R_{C_i}(t)=EI_{C_i,t} + \lambda\,EI_{P,t}$, $\lambda>0.$
-2. **Child‑driven reinforcement**. Conversely, the parent’s reward includes the child’s EI: $R_P(t)=EI_{P,t} + \mu\!\!\sum_{i=1}^{k}\! EI_{C_i,t}$, $\mu>0.$
-3. **Purpose weighting**. Both levels use a purpose functional that explicitly weights the other’s experience: $\mathcal{J}_P = (AI_P)^{\alpha}\bigl(\beta\,EI_{C}^{\star}+EI_{P}^{\star}\bigr)^{\gamma}$, $\mathcal{J}_{C_i} = (AI_{C_i})^{\delta} \bigl(\epsilon\,EI_P^{\star}+EI_{C_i}^{\star}\bigr)^{\zeta}.$
-4. **Coupled dynamics**. The policies are updated to maximise the *expected discounted sum* of these rewards: $\Pi_P^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\!\left[\sum_{t=0}^{\infty}\gamma^t R_P(t)\right]$, $\Pi_{C_i}^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\!\left[\sum_{t=0}^{\infty}\gamma^t R_{C_i}(t)\right].$
+1. **Parent‑driven support**. The child’s reward function contains a term proportional to the parent’s EI: $R_{C_i}(t)=EI_{C_i,t} + \lambda\ EI_{P,t}$, $\lambda>0.$
+2. **Child‑driven reinforcement**. Conversely, the parent’s reward includes the child’s EI: $R_P(t)=EI_{P,t} + \mu\ \ \sum_{i=1}^{k}\  EI_{C_i,t}$, $\mu>0.$
+3. **Purpose weighting**. Both levels use a purpose functional that explicitly weights the other’s experience: $\mathcal{J}_P = (AI_P)^{\alpha}\bigl(\beta\ EI_{C}^{\star}+EI_{P}^{\star}\bigr)^{\gamma}$, $\mathcal{J}_{C_i} = (AI_{C_i})^{\delta} \bigl(\epsilon\ EI_P^{\star}+EI_{C_i}^{\star}\bigr)^{\zeta}.$
+4. **Coupled dynamics**. The policies are updated to maximise the *expected discounted sum* of these rewards: $\Pi_P^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\ \left[\sum_{t=0}^{\infty}\gamma^t R_P(t)\right]$, $\Pi_{C_i}^{*} = \arg\max_{\Pi} \mathbb{E}_\Pi\ \left[\sum_{t=0}^{\infty}\gamma^t R_{C_i}(t)\right].$
 
 When the above conditions hold, each level is *altruistically* tuned. It sacrifices (or reallocates) part of its own immediate benefit to enhance the other’s experience. Intuitively, from **parent → child** perspective, a colony’s queen is allocating resources (nutrients, pheromones) to brood. The child receives a coarse‑grained field that tells it *how much* to develop and injects it via $\mathcal{D}$. Its own reward includes the queen’s overall success. From **child → parent** perspective, as larvae grow and start foraging or defending, they send back signals (e.g., pheromone trails). The parent aggregates these via $\mathcal{U}$, updating its global policy. Its reward now contains a term that rewards the *collective* success of its sub‑units.
 
@@ -1564,17 +1550,13 @@ This provides the basis for the formal definition of the balance point. Let us d
 The overall expected reward is
 
 $$
-\mathbb{E}[R] = \lambda\, R_A + (1-\lambda)\, R_S .
+\mathbb{E}[R] = \lambda\  R_A + (1-\lambda)\  R_S .
 $$
 
 And  the **balance point $\lambda^*$** is obtained by solving
 
 $$
-\lambda^* = \arg\max_{\lambda\in[0,1]}
-\bigl[\lambda R_A + (1-\lambda)R_S\bigr],
-\quad
-\text{s.t.}\;
-\sigma_{\text{coll}}+\mathcal{B} \;\ge\; \Phi_0 - \kappa(1-\lambda)
+\lambda^* = \arg\max_{\lambda\in[0,1]} \bigl[\lambda R_A + (1-\lambda)R_S\bigr], \quad \text{s.t.}\  \sigma_{\text{coll}}+\mathcal{B} \ \ge\  \Phi_0 - \kappa(1-\lambda)
 $$
 
 Intuitively, the balance point shows that if the system is *energy‑rich* ($\sigma_{\text{coll}}+\mathcal{B}$ large), it can afford a higher fraction of selfish exploration without violating the entropy constraint and we can allow larger $1-\lambda^*$.  On other hand, in *resource‑scarce* regimes, $\Phi_0$ dominates and the optimal policy leans strongly toward altruism ($\lambda^*\approx 1$).
@@ -1598,25 +1580,20 @@ We can see that for a reward, the *quality* of an altruistic action depends on h
 Let us denote $A = \text{AI}(t)$ as current assembly depth, and $E = \text{EI}(t)$ as current experience depth. We can rewrite the reward terms as functions of both $A$ and $E$:
 
 $$
-R_A(A,E)=f_A(A)\,g_A(E),\qquad
-R_S(A,E)=f_S(A)\,g_S(E).
+R_A(A,E)=f_A(A)\ g_A(E),\qquad R_S(A,E)=f_S(A)\ g_S(E).
 $$
 
 The terms describe how $f_A(A)$ is **increasing** and saturates (more structure gives diminishing returns) and $f_S(A)$ is **decreasing** after a threshold (once enough structure exists, building new parts selfishly yields little extra benefit).
 
-The entropy constraint becomes $\sigma_{\text{coll}}+\mathcal{B}\;\ge\; \Phi_0 - \kappa(1-\lambda) + \gamma\,A,$ where the term $\gamma A$ captures how additional structure *lowers* the effective entropy pump (more efficient information flow).  The constant $\gamma>0$ is set by the coupling architecture.
+The entropy constraint becomes $\sigma_{\text{coll}}+\mathcal{B}\ \ge\  \Phi_0 - \kappa(1-\lambda) + \gamma\ A,$ where the term $\gamma A$ captures how additional structure *lowers* the effective entropy pump (more efficient information flow).  The constant $\gamma>0$ is set by the coupling architecture.
 
 Putting everything together, the optimal mixing coefficient satisfies
 
 $$
-\begin{aligned}\;
-\lambda^*(A,E) &=
-\arg\max_{\lambda\in[0,1]}
-\bigl[\lambda\,f_A(A)g_A(E)+(1-\lambda)\,f_S(A)g_S(E)\bigr]
-\\
-\text{s.t.}\;
-\sigma_{\text{coll}}+\mathcal{B}\;&\ge\; \Phi_0 - \kappa(1-\lambda)+\gamma A
-\;\end{aligned}
+\begin{aligned}
+\lambda^*(A,E) &= \arg\max_{\lambda\in[0,1]} \bigl[\lambda\ f_A(A)g_A(E)+(1-\lambda)\ f_S(A)g_S(E)\bigr] \\
+\text{s.t.}\  \sigma_{\text{coll}}+\mathcal{B}\ &\ge\  \Phi_0 - \kappa(1-\lambda)+\gamma A
+\end{aligned}
 $$
 
 The equation shows that when AI is low ($A$ near 0), $f_S(A)\gg f_A(A)$, the optimal $\lambda^*$ skews toward selfishness to rapidly build new structures. As AI grows, the marginal benefit of selfish construction diminishes, while the entropy constraint loosens (due to $\gamma A$).  The system naturally shifts toward higher altruism ($\lambda^*\to1$). During rapid growth phases (e.g., colony founding or swarm deployment), $A$ increases quickly. The optimal policy will *temporarily* allow a higher selfish fraction to keep pace with the expanding architecture.
@@ -1665,9 +1642,9 @@ Let's repeat the definition of the *iterative reflexive cycle*, where each organ
 
 $$
 \begin{aligned}
-\mathcal{E}_P^{(k)} &= W_P\!\bigl(\Phi_P^{(k)}\bigr),\\
-\Psi_{O_i}^{(k)} &= G_i\!\Bigl(F_i\!\bigl(\mathcal{E}_P^{(k)}\bigr)\Bigr), \\
-\Phi_P^{(k+1)}(x) &= \mathcal{Q}_\ell^{(P)}\!\Bigl(\{\Psi_{O_i}^{(k)}\}_{i=1}^N\Bigr).
+\mathcal{E}_P^{(k)} &= W_P\ \bigl(\Phi_P^{(k)}\bigr),\\
+\Psi_{O_i}^{(k)} &= G_i\ \Bigl(F_i\ \bigl(\mathcal{E}_P^{(k)}\bigr)\Bigr), \\
+\Phi_P^{(k+1)}(x) &= \mathcal{Q}_\ell^{(P)}\ \Bigl(\{\Psi_{O_i}^{(k)}\}_{i=1}^N\Bigr).
 \end{aligned}
 $$
 
@@ -1679,7 +1656,7 @@ The key difference from conventional neural networks or von Neumann machines is 
 
 In classical computational mindset, *variables* are discrete numbers you read, write and manipulate by hand or in code like `x = 3; y += x`.  However, in the reflexive-computation mindset, we have to think in terms of fields as continuous functions that live on space (or time), e.g. a temperature field $T(x,t)$ or an electric potential $\phi(x,t)$. The “value” at a point is just the function’s value there, but the whole field evolves according to a differential equation. Another example would be a computation as a sequence of *updates* on a list of variables, `x ← f(y,z)`. This has an equivalent in seeing computation as the evolution of an entire field in time $\partial_t \phi = D \nabla^2 \phi + \dots$ The “update” is implicit in the PDE, you never touch each point individually, you solve for the whole field at once.
  
-What does it mean to "write/set value" in a field language? Setting a value like $x=7$ would mean something like setting a boundary condition, $\phi(x=0,t)=7$. The equivalent of adding a term like $y = y + f(z)$ would be adding a source $S(x,t)$ to the PDE. An equivalent of updating a state `state[i] = new_state` is evolution of the field by one time step by solving $\partial_t \phi = \mathcal{L}\phi + S$. Something like a computation of averages would instead be computation of the spatial integral $\langle \phi\rangle = \frac{1}{V}\int_V \phi(x)\,dx$. 
+What does it mean to "write/set value" in a field language? Setting a value like $x=7$ would mean something like setting a boundary condition, $\phi(x=0,t)=7$. The equivalent of adding a term like $y = y + f(z)$ would be adding a source $S(x,t)$ to the PDE. An equivalent of updating a state `state[i] = new_state` is evolution of the field by one time step by solving $\partial_t \phi = \mathcal{L}\phi + S$. Something like a computation of averages would instead be computation of the spatial integral $\langle \phi\rangle = \frac{1}{V}\int_V \phi(x)\ dx$. 
 
 The most basic operation, the manipulation of variables, becomes *setting boundary conditions, sources, or coefficients in a PDE*. Instead of thinking “I will write 5 into variable $a$”, think *“I will set the boundary condition or source term of a field so that it takes the value 5 somewhere”. Let's look at a simple example, as usual, the ant colony.
 
@@ -1709,9 +1686,9 @@ Then, we need a slow memory timescale $\tau_M$. The parent must be able to *accu
 
 We also need wave‑like dynamics that support rotating solutions. The coarse‑grained field obeys a hyperbolic wave equation.  Rotating or spiral waves are natural solutions when there is a source term that breaks rotational symmetry.  Low dissipation ensures the pattern does not decay immediately. In the model this is hyperbolic PDE governing $g_{\mu\nu}^{(\ell)}$ or an auxiliary field $\Phi$.
 
-Another property is emergent geometry with angular momentum. The coarse‑graining map  turns the stored memory (including the net current) into a metric.  A non‑zero off‑diagonal term $g_{t\phi}$ (or an equivalent “twist” in the spatial part) creates a centripetal effect that keeps the body rotating. In the model we have $\mathcal{Q}_\ell(M_P,\!AI)\rightarrow g_{\mu\nu}^{(\ell)}$.
+Another property is emergent geometry with angular momentum. The coarse‑graining map  turns the stored memory (including the net current) into a metric.  A non‑zero off‑diagonal term $g_{t\phi}$ (or an equivalent “twist” in the spatial part) creates a centripetal effect that keeps the body rotating. In the model we have $\mathcal{Q}_\ell(M_P,\ AI)\rightarrow g_{\mu\nu}^{(\ell)}$.
 
-And last, we need proper‑time consistency. Once rotation is present, proper time along the organism’s worldline will be modulated by the metric’s curvature. This is an *observable consequence* of rotation, not a prerequisite. The model defined it through $d\tau_{O}= \frac{1}{c}\sqrt{-\,g_{\mu\nu}^{(\ell)}(x,t)\,dx^{\mu}dx^{\nu}} .$
+And last, we need proper‑time consistency. Once rotation is present, proper time along the organism’s worldline will be modulated by the metric’s curvature. This is an *observable consequence* of rotation, not a prerequisite. The model defined it through $d\tau_{O}= \frac{1}{c}\sqrt{-\ g_{\mu\nu}^{(\ell)}(x,t)\ dx^{\mu}dx^{\nu}} .$
 
 When all these pieces are in place, the reflexive loop self‑generates a spinning organism, no external torque is needed, just internal asymmetry and sufficient memory to remember it.
 
@@ -1723,9 +1700,9 @@ The most exciting part of the implications of the perspective change is that we 
 
 All “physical forces” in the reflexive‑organism framework are *emergent* from the same fast–slow, write–read, memory‑feedback cycle that runs at every scale of the organism’s hierarchy.
 
-The *fast* encode–decode stage turns microscopic interactions (e.g., charge currents, chemical reactions) into symbolic messages.  When these messages are coarse‑grained ($\mathcal{Q}_\ell$) they produce a continuous vector potential $A_\mu(x)$.  The consistency conditions on the message flow—analogous to conservation of charge and Faraday’s law—give rise to Maxwell equations: $\nabla_\nu F^{\mu\nu} = J^\mu$, $F_{\mu\nu}= \partial_\mu A_\nu-\partial_\nu A_\mu$. Inside a reflexive organism the *force* on an internal element (charge or current) is $f^\mu = q\,F^{\mu}{}_{\nu}\,v^\nu$, exactly as in classical electromagnetism.  Thus **internal electromagnetic forces are simply the fast‑scale expression of the same reflexive cycle that generates any other field.**
+The *fast* encode–decode stage turns microscopic interactions (e.g., charge currents, chemical reactions) into symbolic messages.  When these messages are coarse‑grained ($\mathcal{Q}_\ell$) they produce a continuous vector potential $A_\mu(x)$.  The consistency conditions on the message flow—analogous to conservation of charge and Faraday’s law—give rise to Maxwell equations: $\nabla_\nu F^{\mu\nu} = J^\mu$, $F_{\mu\nu}= \partial_\mu A_\nu-\partial_\nu A_\mu$. Inside a reflexive organism the *force* on an internal element (charge or current) is $f^\mu = q\ F^{\mu}{}_{\nu}\ v^\nu$, exactly as in classical electromagnetism.  Thus **internal electromagnetic forces are simply the fast‑scale expression of the same reflexive cycle that generates any other field.**
 
-We previously covered gravity, $G_{\mu\nu}(g^{(\ell)}) = 8\pi G\, T_{\mu\nu}\bigl(M,AI\bigr).$ In this view, **gravity is simply the organism’s own perception of concentrated structure**, a geometric reinterpretation of its connectivity.  An element inside the organism feels a “force” because it moves along geodesics of $g_{\mu\nu}^{(\ell)}$.  Or to put it another way, *the shape of the organism’s memory tells matter how to move, and that is what we call gravity.*
+We previously covered gravity, $G_{\mu\nu}(g^{(\ell)}) = 8\pi G\  T_{\mu\nu}\bigl(M,AI\bigr).$ In this view, **gravity is simply the organism’s own perception of concentrated structure**, a geometric reinterpretation of its connectivity.  An element inside the organism feels a “force” because it moves along geodesics of $g_{\mu\nu}^{(\ell)}$.  Or to put it another way, *the shape of the organism’s memory tells matter how to move, and that is what we call gravity.*
 
 Let's consider forces between reflexive organisms now. When two organisms coexist, each runs its own fast–slow loop.  Their coarse‑grained fields (EM or geometric) overlap. In *electromagnetic coupling*, the vector potential of organism A acts as a source term $J^\mu_A$ in Maxwell’s equations for organism B.  The resulting field exerts forces on charges inside B, just like two charged bodies attract/repel. In *gravitational (geometric) coupling*, each organism contributes to the global metric that all inhabit.  The combined curvature $R_{\mu\nu}$ is determined by both organisms’ memory–assembly patterns.  Each one moves along geodesics of this shared geometry, producing an *attraction* if their mass‑like densities overlap.
 
@@ -1753,7 +1730,7 @@ Unlike the traditional view, where information appears only as a bookkeeping dev
 
 Which all affects the second law $\Delta S_{\rm tot}\ge 0$ to be generalised. “Entropy increases unless experience‑feedback extracts and directs order, bounded by power input.”  The bound $\mathcal{P}_{\text{in}}\ \ge\ k_B T\ \Phi_{\text{EI}},$ guarantees that the total entropy of *system + environment* still grows. The negative contribution $\Phi_{\rm EI}$ cannot be unlimited. Every unit of entropy “pumped out” by experience must be paid for by input power $\mathcal P_{\text{in}}$. While local entropy can fall, the *total* (system + environment) still increases because energy has to be supplied. In practical terms this links metabolism, control electronics, or AI training power directly to how much a system can maintain order.
 
-We introduced $EI$ through $\varepsilon(\mathbf r,t)=\frac{(-\nabla U(M))\!\cdot \! \mathbf j}{k_B T\, n}\;\times \;\frac{\|W[f]\|}{\|W\|_{\max}}\times \chi$, a scalar quantifying how much the system feels its own state. The first factor measures how strongly the memory gradient couples to the particle current. The second factor is a normalised measure of *policy richness* (the functional $W[f]$ captures how the distribution is shaped by feedback), while the third factor $\chi$ is  a dimensionless weighting that can be tuned experimentally. Unlike entropy, EI is directly measurable from currents and memory gradients. It quantifies “how much the system feels its own state”, a purely dynamical, non‑thermodynamic scalar that can change even when $S$ stays constant.
+We introduced $EI$ through $\varepsilon(\mathbf r,t)=\frac{(-\nabla U(M))\ \cdot \  \mathbf j}{k_B T\  n}\ \times \ \frac{\|W[f]\|}{\|W\|_{\max}}\times \chi$, a scalar quantifying how much the system feels its own state. The first factor measures how strongly the memory gradient couples to the particle current. The second factor is a normalised measure of *policy richness* (the functional $W[f]$ captures how the distribution is shaped by feedback), while the third factor $\chi$ is  a dimensionless weighting that can be tuned experimentally. Unlike entropy, EI is directly measurable from currents and memory gradients. It quantifies “how much the system feels its own state”, a purely dynamical, non‑thermodynamic scalar that can change even when $S$ stays constant.
 
 Thus, The Landauer‑type inequality ties the ability to create order directly to power input, making the trade‑off between energy consumption and entropy control quantitative.
 
@@ -1791,7 +1768,7 @@ In the standard case we have $\Phi(x)=\mathcal{Q}_\ell\bigl(\mathcal{S}(\mathcal
 
 The assumption that  $d_{\text{parent}}>d_{\text{child}}$ has the following implications. First, we deal with the *embedding instead of reduction*. $\mathcal{Q}_\ell$ must map the child’s *low‑dimensional* description into a *higher‑dimensional* space, $\Phi(x)=E\bigl(s_i\bigr)\in\mathbb{R}^{d_{\text{parent}}}$, where $E:\mathbb{R}^{d_{\text{child}}}\to\mathbb{R}^{d_{\text{parent}}}$. The extra components of $\Phi$ can be set to zero, constants, or functions of *other* parent variables (e.g., external stimuli). Second, there is a *loss of injectivity*. Many distinct child states will produce the same parent field because we are adding dimensions that do not depend on the child. The mapping is no longer invertible; $\mathcal{Q}_\ell^{-1}$ does not exist (unless you impose extra constraints). And third, the *need for a lifting operator* arises. If we want to reconstruct child states from parent fields, we must supplement $\mathcal{Q}_\ell$ with a stochastic or deterministic “lift” that samples child configurations consistent with the parent’s extra dimensions.
 
-Let's consider the consequence from the view of downward ($\mathcal{D}$) and upward ($\mathcal{U}$) operators. *Downward* operator is defined as $\phi_P^{\text{in}}(x,t) = \sum_{Q \in \text{sub}(P)} w_Q\,\phi_Q(x,t)$. The child fields $\phi_Q$ must now be mapped into a higher‑dimensional parent field. Each weight $w_Q$ can now act on each component separately, or we may introduce a *projection matrix* $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The sum then becomes $\phi_P^{\text{in}}= \sum_Q w_Q\, P_Q\,\phi_Q$. *Upward* operator's definition is $\displaystyle \phi_Q^{\text{out}}(x,t)=\mathcal{U}\!\bigl(M_P(t),\,\phi_P(x,t)\bigr)$. The parent’s extra dimensions must be *projected* back onto the child’s lower‑dimensional space. We need to define a projection $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ such that $\phi_Q^{\text{out}}= R_Q\,\phi_P$. The remaining parent dimensions (those not needed by the child) are discarded or treated as *latent* inputs.
+Let's consider the consequence from the view of downward ($\mathcal{D}$) and upward ($\mathcal{U}$) operators. *Downward* operator is defined as $\phi_P^{\text{in}}(x,t) = \sum_{Q \in \text{sub}(P)} w_Q\ \phi_Q(x,t)$. The child fields $\phi_Q$ must now be mapped into a higher‑dimensional parent field. Each weight $w_Q$ can now act on each component separately, or we may introduce a *projection matrix* $P_{Q}\in\mathbb{R}^{d_{\text{parent}}\times d_{\text{child}}}$. The sum then becomes $\phi_P^{\text{in}}= \sum_Q w_Q\  P_Q\ \phi_Q$. *Upward* operator's definition is $\displaystyle \phi_Q^{\text{out}}(x,t)=\mathcal{U}\ \bigl(M_P(t),\ \phi_P(x,t)\bigr)$. The parent’s extra dimensions must be *projected* back onto the child’s lower‑dimensional space. We need to define a projection $R_{Q}\in\mathbb{R}^{d_{\text{child}}\times d_{\text{parent}}}$ such that $\phi_Q^{\text{out}}= R_Q\ \phi_P$. The remaining parent dimensions (those not needed by the child) are discarded or treated as *latent* inputs.
 
 The operators become **non‑square** linear maps (or nonlinear analogues), and special care must be take how to handle components that do not map cleanly between levels. There are many ways to approach this. For example, explicit embedding through defaults. Partial coupling, regularization (to prevent unbounded growth of degrees of freedom), stochastic lifting, etc.
 
@@ -1819,7 +1796,7 @@ The antifragility of a reflexive system thus hinges on the existence of the all 
 
 ## Individuality as dynamic invariant
 
-We've already mentioned that there is a measurable concept of "oneness" through a structural index $\mathcal{I}(\mathcal{S})=\lambda_2\big(L_H\big)$ and a dynamic one as mutual information between spatial partitions $A,B\subset\Omega$, $\mathcal{I}_{\text{dyn}}=\frac{1}{T}\int_0^T I\big(X_A(t);X_B(t)\big)\,dt$. However, we haven't explored these in more details. Let's do that now.
+We've already mentioned that there is a measurable concept of "oneness" through a structural index $\mathcal{I}(\mathcal{S})=\lambda_2\big(L_H\big)$ and a dynamic one as mutual information between spatial partitions $A,B\subset\Omega$, $\mathcal{I}_{\text{dyn}}=\frac{1}{T}\int_0^T I\big(X_A(t);X_B(t)\big)\ dt$. However, we haven't explored these in more details. Let's do that now.
 
 The entropy measures disorder. While mutual information captures correlation between parts. But none fully capture *what makes something feel like “one thing”*. A forest that behaves as a single entity, or a swarm that acts with intention. Looks like we need new invariant beyond energy and entropy, especially one tied to *self-referential feedback*.
 
@@ -1859,7 +1836,7 @@ This reframes individuality as an **emergent conserved quantity** in the dynamic
 
 Let's look at the individuality index from the perspective of the other two indices, $AI$ and $EI.$ AI measures the **structural depth**, minimum number of assembly steps required to build the current configuration. The higher AI, the more complex, integrated system. Hence, $I_{\text{integrated}}(t) \propto \text{AI}(t)$.  In this view, AI is the **material foundation of individuality**. But AI alone is not enough, you could have complex structures that don’t act together (i.e., dead forest). 
 
-High memory entropy $H(M_t)$ means that the memory is disordered which has a consequence of poor feedback channel that leads to low EI. As for the feedback signal-to-noise, $D(\mathcal{F}_t \| \mathcal{F}_{\text{noise}})$, we can interpret this as local measure of informational density, or better of coherence density as we're dealing with feedback-driven systems. Let's remember that $\varepsilon(\mathbf r,t)=\frac{(-\nabla U(M))\cdot \mathbf j}{k_B T n}\;\times \;\frac{\|W[f]\|}{\|W\|_{\max}}\times \chi$, where the $W[f](r,t)$ are writer operators.  The interesting bit of the equation is the similarity through $\|W[f]\| / \|W\|_{\text{max}}$. When the ratio is high, decisions are coherent. And when decisions are highly coherent, both $W[f]$ and $\nabla U(M)\cdot\mathbf{j}$ increase. So in practice $D(\mathcal{F}_t | \mathcal{F}_{\text{noise}}) \propto \left( \varepsilon(\mathbf{r}, t) \right)^2$ when coupling strength is fixed.
+High memory entropy $H(M_t)$ means that the memory is disordered which has a consequence of poor feedback channel that leads to low EI. As for the feedback signal-to-noise, $D(\mathcal{F}_t \| \mathcal{F}_{\text{noise}})$, we can interpret this as local measure of informational density, or better of coherence density as we're dealing with feedback-driven systems. Let's remember that $\varepsilon(\mathbf r,t)=\frac{(-\nabla U(M))\cdot \mathbf j}{k_B T n}\ \times \ \frac{\|W[f]\|}{\|W\|_{\max}}\times \chi$, where the $W[f](r,t)$ are writer operators.  The interesting bit of the equation is the similarity through $\|W[f]\| / \|W\|_{\text{max}}$. When the ratio is high, decisions are coherent. And when decisions are highly coherent, both $W[f]$ and $\nabla U(M)\cdot\mathbf{j}$ increase. So in practice $D(\mathcal{F}_t | \mathcal{F}_{\text{noise}}) \propto \left( \varepsilon(\mathbf{r}, t) \right)^2$ when coupling strength is fixed.
 
 Now let’s use your AI ↔ EI electromagnetic analogy with AI's structural persistence, memory gradients are equivalent to magnetic field $\mathbf{B}$ and EI's feedback, directed information current through memory, is electric current $\mathbf{E}$. When AI is large and stable, we get strong $B$, and when feedback current is coherent and self-reinforcing, we get strong $E$. Hence, the feedback sustains structure, structure enables feedback.
 
@@ -1869,7 +1846,7 @@ Hence, we can interpret $\lambda(t)$ as **physical measure of a closed-loop elec
 
 ## Geometry of self-reference
 
-Throughout most of the model, we've used $AI$ and $EI$ as scalars, discrete values in time. These are global values, a summary of a process of assembly and of reflexive feedback. However, in the section about gravity when we were looking at the extension to the effective stress-energy tensor $T_{\mu\nu}$ defined as $T^{\text{eff}}_{\mu\nu} \;=\; T_{\mu\nu}\;+\;\alpha\,A_{\mu\nu}[AI]\;+\;\beta\,\Theta_{\mu\nu}[EI]$, we've already indicated that there is more to an "index" and a different, more detailed way to interpret $AI$ and $EI$. At that point, we simply stated that:
+Throughout most of the model, we've used $AI$ and $EI$ as scalars, discrete values in time. These are global values, a summary of a process of assembly and of reflexive feedback. However, in the section about gravity when we were looking at the extension to the effective stress-energy tensor $T_{\mu\nu}$ defined as $T^{\text{eff}}_{\mu\nu} \ =\  T_{\mu\nu}\ +\ \alpha\ A_{\mu\nu}[AI]\ +\ \beta\ \Theta_{\mu\nu}[EI]$, we've already indicated that there is more to an "index" and a different, more detailed way to interpret $AI$ and $EI$. At that point, we simply stated that:
 
 - Assembly tensor $A_{\mu\nu}[AI]$  encodes the **frozen-in architecture** of matter, a coarse-grained symmetric tensor built from gradients and rates of the Assembly Index (AI) as the durable, slow memory of how the stuff here got built.
 - Active-stress tensor $\Theta_{\mu\nu}[EI]$ captures **feedback fluxes**, a dissipative/active term from the Experience Index (EI) as the closed-loop information currents that read that memory back and steer current dynamics.
@@ -1879,7 +1856,7 @@ We haven't explored this beyond mentioning it. So let's introduce both a _genera
 **The Assembly Field $\mathcal{A}\mathcal{I}(\mathbf{x}, t)$** is the **local density of structural memory and coherence** across spacetime. It is not “how much was built” as with scalar version, it’s *where structure exists, how it's distributed in space and time, and whether that distribution enables future integration*.
 
 $$
-\mathcal{A}\mathcal{I}(\mathbf{x}, t) = \int_{\Omega} d^4x'\, K(\mathbf{x}-\mathbf{x}', t-t') \cdot \left| \nabla M(x') \right|^2
+\mathcal{A}\mathcal{I}(\mathbf{x}, t) = \int_{\Omega} d^4x'\  K(\mathbf{x}-\mathbf{x}', t-t') \cdot \left| \nabla M(x') \right|^2
 $$
 
 with $M(x)$ being the **slow memory field**, encoding past events and structural history, $\nabla M$ as spatial gradient of memory (indicates structural variation), and $K(\mathbf{x},t)$ a causal, non-local kernel that weights contributions by *temporal proximity* and *spatial coherence*. It captures how recent or distant memories influence current structure.
@@ -1901,10 +1878,7 @@ Let's now define **geometry of self-reference**, the key tensors *in terms of th
  **Assembly Tensor $A_{\mu\nu}[\mathcal{A}\mathcal{I}]$,  the geometric memory**:
 
 $$
-A_{\mu\nu}[\mathcal{A}\mathcal{I}] = \kappa \left( 
-\nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2
-\right)
-+ V(\mathcal{A}\mathcal{I}) \, g_{\mu\nu}
+A_{\mu\nu}[\mathcal{A}\mathcal{I}] = \kappa \left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right) + V(\mathcal{A}\mathcal{I}) \  g_{\mu\nu}
 $$
 
 with $\kappa$ as coupling constant, and $V(\mathcal{A}\mathcal{I})$ as a potential that increases with local coherence and path memory.
@@ -1914,10 +1888,7 @@ This tensor **curves spacetime where structure was built coherently**. It vanish
 **Active-Stress Tensor $\Theta_{\mu\nu}[j]$, the feedback flux**:
 
 $$
-\Theta_{\mu\nu}[j] = \underbrace{p_{\text{act}}(\mathcal{E})}_{\text{Active pressure}} h_{\mu\nu}
-+ \underbrace{\eta(\mathcal{E})}_{\text{Viscosity}} \sigma_{\mu\nu}(u)
-+ \underbrace{\zeta(\mathcal{E}) \theta}_{\text{Expansion control}} h_{\mu\nu}
-+ \underbrace{\gamma j_\mu j_\nu}_{\text{Coherent flow}}
+\Theta_{\mu\nu}[j] = \underbrace{p_{\text{act}}(\mathcal{E})}_{\text{Active pressure}} h_{\mu\nu} + \underbrace{\eta(\mathcal{E})}_{\text{Viscosity}} \sigma_{\mu\nu}(u) + \underbrace{\zeta(\mathcal{E}) \theta}_{\text{Expansion control}} h_{\mu\nu} + \underbrace{\gamma j_\mu j_\nu}_{\text{Coherent flow}}
 $$
 
 with $p_{\text{act}}, \eta, \zeta$ as functions of the *integrated feedback strength* $\mathcal{E}$, - $j^\mu = \frac{\delta S}{\delta (\nabla_\mu M)} \cdot \rho_{\text{compat}}$, and the final term ($\gamma j_\mu j_\nu$) that captures **coherent energy flow** driven by high compatibility.
@@ -1932,14 +1903,16 @@ Let $M(\mathbf{x}, t)$ be a **slow memory field** encoding pheromone concentrati
 
 Define the Gradient Field $\nabla_\mu M$ as:
 
-$$ \nabla_\mu M = \left( \frac{\partial M}{\partial t}, \frac{\partial M}{\partial x}, \frac{\partial M}{\partial y}, \frac{\partial M}{\partial z} \right)$$
+$$
+\nabla_\mu M = \left( \frac{\partial M}{\partial t}, \frac{\partial M}{\partial x}, \frac{\partial M}{\partial y}, \frac{\partial M}{\partial z} \right)
+$$
 
 This gradient measures how **rapidly** memory is changing in time or space, where the system has built something stable (high $M$) and where it's been updated recently. For example, high $\nabla_x M$ indicates strong pheromone trail along a direction and with it sign of coherent, repeated action. Low gradient on the other hand indicated an area with no recent construction and thus low assembly history.
 
 We construct the Assembly Tensor $A_{\mu\nu}[\mathcal{A}\mathcal{I}]$ as
 
 $$
-A_{\mu\nu}[\mathcal{A}\mathcal{I}] = \underbrace{\kappa \left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right)}_{\text{Directional memory field}} - \underbrace{g_{\mu\nu}\, V(M, AI)}_{\text{Structure depth}}
+A_{\mu\nu}[\mathcal{A}\mathcal{I}] = \underbrace{\kappa \left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right)}_{\text{Directional memory field}} - \underbrace{g_{\mu\nu}\  V(M, AI)}_{\text{Structure depth}}
 $$
 
 Let’s break this down. First term  $\kappa \left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right)$ is the **geometric core** of the tensor. It’s a symmetric, traceless object that behaves like a magnetic field in electromagnetism. Where memory gradients are strong (e.g., along an established trail), this term becomes large. The tensor aligns with the direction of construction. For example, along a well-used foraging trail, $\nabla_x M$ is high thus $A_{xy} \neq 0$, $A_{xx}$ dominates which creates "magnetic" field lines are oriented along the trail.
@@ -2008,8 +1981,7 @@ Let's use it now. The full effective stress-tensor is $T^{\text{eff}}_{\mu\nu} =
 
 $$
 \begin{aligned}
-A_{ij} &= T_{ij} + \text{terms from } \nabla_i AI \cdot \nabla_j AI
-\\
+A_{ij} &= T_{ij} + \text{terms from } \nabla_i AI \cdot \nabla_j AI \\
 \Theta_{0i} &= \partial_0 T_{0i} - \partial_k T^k{}_i + \text{nonlinear corrections}
 \end{aligned}
 $$
@@ -2018,7 +1990,9 @@ Note that this tensor is not the standard stress-energy tensor of GR, but rather
 
 Let's look how effective stress-energy tensor 
 
-$$T^{\text{eff}}_{\mu\nu} = T^{(F)} + \underbrace{\kappa(\nabla_\mu M \nabla_\nu M - \tfrac{1}{2} g_{\mu\nu} (\nabla M)^2) - g_{\mu\nu} V(M,AI)}_{\text{slow-memory (AI/M) block}} + \underbrace{\Pi^{\text{active}}[EI]}_{\text{experience (non-eq) block}}$$
+$$
+T^{\text{eff}}_{\mu\nu} = T^{(F)} + \underbrace{\kappa(\nabla_\mu M \nabla_\nu M - \tfrac{1}{2} g_{\mu\nu} (\nabla M)^2) - g_{\mu\nu} V(M,AI)}_{\text{slow-memory (AI/M) block}} + \underbrace{\Pi^{\text{active}}[EI]}_{\text{experience (non-eq) block}}
+$$
 
 and $T_{\mu\nu} = \partial_\mu \Phi_\nu - \partial_\nu \Phi_\mu$ are related. 
 
@@ -2043,8 +2017,7 @@ With the introduction of tensors, the formal definition of $\mathcal{S}_{AT}$ do
 This definition based on tensors loosens the hierarchical structural definitions of organisms and organs, or even hierarchies of organisms. Organisms (or subsystems) are *not pre-defined, they emerge as regions where compatibility is high*. Which leads to conclusion, that **it is compatibility that drives integration**:
 
 $$
-\rho_{\text{compat}}(F, M)
-= \frac{I(F; M)}{\sqrt{H(F) H(M)}} \cdot e^{-D(\mathcal{F} \| \mathcal{F}_{\text{noise}})}
+\rho_{\text{compat}}(F, M) = \frac{I(F; M)}{\sqrt{H(F) H(M)}} \cdot e^{-D(\mathcal{F} \| \mathcal{F}_{\text{noise}})}
 $$
 
 with $I(F; M)$ being mutual information between fast field and memory, and $D$ is divergence from noise that measures non-randomness.
@@ -2058,14 +2031,8 @@ With the definition of tensors, we've moved beyond the description of organisms,
 We can now define
 
 $$
-T^{\text{eff}}_{\mu\nu} = T_{\mu\nu}
-+ \kappa
-\left( 
-\nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2
-\right)
-+ p_{\text{act}}(\mathcal{E}) h_{\mu\nu}
-+ j_\mu j_\nu
-,$$
+T^{\text{eff}}_{\mu\nu} = T_{\mu\nu} + \kappa \left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right) + p_{\text{act}}(\mathcal{E}) h_{\mu\nu} + j_\mu j_\nu,
+$$
 
 where:
 
@@ -2075,7 +2042,9 @@ where:
 
 Let's quickly look at the relation with the antisymetric tensor.  $T_{\mu\nu}$ measures the **local dynamical imbalance** (e.g., sudden rise in feedback vs memory gradient) while the reflexivity principle acts as a **global constraint**. It prevents such imbalances from growing unchecked by requiring that structural depth, feedback strength, and compatibility remain coherently balanced. Coherence does not come from absence of tension. It comes from *structured, controlled tension*, precisely what $T_{\mu\nu}$ encodes and $\rho_{\text{compat}}$ regulates It generates a self-consistent loop:  
 
-$$\text{Tension} \xrightarrow{\text{via } T_{\mu\nu}} \text{Feedback} \xrightarrow{\text{via } EI} \text{Integration (high }\rho_{\text{compat}}) \xrightarrow{\text{via }} \text{Stabilized Structure}$$
+$$
+\text{Tension} \xrightarrow{\text{via } T_{\mu\nu}} \text{Feedback} \xrightarrow{\text{via } EI} \text{Integration (high }\rho_{\text{compat}}) \xrightarrow{\text{via }} \text{Stabilized Structure}
+$$
 
 This ensures that **spacetime geometry evolves in a way that preserves self-consistent agency**, making gravity not just an effect of structure, but of **meaningful coherence across time**.
 
@@ -2103,8 +2072,7 @@ Let's explore it a bit more. At the time, it has been defined with fixed paramet
 
 $$
 \begin{aligned}
-\alpha(t) &= f_\alpha\left(\rho_{\text{compat}}, A_{\mu\nu}, \nabla \Theta_{\mu\nu}\right)
-\\
+\alpha(t) &= f_\alpha\left(\rho_{\text{compat}}, A_{\mu\nu}, \nabla \Theta_{\mu\nu}\right) \\
 \beta(t) &= f_\beta\left(\mathrm{EI}^\star, \rho_{\text{compat}}, \|\Theta_{\mu\nu}\|, D(\mathcal{F} \| \mathcal{F}_{\text{noise}})\right)
 \end{aligned}
 $$
@@ -2148,7 +2116,9 @@ Let's focus now on this drive to "preserve" as it has signs of a conservation la
 
 Let us propose **the reflexivity conservation principle**:  
 
-$$\frac{d}{dt} \left( \mathcal{J}(t) \cdot \rho_{\text{compat}}(t) \right) = 0$$
+$$
+\frac{d}{dt} \left( \mathcal{J}(t) \cdot \rho_{\text{compat}}(t) \right) = 0
+$$
 
 Or more generally:
 

@@ -10,14 +10,13 @@ This paper introduces coherence as the key invariant in the Reflexive Organism M
 
 ## Background
 
-What meaning do the seeds and eigenmodes have for organisms in terms of information processing? What changes in terms of presentation of "programs", and especially about activity selection? The effects of reserves, accumulation and flow. These were the questions that I was exploring when an issue arose which made me think about structural changes. When is existing structure good enough and when do you know if you've hit a plateau, saturation? When is good to act and spend reserves to introduce new structure, and when it is better to keep the existing structure but instead change the method, or move with a slower pace of growth? I started formulating the solution through usual risk assessment, when I realized that the two topics are actually very much a mirror of one another and that I should approach "risks" from the perspective of seeds and eigenmodes; unless one thinks in terms of attractors, everything is "an average sum of everything else", we're operating in a state of undifferentiated flux, a blur of average activity with no stable patterns.
-
+What meaning do the seeds and eigenmodes have for organisms in terms of information processing? What changes in terms of presentation of "programs", and especially about activity selection? The effects of reserves, accumulation and flow. These were the questions that I was exploring when an issue arose which made me think about structural changes. When is existing structure good enough, and when do you know if you've hit a plateau, saturation? When is good to act and spend reserves to introduce new structure, and when it is better to keep the existing structure but instead change the method, or move with a slower pace of growth? I started formulating the solution through usual risk assessment, when I realized that the two topics are actually very much a mirror of one another and that I should approach "risks" from the perspective of seeds and eigenmodes. Unless one thinks in terms of attractors, everything is "an average sum of everything else", we're operating in a state of undifferentiated flux, a blur of average activity with no stable patterns.
 
 ## Information processing
 
 Let's start with examining the role of seeds from the perspective of information processing.
 
-A **seed** is a *minimally sufficient template* that encodes a high-probability pattern the system can reliably instantiate across iterations. In information-theoretic terms, seeds represent **lossy compression of experience into generative kernels**. They distill past coherence into compact forms that reduce future computational load. For an organism or program, creating seeds means shifting from *relearning* to *recalling*. Instead of recalculating behavior from first principles every cycle, it reuses proven configurations. This is analogous to subroutine formation in programming: once a useful function (e.g., edge detection, foraging logic) emerges and proves robust across cycles, the system "packages" it into a callable module. The seed becomes that module, a self-contained unit of action-perception coherence.  Without such compression every decision requires full recomputation, memory remains flat, there are no hierarchy of abstraction forms and there’s no bias toward efficiency, no “preferred paths” through possibility space.
+A **seed** is a *minimally sufficient template* that encodes a high-probability pattern the system can reliably instantiate across iterations. In information-theoretic terms, seeds represent **lossy compression of experience into generative kernels**. They distill past coherence into compact forms that reduce future computational load. For an organism or program, creating seeds means shifting from *relearning* to *recalling*. Instead of recalculating behavior from first principles every cycle, it reuses proven configurations. This is analogous to subroutine formation in programming: once a useful function (e.g., edge detection, foraging logic) emerges and proves robust across cycles, the system "packages" it into a callable module. The seed becomes that module, a self-contained unit of action-perception coherence.  Without such compression every decision requires full recomputation, memory remains flat, there are no hierarchies of abstraction forms and there’s no bias toward efficiency, no “preferred paths” through possibility space.
 
 The seeds thus encode the organism's bias toward reusing familiar patterns. This bias is not a limitation. It's a computational necessity. It enables *bounded rationality*, where agents navigate complexity by leveraging high-utility priors.
 
@@ -39,7 +38,7 @@ Now that we've reasoned about what structures an organism builds and the meaning
 
 Let's state the problem formally. In the Reflexive‑Organism Model (ROM) a “plateau” is simply a *deep attractor basin* that has been filled to capacity. Every eigenmode that can be sustained by the current seed is already active, and the reflexive flux $\mathcal J$ is saturated.
 
-This happens when all low‑cost seeds are already present and no new seed can be added without spending reserves. All eigenmodes with $\lambda_i>1$ are already saturated. Any further activity must either deepen an existing basin (hard) or create a *new* one. Looking at assembly,  $d AI/dt\approx0$. Any increase would require a *phase transition* in the underlying graph $\mathcal G$. The plateau persists because the current reserve level is just enough to keep existing basins alive but not enough to fund a new basin. On top of it, when the system cannot predict the payoff of a new structure, it must rely on EI to learn after the fact.
+This happens when all low‑cost seeds are already present and no new seed can be added without spending reserves. All eigenmodes with $\lambda_i>1$ are already saturated. Any further activity must either deepen an existing basin (hard) or create a *new* one. Looking at assembly, $d AI/dt\approx0$. Any increase would require a *phase transition* in the underlying graph $\mathcal G$. The plateau persists because the current reserve level is just enough to keep existing basins alive but not enough to fund a new basin. On top of it, when the system cannot predict the payoff of a new structure, it must rely on EI to learn after the fact.
 
 The model thus asks three questions:
 
@@ -53,13 +52,13 @@ Based on state of reserves, curvature of its internal seeds and the alignment of
 
 Expansion is costly. The system must spend a visible portion of its reserve density $\rho_{\text{reserve}}$ to actuate the transition and supply the justification flux $\mathcal{J}_{AI}$ needed to stabilise the new structure. However, if the newborn mode crosses the critical threshold $\lambda>1$, it begins to reinforce itself in subsequent cycles. The assembly index $AI(t)$ increases by at least one irreversible step, and the organism’s reflective manifold deepens.
 
-This mode is favoured when the reserve buffer is comfortably positive and the expected net gain in assembly depth outweighs the energetic overhead. It corresponds to the organism “trying a new possibility”, betting that the new eigenmode will be viable enough to pay for its own creation.
+This mode is favored when the reserve buffer is comfortably positive and the expected net gain in assembly depth outweighs the energetic overhead. It corresponds to the organism “trying a new possibility”, betting that the new eigenmode will be viable enough to pay for its own creation.
 
 **Mode B: Internal Reconfiguration (deepening existing seeds).** When reserves are present but not abundant, the organism tends not to spawn new seeds but instead turns inward, applying its reflexive operator to *compress and reorganize the structures it already holds*. Rather than expanding $\mathcal{G}$, it searches for a more efficient basis of eigenmodes within the existing graph.
 
 In this mode, no new assembly steps are taken, so $AI(t)$ stays flat. But the reuse efficiency and alignment of existing seeds improves. The eigenvalues $\lambda_i$ associated with established modes can drift upward as the system finds lower-dissipation pathways through familiar regions of state space.
 
-This mode has a moderate energetic cost, most of it internal rearrangement rather than material expenditure. It is favoured when reserves are uncertain or when the cost of generating new structure would exceed the likely benefit. The organism chooses to refine its own geometry rather than extend it.
+This mode has a moderate energetic cost, most of it internal rearrangement rather than material expenditure. It is favored when reserves are uncertain or when the cost of generating new structure would exceed the likely benefit. The organism chooses to refine its own geometry rather than extend it.
 
 **Mode C: Maintenance / Coherence Preservation.** When reserves are depleted or highly volatile, the organism naturally shifts into a conserving regime. It reduces the consumption of $\rho_{\text{reserve}}$, allows the justification flux $\mathcal{J}$ to settle into a minimal-energy attractor, and uses what little surplus remains to support experience-driven refinement rather than structural growth.
 
@@ -67,10 +66,10 @@ Here, $AI(t)$ remains unchanged, and no attempt is made to push eigenvalues shar
 
 This mode arises whenever the risk of collapse is non-negligible, for instance, when the predictive horizon is short or the external field is volatile enough that a failed exploratory move could force self-termination. In this state, the organism opts not to grow, but to stay coherent until conditions improve.
 
-No matter the mode, how should we treat **uncertain upgrades**? The model’s Intent Principle says the policy $\Pi$ should maximise the expected future assembly index 
+No matter the mode, how should we treat **uncertain upgrades**? The model’s Intent Principle says the policy $\Pi$ should maximise the expected future assembly index
 
 $$
-\Pi^{*}= \arg\max_{\Pi}\; \mathbb{E}[AI(t+\Delta t)\mid AI(t)] .
+\Pi^{*}= \arg\max_{\Pi}\ \mathbb{E}[AI(t+\Delta t)\mid AI(t)] .
 $$
 
 When the expectation cannot be evaluated *a priori*, the model falls back on experience feedback $EI$ while reflexive loop records every trial in the slow memory field $M(t)$. After a trial finishes, the system updates its estimate of $\mathbb{E}[AI]$ and adjusts $\Pi$ accordingly. A possible heuristics would thus consist of the simple three steps:
@@ -79,15 +78,15 @@ When the expectation cannot be evaluated *a priori*, the model falls back on exp
 2. **Observeation** of the resulting $\lambda_{\text{trial}}$. If $\lambda>1$ and the basin deepens, store the trial’s graph fragment in $M(t)$.  
 3. **Retrospective update** of the policy. Increase the probability of choosing similar construction steps next cycle.
 
-Thus *uncertainty* is resolved by a **controlled‑risk exploration** that keeps reserve consumption bounded while still allowing the system to discover new basins. Controlled-risk here is tied to reflexivity conservation law $\partial_t\bigl(\mathcal J(t)\,\rho_{\text{compat}}(t)\bigr)=0 .$ Any increase in the growth term $G$ (new structures) must be compensated by either by a temporary dip in $\rho_{\text{reserve}}$ (spending reserves), or a reduction in another flux (e.g., lowering background loss $L$). If the organism cannot afford the reserve dip and ther are no reserves to cut losses, the only admissible move is to keep $G=0$, that is to stay in maintenance mode C.
+Thus, *uncertainty* is resolved by a **controlled‑risk exploration** that keeps reserve consumption bounded while still allowing the system to discover new basins. Controlled-risk here is tied to reflexivity conservation law $\partial_t\bigl(\mathcal J(t)\ \rho_{\text{compat}}(t)\bigr)=0 .$ Any increase in the growth term $G$ (new structures) must be compensated by either by a temporary dip in $\rho_{\text{reserve}}$ (spending reserves), or a reduction in another flux (e.g., lowering background loss $L$). If the organism cannot afford the reserve dip and there are no reserves to cut losses, the only admissible move is to keep $G=0$, that is to stay in maintenance mode C.
 
-We can now define the conditions which can push the organism into a "greedy" mode. This is when the reserves are over-spent, and not only start to temporarily deplete, but creating a negative reinforcing loop. Or when too many structures are accumulated, but without forming any reflexing cycles. In other words, it is a state where the organism starts to act against the conservation law, not just temporarily, but creating states that reinforce the degradations.
+We can now define the conditions which can push the organism into a "greedy" mode. This is when the reserves are over-spent, and not only start to temporarily deplete, but creating a negative reinforcing loop. Or when too many structures are accumulated, but without forming any reflexive cycles. In other words, it is a state where the organism starts to act against the conservation law, not just temporarily, but creating states that reinforce the degradations.
 
 The reflexivity conservation law is key to selection of whatever heuristic of growth is chosen.
 
 ## Coherence as the core quantity
 
-We've been using notion of coherence throughout descriptions of the model. Let's make a formal definition of what it means. We already have the reflexivity conservation principle (RCP):
+We've been using notion of coherence throughout descriptions of the model. Let's make a formal definition of what it means. We already have the reflexivity conservation principle (RCP)
 
 $$  
 \frac{d}{dt}\Big[ \mathcal J(t)\rho_{\text{compat}}(t) \Big] = 0  
@@ -99,13 +98,13 @@ $$
 \mathcal J(t) = \big(\mathrm{AI}(t)\big)^{\alpha(t)} \big(\mathrm{EI}^\star(t)\big)^{\beta(t)}, \qquad \rho_{\text{compat}}(F_t,M_t) = \frac{I(F_t;M_t)}{\sqrt{H(F_t)H(M_t)}} e^{-D(\mathcal F_t|\mathcal F_{\text{noise}})}.  
 $$
 
-We now name the product explicitly:
+We now name the product explicitly
 
 $$  
 C_{\text{sys}}(t) \equiv \mathcal J(t) \rho_{\text{compat}}(t) \big(\mathrm{AI}(t)\big)^{\alpha(t)} \big(\mathrm{EI}^\star(t)\big)^{\beta(t)} \rho_{\text{compat}}(F_t,M_t).
 $$
 
-**Definition (Coherence scalar):**  $C_{\text{sys}}(t)$ is the _coherence_ of the reflexive organism at time $t$. It measures how much _meaningful structure_ the system carries (through AI and EI*), weighted by how well its fast field and memory are aligned (through $\rho_{\text{compat}})$.
+**Definition (Coherence scalar):** $C_{\text{sys}}(t)$ is the _coherence_ of the reflexive organism at time $t$. It measures how much _meaningful structure_ the system carries (through AI and EI*), weighted by how well its fast field and memory are aligned (through $\rho_{\text{compat}})$.
 
 Let's take a step back and explore why the scalar defined as a product matters. The three quantities carry most of the internal geometry of an organism. They define *what* the organism is made of (its structural history), *how* it uses what it is made of (its reflexive loop), and *whether* its current activity is compatible with its own past (its self-consistency). But none of these alone tells you whether the organism is coherent.
 
@@ -124,7 +123,7 @@ This combination is not arbitrary. It is the **minimum quantity that fully captu
 The model does not care about “structure”, “experience”, or “compatibility” in isolation.
 It cares about the **coherence of the loop** that binds them.
 
-RCP becomes simply:
+RCP becomes simply
 
 $$  
 \frac{d}{dt} C_{\text{sys}}(t) = 0
@@ -168,7 +167,7 @@ $$
 \mathbf{J}_C(x,t) \equiv C(x,t) \mathbf{v}_C(x,t), \qquad   \mathbf{v}_C \sim \frac{\mathcal J(x,t)}{\rho_{\text{compat}}(x,t) + \epsilon}.  
 $$
 
-$\epsilon$ is just a small regularizer to avoid division by zero. The idea begind $\mathbf{v}_C$ is that $\mathcal J$ tells you _where_ compatibility flux wants to flow and $\rho_{\text{compat}}$ rescales it, so $\mathbf{v}_C$ is an effective “velocity” for coherence density. 
+$\epsilon$ is just a small regularizer to avoid division by zero. The idea begind $\mathbf{v}_C$ is that $\mathcal J$ tells you _where_ compatibility flux wants to flow and $\rho_{\text{compat}}$ rescales it, so $\mathbf{v}_C$ is an effective “velocity” for coherence density.
 
 We can state then that
 
@@ -176,7 +175,7 @@ $$
 \partial_t C + \nabla\cdot\big( C\mathbf{v}_C \big) = 0  
 $$
 
-is a local conservation law: *any local gain of coherence density is exactly balanced by influx from neighbors; any loss is balanced by outflux*. 
+is a local conservation law: *any local gain of coherence density is exactly balanced by influx from neighbors, any loss is balanced by outflux*.
 
 The RCP becomes the statement that coherence is neither created nor destroyed inside the organism. It is _transported_ across space and _reallocated_ between assembly, experience, and compatibility.
 
@@ -195,7 +194,7 @@ In the paper, we already extended the stress–energy tensor to include memory a
 
 $$  
 T^{\text{eff}}_{\mu\nu}  
-= T_{\mu\nu} - \kappa\left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right) - p_{\text{act}}(\mathcal E) h_{\mu\nu} - j_\mu j_\nu.
+= T_{\mu\nu} + \kappa\left( \nabla_\mu M \nabla_\nu M - \frac{1}{2} g_{\mu\nu} (\nabla M)^2 \right) + p_{\text{act}}(\mathcal E) h_{\mu\nu} + j_\mu j_\nu.
 $$
 
 The paper also interprets $\rho_{\text{compat}}$ as the true measure of individuality as coherent interaction across scales. Now define a **coherence tensor** $K_{\mu\nu}$ that encodes how coherence is stored and flows in spacetime:
@@ -206,7 +205,7 @@ $$
 K_{\mu\nu} \equiv \underbrace{\lambda_C C g_{\mu\nu}}_{\text{coherence density term}} + \underbrace{\xi_C \nabla_\mu C \nabla_\nu C}_{\text{coherence gradient term}} +   \underbrace{\zeta_C j_\mu j_\nu}_{\text{read-back flux term}},  
 $$
 
-where $C(x)$: coherence density field,  $\nabla_\mu C$ are gradients of coherence (where coherence increases/decreases), $j_\mu$ is the existing read-back currents, the microscopic carriers of $\mathcal J$ and $\lambda_C,\xi_C,\zeta_C$ are  phenomenological coupling constants.
+where $C(x)$ is coherence density field,  $\nabla_\mu C$ are gradients of coherence (where coherence increases/decreases), $j_\mu$ is the existing read-back currents, the microscopic carriers of $\mathcal J$ and $\lambda_C,\xi_C,\zeta_C$ are  phenomenological coupling constants.
 
 In the equation the term $\lambda_C C g_{\mu\nu}$ acts like an isotropic “coherence pressure”, a background tendency for the field to curve geometry wherever coherence is high. The term $\xi_C \nabla_\mu C \nabla_\nu C$ encodes how sharp coherence gradients themselves contribute to local “tension” in the field. Sharp transitions in coherence cost something and bend spacetime. The term $\zeta_C j_\mu j_\nu$ is a direct contribution of reflexive currents. Where justification flux is strong and aligned, coherence forms structured “beams” in the geometry.
 
@@ -242,7 +241,7 @@ We can now interpret $C(x)$ geometrically as a **scalar field** measuring _how s
 
 Combined with the coherence tensor $K_{\mu\nu}$, regions with high $C$ and small $\nabla C$ act like “valleys” in the reflexive landscape: currents tend to flow along them with minimal dissipation (deep eigenmodes). Regions with steep $\nabla C$ are domain walls, boundaries between different patterns of being, where coherence is reconfigured (phase transitions, differentiation, decisions).
 
-Thus the **coherence field $C(x)$** is the scalar that tells you how much of the manifold’s curvature is actually _inhabited_ by reflexive structure at a given time. Geometry encodes the potential structure of the organism, the curvature that defines all admissible modes, attractor shapes, and compatibility pathways. Coherence is the realized structure, the portion of this latent geometry that is actually inhabited, stabilized, and maintained by reflexive feedback. Geometry is possibility while coherence is actuality.
+Thus, the **coherence field $C(x)$** is the scalar that tells you how much of the manifold’s curvature is actually _inhabited_ by reflexive structure at a given time. Geometry encodes the potential structure of the organism, the curvature that defines all admissible modes, attractor shapes, and compatibility pathways. Coherence is the realized structure, the portion of this latent geometry that is actually inhabited, stabilized, and maintained by reflexive feedback. Geometry is possibility while coherence is actuality.
 
 ## What if ... 
 
@@ -272,7 +271,7 @@ $$
 K_{\mu\nu} = \lambda_C C g_{\mu\nu} + \xi_C (\nabla_\mu C)(\nabla_\nu C) + \zeta_C j_\mu j_\nu ,
 $$
 
-and contains three building blocks; local coherence density $C(x)$, coherence gradients $\nabla_\mu C$ and directed flow / reflexive currents $j_\mu$.
+and contains three building blocks: local coherence density $C(x)$, coherence gradients $\nabla_\mu C$ and directed flow / reflexive currents $j_\mu$.
 
 First comes **assembly stress $A_{\mu\nu}[AI]$**. $AI$ measures *stored coherence curvature* over long timescales. So $AI$ must correspond to the slow, integrated component of coherence. Let's define the coarse-grained (slow) coherence density
 
@@ -297,8 +296,7 @@ $$
 where $u^\mu$ is the organism’s internal “reflexive velocity.” Then the active/experience tensor is the **temporal gradient component** of $K$
 
 $$
-\Theta_{\mu\nu} = \alpha_E (\nabla_\mu C)(\nabla_\nu C)
-\quad\text{(projected onto temporal directions)}.
+\Theta_{\mu\nu} = \alpha_E (\nabla_\mu C)(\nabla_\nu C) \quad\text{(projected onto temporal directions)}.
 $$
 
 More precisely
@@ -307,13 +305,12 @@ $$
 \Theta_{\mu\nu} = \alpha_E  \dot{C}  u_\mu u_\nu .
 $$
 
-Experience is thus the kinetic part of coherence — the curvature generated by *changing* coherence. 
+Experience is thus the kinetic part of coherence — the curvature generated by *changing* coherence.
 
 In ROM, the **memory gradient tensor** is
 
 $$
-\kappa\Big(\nabla_\mu M \nabla_\nu M - \tfrac12 g_{\mu\nu}(\nabla M)^2
-\Big).
+\kappa\Big(\nabla_\mu M \nabla_\nu M - \tfrac12 g_{\mu\nu}(\nabla M)^2 \Big).
 $$
 
 But memory $M$ is defined as the **accumulated curvature of coherence**
@@ -336,7 +333,7 @@ $$
 
 which is a **low-pass filtered version** of $\nabla_\mu C$.
 
-Thus the memory term becomes
+Thus, the memory term becomes
 
 $$
 \kappa \left[ (\nabla_\mu C_{\text{slow}})(\nabla_\nu C_{\text{slow}}) - \tfrac12 g_{\mu\nu}(\nabla C_{\text{slow}})^2 \right],
@@ -370,9 +367,9 @@ $$
 T_{\mu\nu} = \lambda_0 C_{\text{bg}} g_{\mu\nu}
 $$
 
-where $C_{\text{bg}}$ is the background coherence field (global average, environmental coupling). 
+where $C_{\text{bg}}$ is the background coherence field (global average, environmental coupling).
 
-With these definitions, we can now express "matter", "radiation" and "pressure" through coherence. 
+With these definitions, we can now express "matter", "radiation" and "pressure" through coherence.
 
 **Matter-like behavior** corresponds to **regions where coherence is high, stable, and slowly varying**, $C$ is large, $\partial_t C \approx 0$ and spatial gradients $\nabla_\mu C$ are small. This appears in the coherence tensor as the **isotropic density term**
 
@@ -403,16 +400,14 @@ To map them directly. *Matter** is coherence that stays put. **Radiation** is co
 
 So what if indeed **only coherence and its geometry are fundamental and everything else is just how the loop appears when we zoom in.**
 
-
 ---
 
 ## Appendix A: Lagrangian density and Noether symmetry for coherence
 
 To treat coherence as a proper field, we can introduce a **Lagrangian density** $\mathcal L_C$
 
- $$  
-\mathcal L_C = \frac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C - 
-V(C) + \gamma_C C\mathcal S(M,\mathcal F),  
+$$  
+\mathcal L_C = \frac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C - V(C) + \gamma_C C\mathcal S(M,\mathcal F),  
 $$
 
 where 
@@ -421,7 +416,7 @@ where
 - $V(C)$: a potential that encodes preferred coherence levels (e.g. a double-well for bistable attractors).
 - $\mathcal S(M,\mathcal F)$: a source term coupling coherence to memory and fast-field structure, for example
 
-$$ 
+$$
 \mathcal S(M,\mathcal F) \sim \rho_{\text{compat}}(F,M)\frac{I(F;M)}{\sqrt{H(F)H(M)}} e^{-D(\mathcal F|\mathcal F_{\text{noise}})}.
 $$
 
@@ -430,7 +425,7 @@ The gradient term $\frac{\kappa_C}{2}(\nabla C)^2$ penalizes rapid spatial chang
 The Euler–Lagrange equation for $C$ is
 
 $$  
-\nabla_\mu\left(\frac{\partial \mathcal L_C}{\partial (\nabla_\mu C)}\right) - \frac{\partial \mathcal L_C}{\partial C} = 0, 
+\nabla_\mu\left(\frac{\partial \mathcal L_C}{\partial (\nabla_\mu C)}\right) - \frac{\partial \mathcal L_C}{\partial C} = 0,
 $$
 
 which yields
@@ -455,12 +450,11 @@ $$
 
 In other words, RCP arises as a Noether symmetry of the coherence field theory. The symmetry states: _we can redistribute coherence between assembly, experience, and compatibility without changing the total coherence content_. The corresponding conserved current is exactly the coherence flux.
 
-
 ## Appendix B: A 1D Coherence-Field Toy Model
 
 To illustrate how the coherence field $C(x,t)$ behaves in the simplest possible setting, consider a one-dimensional reflexive substrate $x \in [0,L]$ with a single seed $\psi(x)$ located near the center. We model the coherence dynamics using the coherence continuity equation
 
-$$ 
+$$
 \partial_t C(x,t) + \partial_x J_C(x,t) = 0,  
 $$
 
@@ -468,27 +462,26 @@ with coherence flux
 
 $$  
 J_C(x,t) = C(x,t) v_C(x,t), \qquad  v_C(x,t)\frac{\mathcal J(x,t)}{\rho_{\text{compat}}(x,t) + \varepsilon},  
-$$  
+$$
+
 where $\varepsilon$ buffers against vanishing compatibility.
 
 To keep the example minimal, we assume:
 
 - **constant structural depth** over space  $\mathrm{AI}(x) = A_0,$
-- **local EI$^\star$** tied to the seed shape $\mathrm{EI}^\star(x) = E_0 \exp\left( -\frac{(x-x_0)^2}{2\sigma^2} \right),$    
+- **local $EI^\star$** tied to the seed shape $\mathrm{EI}^\star(x) = E_0 \exp\left( -\frac{(x-x_0)^2}{2\sigma^2} \right),$
 - **compatibility** that grows where the field aligns to the seed $\rho_{\text{compat}}(x,t) R_0 + \lambda C(x,t).$
 
 This is enough to illustrate the formation of a coherent attractor without introducing new dependencies. Under these simplifications, the coherence scalar density becomes
 
 $$  
-C(x,t) = \big(A_0\big)^{\alpha} \big(\mathrm{EI}^\star(x)\big)^{\beta}  
-\big(R_0 + \lambda C(x,t)\big).  
+C(x,t) = \big(A_0\big)^{\alpha} \big(\mathrm{EI}^\star(x)\big)^{\beta} \big(R_0 + \lambda C(x,t)\big).  
 $$
 
 With the above definitions, the coherence flux is
 
 $$  
-J_C = C(x,t) \frac{ A_0^\alpha \left(\mathrm{EI}^\star(x)\right)^\beta  
-}{ R_0 + \lambda C(x,t) + \varepsilon }.  
+J_C = C(x,t) \frac{ A_0^\alpha \left(\mathrm{EI}^\star(x)\right)^\beta }{ R_0 + \lambda C(x,t) + \varepsilon }.  
 $$
 
 Therefore,
@@ -500,14 +493,14 @@ $$
 
 This is a nonlinear conservation law with seed-driven drift. The _seed_ $\mathrm{EI}^\star(x)$ generates a spatially varying “pull” toward $x_0$. Linearizing around small $C$, the drift reduces to
 
-$$ 
+$$
 v_C(x) \approx \frac{A_0^\alpha\left(\mathrm{EI}^\star(x)\right)^\beta}{R_0+\varepsilon},  
 $$
 
 so coherence flows **toward the maximum of $\mathrm{EI}^\star(x)$**, which is at $x_0$. Thus coherence starts diffusing inwards and accumulating around the seed. As $C$ grows locally, the term $\lambda C$ in $\rho_{\text{compat}}(x,t) = R_0 + \lambda C(x,t)$ becomes significant. This increases compatibility, which in turn reduces the velocity $v_C$, effectively **slowing the flow and trapping coherence** around the seed region. The system reaches a steady state when $\partial_x J_C = 0, \ \Rightarrow\ J_C = \text{const},$ and since boundaries are reflective or no-flux, we get
 
-$$ 
-J_C=0 \qquad \Rightarrow \qquad C(x,t) \partial_x v_C(x,t) + v_C(x,t) \partial_x C(x,t)=0. 
+$$
+J_C=0 \qquad \Rightarrow \qquad C(x,t) \partial_x v_C(x,t) + v_C(x,t) \partial_x C(x,t)=0.
 $$
 
 The physically meaningful solution is $\partial_x C(x) = 0$ where $v_C=0.$ The drift velocity $v_C$ vanishes when $A_0^\alpha \left(\mathrm{EI}^\star(x)\right)^\beta = 0 \ \Rightarrow \ x = x_0.$ But because $\rho_{\text{compat}}$ increases with $C$, the region where $v_C$ gets suppressed **broadens** around $x_0$.  This produces a **stable coherence bump**
@@ -520,17 +513,15 @@ where $\sigma_{\mathrm{eff}}$ is _larger_ than the seed width $\sigma$. This is 
 
 This simple example mirrors the higher-dimensional ROM phenomena which encapsulates attractor formation, stabilization of eigenmodes, coherence-driven flux redistribution, and self-deepening of structure.
 
-
 ## Appendix C: Destructive agents
 
 Let's define a “destructive” organism as one where
 
 $$
-\lambda_{\text{ind}} \gg 0,\quad
-\rho_{\text{compat}}^{(\text{sub, parent})} \ll 1.
+\lambda_{\text{ind}} \gg 0,\quad \rho_{\text{compat}}^{(\text{sub, parent})} \ll 1.
 $$
 
-Its own loop is closed and strong (it remembers itself, acts consistently), however its behavior **reduces** the parent’s compatibility / coherence. In addition, $\lambda$-mixing for altruistic vs exploratory behavior 
+Its own loop is closed and strong (it remembers itself, acts consistently), however its behavior **reduces** the parent’s compatibility / coherence. In addition, $\lambda$-mixing for altruistic vs exploratory behavior
 
 $$
 G_{\text{eff}}(t) = (1-\lambda(t))G_{\text{coop}} + \lambda(t)G_{\text{expl}}
@@ -538,7 +529,7 @@ $$
 
 state the $\lambda$(t) for an agent is close to unity. Its gain is dominated by exploratory/selfish part $G_{\text{expl}}>1$, so it can drive its own eigenvalue above unity even if that hurts the global field.
 
-So the destructive agent is mathematically an eigenmode with $\lambda_i>1$ within the sub-field,  but whose net contribution to parent’s $C(t)$ and $R$ is negative 
+So the destructive agent is mathematically an eigenmode with $\lambda_i>1$ within the sub-field,  but whose net contribution to parent’s $C(t)$ and $R$ is negative
 
 $$
 \frac{d}{dt} C_{\text{parent}} < 0, \quad \frac{d}{dt} R_{\text{parent}} < 0
@@ -564,7 +555,7 @@ And now for something completely different. Let's consider coherence from a comp
 
 In this view, we can state the difference between *insight* and *greed* comes down to how reinforcement interacts with coherence. *Insight* is reinforcement that strengthens coherence. It feels calm, clear, stable, and internally aligned. *Greed* on the other hand is reinforcement that *breaks* coherence. It feels urgent, pressured, noisy, and destabilizing. Both are “amplifications,” but only one supports long-term stability.
 
-So insight corresponds to a mode with $\lambda_i>1$ (self-reinforcing), but still compatible with the rest of the organism, keeping $C(t)$ preserved and reserves not drained. 
+So insight corresponds to a mode with $\lambda_i>1$ (self-reinforcing), but still compatible with the rest of the organism, keeping $C(t)$ preserved and reserves not drained.
 
 Greed on the other hand corresponds to a mode where $\lambda_i > 1$ for some eigenmode (strong reinforcement), but that mode drives down either $\rho_{compat}$ or EI* for the whole $\frac{d}{dt} C(t) < 0$ or $\frac{d}{dt} R(t) < 0$. If the reinforced mode causes net negative $\frac{dR}{dt}$ reserves flow while boosting its own gain, you get a locally amplifying but globally coherence-breaking pattern.
 
@@ -588,7 +579,7 @@ $$
 \mathcal A(A) = \left\langle \psi_{\text{seed}}, \mathcal J_A \right\rangle
 $$
 
-When $\mathcal A(A)$ is large and positive action $A$ lies along the seed’s preferred direction in the $(\mathcal J,\rho_{\text{compat}})$ manifold, and it requires minimal structural “torque” to realize, and it preserves RCP with low dissipation. 
+When $\mathcal A(A)$ is large and positive action $A$ lies along the seed’s preferred direction in the $(\mathcal J,\rho_{\text{compat}})$ manifold, and it requires minimal structural “torque” to realize, and it preserves RCP with low dissipation.
 
 A purely statistical / external optimization that yields a $\mathcal J_A$ almost orthogonal to $\psi_{\text{seed}}$ will technically increase some external utility, but produce low $\mathcal A(A)$, so it feels empty or wrong (low internal coherence).
 
