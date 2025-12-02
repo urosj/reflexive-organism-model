@@ -455,11 +455,11 @@ $$
 
 is called a **scale-resolved identity basin** if it satisfies the following requirements.
 
-**1. Spatial–scale stability.** There exists $(x^*, \sigma^*) \in A_\Sigma$ such that 
+**1. Spatial–scale stability.** There exists $(x^{*}, \sigma^{*}) \in A_\Sigma$ such that 
 
 $$
-\nabla_x C(x^*,t;\sigma^*) = 0, \qquad
-\partial_\sigma C(x^*,t;\sigma^*) = 0,
+\nabla_x C(x^{*},t;\sigma^{*}) = 0, \qquad
+\partial_\sigma C(x^{*},t;\sigma^{*}) = 0,
 $$
 
 and the combined Hessian in $(x,\sigma)$ $\mathrm{Hess}_{(x,\sigma)} C$ is positive definite on $A_\Sigma$. This ensures a joint curvature minimum in both space and scale.
@@ -514,7 +514,7 @@ Although we've used binary branching, the branching operator $B[C]$ can split a 
 Hence, for an $N$-ary cascade we may write
 
 $$
-J^\sigma(x,t;\sigma) = - \kappa_\sigma\partial_\sigma C + B[C](x,t;\sigma) ,
+J^\sigma(x,t;\sigma) = - \kappa_\sigma\partial_\sigma C + B[C] (x,t;\sigma) ,
 $$
 
 with  
@@ -572,15 +572,13 @@ The term $\tfrac{\kappa_\sigma}{2}(\partial_\sigma C)^2$ penalizes rapid changes
 We now compute the variation of $\mathcal{P}$ with respect to $C(x,t;\sigma)$. The relevant terms are
 
 $$
-\delta\mathcal{P} = \int d\sigma \int_{\Omega_t} \Big[-\kappa_C \Box_g C - \kappa_\sigma\partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C}
-  \Big]\delta C dV_g .
+\delta\mathcal{P} = \int d\sigma \int_{\Omega_t} \Big[-\kappa_C \Box_g C - \kappa_\sigma\partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C} \Big]\delta C dV_g .
 $$
 
 Stationarity $\delta\mathcal{P}/\delta C = 0$ yields the **Euler–Lagrange equation**
 
 $$
--\kappa_C \Box_g C - \kappa_\sigma \partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C}
-  = 0 .
+-\kappa_C \Box_g C - \kappa_\sigma \partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C} = 0 .
 $$
 
 Rewriting the $\sigma$-term as a divergence gives
@@ -734,7 +732,7 @@ $$
 
 with $G_i>0$. 
 
-Then the resulting branching operator $B[C](x,\sigma)=w_1(x,\sigma)C(x,\sigma)+w_2(x,\sigma)C(x,\sigma)$ 
+Then the resulting branching operator $B[C] (x,\sigma)=w_1(x,\sigma)C(x,\sigma)+w_2(x,\sigma)C(x,\sigma)$ 
 generates a non-uniform multiplicative cascade without the introduction of stochasticity.
 
 **Proof (sketch).** Non-uniformity follows from the fact that either $K_{\mu\nu}$, $\nabla C$, or $J_\mu$ is non-constant on $\Omega\times[0,\infty)$. Since geometry and flux depend reflexively on $C$, any perturbation in coherence induces a perturbation in the weights. Thus all symmetry breaking is supplied deterministically by coherence–geometry coupling.
@@ -742,7 +740,7 @@ generates a non-uniform multiplicative cascade without the introduction of stoch
 Let's conclude the section with the definition of **deterministic branching operator**. A natural geometry-driven branching operator is
 
 $$
-B[C](x,t;\sigma) = \gamma C(x,t;\sigma) \frac{|\nabla C(x,t;\sigma)|^\alpha} {\int_{\Omega} |\nabla C(x,t;\sigma)|^\alpha dV_g}, \quad \alpha>0,
+B[C] (x,t;\sigma) = \gamma C(x,t;\sigma) \frac{|\nabla C(x,t;\sigma)|^\alpha} {\int_{\Omega} |\nabla C(x,t;\sigma)|^\alpha dV_g}, \quad \alpha>0,
 $$
 
 or equivalently,
