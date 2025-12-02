@@ -406,8 +406,10 @@ Because the metric is deformed by $C$, the local speed of signals (the null cone
 
 Let's define why the closed loop
 
+<span style="float:right;">(1)</span>
+
 $$
-C \xrightarrow{K[C]} g_{\mu\nu}[K]\xrightarrow{\nabla,\ dV_g} J_C^{\mu}=Cv_{C}^{\mu} \xrightarrow{\partial_t C+\nabla_{\mu}J_C^{\mu}=0} \text{updates }C \tag{1}
+C \xrightarrow{K[C]} g_{\mu\nu}[K]\xrightarrow{\nabla,\ dV_g} J_C^{\mu}=Cv_{C}^{\mu} \xrightarrow{\partial_t C+\nabla_{\mu}J_C^{\mu}=0} \text{updates }C
 $$
 
 can be solved, i.e. why the system admits (at least locally) a unique evolution of the coherence field $C(x,t)$ from admissible initial data. 
@@ -416,22 +418,28 @@ The loop is a composition of *well-defined* maps
 
 **1. Coherence tensor**  
 
+<span style="float:right;">(2)</span>
+
 $$
-K_{\mu\nu}[C] = \underbrace{\lambda_C\ C\ g_{\mu\nu}}_{\text{density term}} +\underbrace{\xi_C\nabla_{\mu} C\nabla_{\nu} C}_{\text{gradient term}} +\underbrace{\zeta_Cj_{\mu}j_{\nu}}_{\text{read-back flux term}}, \tag{2}
+K_{\mu\nu}[C] = \underbrace{\lambda_C\ C\ g_{\mu\nu}}_{\text{density term}} +\underbrace{\xi_C\nabla_{\mu} C\nabla_{\nu} C}_{\text{gradient term}} +\underbrace{\zeta_Cj_{\mu}j_{\nu}}_{\text{read-back flux term}},
 $$
 
 For any smooth field $C\ge0$ and for constant coefficients $\lambda_C,\xi_C,\zeta_C\in\mathbb R$, Eq. (2) defines a smooth, algebraic tensor field.
 
 **2. Metric from the tensor.**  The constitutive relation is taken to be
-   
+
+<span style="float:right;">(3)</span>
+
 $$
-g_{\mu\nu}=g_{\mu\nu}[K]\quad\Longleftrightarrow\quad K_{\mu\nu}=\lambda_C C g_{\mu\nu}+{\cal O}(\nabla C,j), \tag{3}
+g_{\mu\nu}=g_{\mu\nu}[K]\quad\Longleftrightarrow\quad K_{\mu\nu}=\lambda_C C g_{\mu\nu}+{\cal O}(\nabla C,j),
 $$
 
 which can be *inverted* whenever the density term dominates, i.e.
 
+<span style="float:right;">(4)</span>
+
 $$
-\lambda_C C>0\qquad\Longrightarrow\qquad g_{\mu\nu}= \frac{1}{\lambda_C C}\Bigl(K_{\mu\nu} -\xi_C\nabla_{\mu}C\nabla_{\nu}C -\zeta_C j_{\mu}j_{\nu}\Bigr). \tag{4}
+\lambda_C C>0\qquad\Longrightarrow\qquad g_{\mu\nu}= \frac{1}{\lambda_C C}\Bigl(K_{\mu\nu} -\xi_C\nabla_{\mu}C\nabla_{\nu}C -\zeta_C j_{\mu}j_{\nu}\Bigr).
 $$
 
 The right-hand side is an explicit (though nonlinear) functional of $C$ and its first derivatives.  Under the *non-degeneracy* condition $\lambda_C C>0$ the map $K\mapsto g$ is smooth and invertible, so step 2 is a well-defined **algebraic** operation.
@@ -440,22 +448,28 @@ The right-hand side is an explicit (though nonlinear) functional of $C$ and its 
 
 **4. Coherence flux.**  The *policy* (Sec. A of *Coherence-only ROM*) supplies a constitutive law for the velocity field
 
+<span style="float:right;">(5)</span>
+
 $$
-v_C^{\mu} = -D^{\mu\nu}[C]\nabla_{\nu}\Phi_C, \qquad   \Phi_C:=\frac{\delta\mathcal P}{\delta C}, \tag{5}
+v_C^{\mu} = -D^{\mu\nu}[C]\nabla_{\nu}\Phi_C, \qquad   \Phi_C:=\frac{\delta\mathcal P}{\delta C},
 $$
 
 where $D^{\mu\nu}[C]$ is a positive-definite mobility tensor (e.g. $D^{\mu\nu}= \kappa_C\,g^{\mu\nu}$).  Equation (5) guarantees that the flux
 
+<span style="float:right;">(6)</span>
+
 $$
-J_C^{\mu}=Cv_C^{\mu} \tag{6}
+J_C^{\mu}=Cv_C^{\mu}
 $$
 
 is a **smooth vector field** whenever $C$ is smooth.
 
 **5. Continuity equation (local conservation).** The reflexive-coherence principle (Eq. 2 of *Reflexive Coherence*) imposes
 
+<span style="float:right;">(7)</span>
+
 $$
-\partial_t C + \nabla_{\mu}J_C^{\mu}=0. \tag{7}
+\partial_t C + \nabla_{\mu}J_C^{\mu}=0.
 $$
 
 This is a **first-order** evolution equation for $C$.  Because the flux (6) already contains first derivatives of $C$, Eq. (7) becomes a *quasi-linear* second-order PDE.
@@ -466,8 +480,10 @@ Let's now see about the existence and uniqueness of the coupled PDE by starting 
 
 Insert (5)–(6) into (7).  Using $\Phi_C = -\kappa_C\,\Box_g C + V'(C)$ (the Euler–Lagrange derivative of the functional $\mathcal P[C]=\int (\tfrac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C-V(C))\sqrt{-g}d^4x$) one obtains
 
+<span style="float:right;">(8)</span>
+
 $$
-\partial_t C = \nabla_{\mu}\Bigl[C D^{\mu\nu}[C] \bigl(\kappa_C\nabla_{\nu} C - V'(C)\nabla_{\nu} S(C)\bigr)\Bigr], \tag{8}
+\partial_t C = \nabla_{\mu}\Bigl[C D^{\mu\nu}[C] \bigl(\kappa_C\nabla_{\nu} C - V'(C)\nabla_{\nu} S(C)\bigr)\Bigr],
 $$
 
 where $S(C)$ denotes any scalar factor arising from the metric dependence of the volume element.  Equation (8) has the canonical form of a reaction–diffusion (or gradient-flow) equation on a dynamical Riemannian manifold:
@@ -491,30 +507,38 @@ The last part of the proof deals with the property that variational functional $
 
 The **coherence functional** (Sec. 4 of *Reflexive Coherence*)
 
+<span style="float:right;">(9)</span>
+
 $$
-\mathcal P[C]=\int_{\Omega_t} \Bigl(\tfrac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C - V(C)\Bigr) \sqrt{-g[C]}d^4x \tag{9}
+\mathcal P[C]=\int_{\Omega_t} \Bigl(\tfrac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C - V(C)\Bigr) \sqrt{-g[C]}d^4x
 $$
 
 has two crucial properties. **Stationarity** as the Euler–Lagrange equation derived from (9) is precisely the bulk part of Eq. (8).  Hence any solution of the continuity law automatically satisfies $\delta\mathcal P/\delta C=0$. And **energy dissipation / conservation**. 
 
 Let's support the last claim. The *coherence budget* is defined by
 
+<span style="float:right;">(10)</span>
+
 $$
-C_{\text{sys}}(t)=\int_{\Omega_t}C dV_g . \tag{10}
+C_{\text{sys}}(t)=\int_{\Omega_t}C dV_g .
 $$
 
 Using (7) and the no-flux boundary condition one finds
 
+<span style="float:right;">(11)</span>
+
 $$
-\frac{\mathrm d}{\mathrm dt}C_{\text{sys}}(t) =-\int_{\partial\Omega_t}J_C^\mu n_\mu dS=0 . \tag{11}
+\frac{\mathrm d}{\mathrm dt}C_{\text{sys}}(t) =-\int_{\partial\Omega_t}J_C^\mu n_\mu dS=0 .
 $$
 
 Equation (11) is the global invariance (RCP).  It supplies an a-priori $L^1$ bound on the solution for all times, which in turn guarantees that the coefficients appearing in the PDE remain bounded.  In the language of PDE theory this is precisely the *maximum principle* often used to extend local existence to global existence.
 
 Moreover, the functional $\mathcal P[C]$ is non-increasing along solutions if $V$ is convex (or more generally if the reaction term respects a Lyapunov structure).  This monotonicity furnishes an *energy estimate*
 
+<span style="float:right;">(12)</span>
+
 $$
-\frac{d}{dt}\mathcal P[C(t)] = -\int_{\Omega_t} D^{\mu\nu}[C]\nabla_\mu\Phi_C\nabla_\nu\Phi_C dV_g \le 0 . \tag{12}
+\frac{d}{dt}\mathcal P[C(t)] = -\int_{\Omega_t} D^{\mu\nu}[C]\nabla_\mu\Phi_C\nabla_\nu\Phi_C dV_g \le 0 .
 $$
 
 Estimate (12) is the standard source of *a-priori* $H^1$ bounds that prevent gradient blow-up.
@@ -542,7 +566,7 @@ For each $t$, the attractors (identity basins) are in 1–1 correspondence with 
    
 $$
 \nabla C(x^{*}_{i}(t),t) = 0,\qquad
-\mathrm{Hess}_x C(x^{*}_{i}(t),t) \succ 0.
+\mathrm{Hess}_{x} C(x^{*}_{i}(t),t) \succ 0.
 $$
 
 At some time $t=t_s$, the attractor set changes from $N$ to $N+1$ distinct minima:

@@ -5,7 +5,7 @@ Copyright © 2025 Uroš Jovanovič, CC BY-SA 4.0.
 
 ## Abstract
 
-We present Fractal Reflexive Coherence (FRC), an extension of the Reflexive Coherence (RC) framework that resolves a central limitation shared by single-field and two-field RC, the inability to propagate identity across scales. While classical RC describes a single reflexive loop whose geometry is shaped by a coherence field $C(x,t),$ this structure cannot reproduce the hierarchical, self-similar patterns seen in biological, cognitive, and collective systems. We introduce a generation coordinate $\sigma\in[0,\infty)$ and promote coherence to a scale-resolved density $C(x,t;\sigma)$ on the product manifold $\Omega_t\times[0,\infty)$. The resulting position–scale continuity equation couples spatial transport to a scale-flux $J^\sigma$ that governs branching in a mass-preserving cascade. Coherence from all scales contributes to the effective geometry through an integrated coherence tensor $K_{\mu\nu}(x,t)=\int_0^\infty K_{\mu\nu}(x,t;\sigma) d\sigma,$ allowing fine-grained sub-identities to curve and constrain the large-scale dynamics. We show that this system admits stable, invariant multiscale identity basins, attractor tubes in $(x,\sigma)$ that persist under perturbations and encode hierarchical, fractal self-organization. The FRC formulation thus provides a mathematically coherent mechanism for the emergence of nested identities, scale-free geometry, and fractal patterns, completing the progression from single-loop reflexivity to an infinitely cascading hierarchy of reflexive loops.
+We present Fractal Reflexive Coherence (FRC), an extension of the Reflexive Coherence (RC) framework that resolves a central limitation shared by single-field and two-field RC, the inability to propagate identity across scales. While classical RC describes a single reflexive loop whose geometry is shaped by a coherence field $C(x,t),$ this structure cannot reproduce the hierarchical, self-similar patterns seen in biological, cognitive, and collective systems. We introduce a generation coordinate $\sigma\in[0,\infty)$ and promote coherence to a scale-resolved density $C(x,t;\sigma)$ on the product manifold $\Omega_t\times[0,\infty)$. The resulting position-scale continuity equation couples spatial transport to a scale-flux $J^\sigma$ that governs branching in a mass-preserving cascade. Coherence from all scales contributes to the effective geometry through an integrated coherence tensor $K_{\mu\nu}(x,t)=\int_0^\infty K_{\mu\nu}(x,t;\sigma) d\sigma,$ allowing fine-grained sub-identities to curve and constrain the large-scale dynamics. We show that this system admits stable, invariant multiscale identity basins, attractor tubes in $(x,\sigma)$ that persist under perturbations and encode hierarchical, fractal self-organization. The FRC formulation thus provides a mathematically coherent mechanism for the emergence of nested identities, scale-free geometry, and fractal patterns, completing the progression from single-loop reflexivity to an infinitely cascading hierarchy of reflexive loops.
 
 ## Separation
 
@@ -59,7 +59,7 @@ $$
 \frac{d}{dt}\int_{\Omega} C dV_g = \Phi_{\text{in}} - \Phi_{\text{out}} .
 $$
 
-Here $\Phi_{\text{in}}$ and $\Phi_{\text{out}}$ are *coherence fluxes* through the boundary of $\Omega$, possibly expressed as surface integrals of a coherence current that includes contributions from $C_E$. The balance law captures two crucial ideas. The whole can give coherence (e.g., learning, nourishment) – $\Phi_{\text{in}}>0$, and the agent can return coherence to the whole (e.g., creative work, ecological impact) – $\Phi_{\text{out}}>0$.
+Here $\Phi_{\text{in}}$ and $\Phi_{\text{out}}$ are *coherence fluxes* through the boundary of $\Omega$, possibly expressed as surface integrals of a coherence current that includes contributions from $C_E$. The balance law captures two crucial ideas. The whole can give coherence (e.g., learning, nourishment) - $\Phi_{\text{in}}>0$, and the agent can return coherence to the whole (e.g., creative work, ecological impact) - $\Phi_{\text{out}}>0$.
 
 When $\Phi_{\text{in}}=\Phi_{\text{out}}$ we recover strict conservation, otherwise we have a *net growth* or *decay* that reflects genuine co-evolution.
 
@@ -145,7 +145,7 @@ $$
 
 Varying with respect to $C_A$ (and similarly for $C_E$) produces precisely the exchange term $S$.  Thus the exchange it follows from a well-defined variational principle and the two sectors cannot be reduced to one effective field without loss of information.
 
-**Lemma:** If $\xi_{AE}\neq0$ or $\zeta_{AE}\neq0$ or $\lambda_{AE}\neq0$, then the Euler–Lagrange equations for $C_A$ and $C_E$ are *linearly independent* functional differential equations.
+**Lemma:** If $\xi_{AE}\neq0$ or $\zeta_{AE}\neq0$ or $\lambda_{AE}\neq0$, then the Euler-Lagrange equations for $C_A$ and $C_E$ are *linearly independent* functional differential equations.
 
 **Proof:** The variation of $\Delta S$ with respect to $C_A$ yields
 
@@ -153,7 +153,7 @@ $$
 \delta_{C_A}\Delta S = \int \Bigl[\xi_{AE}\nabla_\mu C_E\nabla^\mu(\delta C_A) + \zeta_{AE} J_E^\mu v_{A,\mu} \delta C_A + \lambda_{AE} C_E \delta C_A \Bigr]\sqrt{-g} d^4x .
 $$
 
-Integrating the first term by parts gives a contribution proportional to $\Box C_E$.  The resulting Euler–Lagrange equation for $C_A$ contains terms that involve only $C_E$** (and its derivatives) multiplied by non-zero constants $\xi_{AE},\zeta_{AE},\lambda_{AE}$.  
+Integrating the first term by parts gives a contribution proportional to $\Box C_E$.  The resulting Euler-Lagrange equation for $C_A$ contains terms that involve only $C_E$** (and its derivatives) multiplied by non-zero constants $\xi_{AE},\zeta_{AE},\lambda_{AE}$.  
 
 If we attempted to write a single field equation $F(C_{\rm eff})=0$ with $C_{\rm eff}=f(C_A,C_E)$, the dependence on $\Box C_E$ would have to be expressible solely in terms of $C_{\rm eff}$ and its derivatives.  Because the coefficients $\xi_{AE},\zeta_{AE},\lambda_{AE}$ are independent parameters, no universal function $f$ can eliminate **all** cross-terms simultaneously unless those coefficients vanish.
 
@@ -338,7 +338,7 @@ $$
 
 *Proof.* Straightforward application of Gauss’ theorem with $J^i n_i|_{\partial\Omega}=0$.
 
-**Theorem (global coherence invariance):** If the field $C(x,t;\sigma)$ obeys the continuity equation together with Lemmas 1–2, then
+**Theorem (global coherence invariance):** If the field $C(x,t;\sigma)$ obeys the continuity equation together with Lemmas 1-2, then
 
 $$
 \frac{d}{dt} C_{\text{tot}}(t)=0 .
@@ -362,7 +362,7 @@ The theorem holds independently of how many splitting events actually occur, bec
 
 ## Fractal reflexive coherence
 
-**Fractal Reflexive Coherence (FRC)** is a reflexive coherence system defined on the product space $\mathcal M = \Omega_t\times[0,\infty)_\sigma$, represented by a non-negative density $C(x,t;\sigma)$ satisfying the position–scale continuity equation
+**Fractal Reflexive Coherence (FRC)** is a reflexive coherence system defined on the product space $\mathcal M = \Omega_t\times[0,\infty)_\sigma$, represented by a non-negative density $C(x,t;\sigma)$ satisfying the position-scale continuity equation
 
 $$
 \partial_t C + \nabla_i J^i + \partial_\sigma J^\sigma = 0 , \quad i=1,2,3,
@@ -394,7 +394,7 @@ $$
 
 which defines the induced metric $g_{\mu\nu}[K]$.
 
-Note that the full coherence functional on the position–scale manifold is
+Note that the full coherence functional on the position-scale manifold is
 
 $$
 \mathcal P[C]=\int_0^\infty d\sigma \int_\Omega\Big(\tfrac{\kappa_C}{2}\nabla_\mu C\nabla^\mu C -V(C)\Big) \sqrt{-g[K]} d^4x .
@@ -431,7 +431,7 @@ C_\sigma \xrightarrow{K[C_\sigma]} g_{\mu\nu}[K] \xrightarrow{\nabla,dV_g} J_C^\
 \text{updates }C_\sigma .
 $$
 
-Thus each $\sigma$-slice possesses its own reflexive loop. The right–hand side of the continuity equation contains $-\partial_\sigma J^\sigma$, which is *exactly* the term that couples slice $\sigma$ to its neighbours $(\sigma\pm\Delta\sigma)$.  Consequently the scale-flux $J^\sigma$ (or its divergence $-\partial_\sigma J^\sigma$) injects coherence *into* slice $\sigma$ from the coarser slice and extracts it *toward* finer slices. It also follows, that while in most implementations we define the metric as an integral over all scales, e.g. $K_{\mu\nu}(x,t)=\int_0^\infty d\sigma\bigl[\lambda(\sigma)C_\sigma g_{\mu\nu}+ \dots\bigr]$, all slices see the same geometry, which itself is a *collective* of all loops. One important distinction is that only the sum over $\sigma$ is conserved with $C_{\rm tot}(t)=\int_0^\infty d\sigma\!\int_\Omega C(x,t;\sigma)\,dV_g=\text{const.}$  Individual slices can gain or lose coherence, but the total never changes.
+Thus each $\sigma$-slice possesses its own reflexive loop. The right-hand side of the continuity equation contains $-\partial_\sigma J^\sigma$, which is *exactly* the term that couples slice $\sigma$ to its neighbours $(\sigma\pm\Delta\sigma)$.  Consequently the scale-flux $J^\sigma$ (or its divergence $-\partial_\sigma J^\sigma$) injects coherence *into* slice $\sigma$ from the coarser slice and extracts it *toward* finer slices. It also follows, that while in most implementations we define the metric as an integral over all scales, e.g. $K_{\mu\nu}(x,t)=\int_0^\infty d\sigma\bigl[\lambda(\sigma)C_\sigma g_{\mu\nu}+ \dots\bigr]$, all slices see the same geometry, which itself is a *collective* of all loops. One important distinction is that only the sum over $\sigma$ is conserved with $C_{\rm tot}(t)=\int_0^\infty d\sigma\!\int_\Omega C(x,t;\sigma)\,dV_g=\text{const.}$  Individual slices can gain or lose coherence, but the total never changes.
 
 ## Identity basins across scales
 
@@ -455,16 +455,16 @@ $$
 
 is called a **scale-resolved identity basin** if it satisfies the following requirements.
 
-**1. Spatial–scale stability.** There exists $(x^{*}, \sigma^{*}) \in A_\Sigma$ such that 
+**1. Spatial-scale stability.** There exists $(x^{*}, \sigma^{*}) \in A_\Sigma$ such that 
 
 $$
-\nabla_x C(x^{*},t;\sigma^{*}) = 0, \qquad
-\partial_\sigma C(x^{*},t;\sigma^{*}) = 0,
+\nabla_{x} C(x^{*},t;\sigma^{*}) = 0, \qquad
+\partial_{\sigma} C(x^{*},t;\sigma^{*}) = 0,
 $$
 
 and the combined Hessian in $(x,\sigma)$ $\mathrm{Hess}_{(x,\sigma)} C$ is positive definite on $A_\Sigma$. This ensures a joint curvature minimum in both space and scale.
 
-**2. Spatial–scale attractivity.** There exists a neighborhood $U \subset \Omega_t\times\Sigma$ such that trajectories of the position–scale flow $\Phi_t(x,\sigma)$ obey $\Phi_t(x_0,\sigma_0) \to A_\Sigma\ (t\to\infty)$ 
+**2. Spatial-scale attractivity.** There exists a neighborhood $U \subset \Omega_t\times\Sigma$ such that trajectories of the position-scale flow $\Phi_t(x,\sigma)$ obey $\Phi_t(x_0,\sigma_0) \to A_\Sigma\ (t\to\infty)$ 
 for all $(x_0,\sigma_0)\in U$. Thus the basin attracts coherence both horizontally (in space) and vertically (in scale).
 
 **3. Invariance under the FRC dynamics.** Once coherence enters $A_\Sigma$ it holds $\Phi_t(A_\Sigma) = A_\Sigma$ for all future times, even though individual slices $\sigma$ may gain or lose coherence due to $-\partial_\sigma J^\sigma$. The identity persists as a scale-extended invariant mode.
@@ -559,7 +559,7 @@ so whatever cascade is choosen (binary, ternary, nine-fold) the resulting geomet
 
 ## Appendix C: Variational Origin of Scale Flux
 
-In the ordinary RC model, the spatial flux $J^i=C,v_C^{,i}$ follows from a constitutive relation for the velocity $v_C^{,i}$, itself determined by the Euler–Lagrange equation $\delta\mathcal{P}/\delta C=0$ of the coherence functional. For the fractal hierarchy, we require an analogous derivation for the **scale-flux** $J^\sigma$.
+In the ordinary RC model, the spatial flux $J^i=C,v_C^{,i}$ follows from a constitutive relation for the velocity $v_C^{,i}$, itself determined by the Euler-Lagrange equation $\delta\mathcal{P}/\delta C=0$ of the coherence functional. For the fractal hierarchy, we require an analogous derivation for the **scale-flux** $J^\sigma$.
 
 To this end, we extend the coherence functional to the product space $\Omega_t\times[0,\infty)$ by introducing a **scale-gradient term** and a **branching potential**
 
@@ -572,13 +572,15 @@ The term $\tfrac{\kappa_\sigma}{2}(\partial_\sigma C)^2$ penalizes rapid changes
 We now compute the variation of $\mathcal{P}$ with respect to $C(x,t;\sigma)$. The relevant terms are
 
 $$
-\delta\mathcal{P} = \int d\sigma \int_{\Omega_t} \Big[-\kappa_C \Box_g C - \kappa_\sigma\partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C} \Big]\delta C dV_g .
+\delta\mathcal{P} = \int d\sigma \int_{\Omega_t} \Big[-\kappa_C \Box_g C - \kappa_\sigma\partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C}
+  \Big]\delta C dV_g .
 $$
 
-Stationarity $\delta\mathcal{P}/\delta C = 0$ yields the **Euler–Lagrange equation**
+Stationarity $\delta\mathcal{P}/\delta C = 0$ yields the **Euler-Lagrange equation**
 
 $$
--\kappa_C \Box_g C - \kappa_\sigma \partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C} = 0 .
+-\kappa_C \Box_g C - \kappa_\sigma \partial_\sigma^2 C + V'(C) + \partial_C U_{\mathrm{branch}} + K^{\mu\nu} \frac{\delta g_{\mu\nu}}{\delta C}
+  = 0 .
 $$
 
 Rewriting the $\sigma$-term as a divergence gives
@@ -638,13 +640,13 @@ We assume the following properties.
 
 Then there exists a neighborhood $U \subset \Omega_t \times \Sigma,$ $\Sigma\equiv[\sigma^*-\varepsilon,\sigma^*+\varepsilon],$ and a compact set $A_\Sigma \subset U,$ such that:
 
-**(i) Spatial–scale attractor.**  For all initial conditions $(x_0,\sigma_0)\in U$, $\Phi_t(x_0,\sigma_0)\longrightarrow A_\Sigma \quad (t\to+\infty),$ where $\Phi_t$ is the flow induced by the vector field $V = (v_C^{i} \dot{\sigma}),\quad \dot{\sigma} = J^\sigma/C.$
+**(i) Spatial-scale attractor.**  For all initial conditions $(x_0,\sigma_0)\in U$, $\Phi_t(x_0,\sigma_0)\longrightarrow A_\Sigma \quad (t\to+\infty),$ where $\Phi_t$ is the flow induced by the vector field $V = (v_C^{i} \dot{\sigma}),\quad \dot{\sigma} = J^\sigma/C.$
 
 **(ii) Invariance.** Once reached, the basin is preserved $\Phi_t(A_\Sigma) = A_\Sigma,\quad \forall t\ge0.$
 
 **(iii) Stability under perturbations.** For any sufficiently small perturbation $\delta C$ of the coherence field, respecting the global invariant and the no-flux boundaries, there exists a perturbed basin $A_\Sigma'$ with $d_{\mathrm{Haus}}(A_\Sigma,A_\Sigma') = \mathcal O(\|\delta C\|),$ i.e. the structure persists under small spatial and scale perturbations.
 
-**(iv) Reflexive reinforcement.** Coherence flux into $A_\Sigma$ deepens the spatial–scale minimum $J^i \to A_\Sigma$ and $J^\sigma \to A_\Sigma \ \Longrightarrow\  \mathrm{Hess}_{(x,\sigma)} C|_{A_\Sigma}$ increases.
+**(iv) Reflexive reinforcement.** Coherence flux into $A_\Sigma$ deepens the spatial-scale minimum $J^i \to A_\Sigma$ and $J^\sigma \to A_\Sigma \ \Longrightarrow\  \mathrm{Hess}_{(x,\sigma)} C|_{A_\Sigma}$ increases.
 
 **(v) Existence of multiscale identity.** The set $A_\Sigma$ constitutes a scale-resolved identity basin, it is a stable, invariant, self-reinforcing attractor tube threading through the $\sigma$-dimension.
 
@@ -661,7 +663,7 @@ $$
 \succ 0.
 $$
 
-**2. Invariant manifold.** Smoothness of the geometry and the flux fields implies that the flow $\Phi_t$ is $C^1$. Standard invariant manifold theorems (Hadamard–Perron type) guarantee the existence of a compact attracting neighborhood $A_\Sigma$ around the minimum.
+**2. Invariant manifold.** Smoothness of the geometry and the flux fields implies that the flow $\Phi_t$ is $C^1$. Standard invariant manifold theorems (Hadamard-Perron type) guarantee the existence of a compact attracting neighborhood $A_\Sigma$ around the minimum.
 
 **3. Attraction.** Dissipativity in $\sigma$ (from $-\kappa_\sigma\partial_\sigma C$) and gradient-flow structure in $x$ imply that trajectories converge to the minimum along both dimensions.
 
@@ -695,7 +697,7 @@ This creates multiplicative distortions deterministically. Large values get ampl
 
 **3. Deterministic transfer across $(x,\sigma)$** (fractals from transport, not local splitting). The fractal structure doesn’t need to originate at each splitting event. It can instead come from the combined effect of spatial flux $J^i$, scale flux $J^\sigma$, geometry $g_{\mu\nu}$, and  nonlinearities in $v_C^\mu$. FRC’s full continuity equation $\partial_t C + \nabla_i (C v_C^{i}) +  \partial_\sigma J^\sigma = 0$ is nonlinear, coupled, and anisotropic. 
 
-Hence, slight differences lead to strong distortions (sensitive dependence),  geometry couples across scales enabling iterative folding, and fluxes amplify anisotropies generating “deterministic chaos” in $(x,\sigma)$. This is how Navier–Stokes, reaction–diffusion, or Vlasov dynamics produce deterministic multifractals with *no randomness*.
+Hence, slight differences lead to strong distortions (sensitive dependence),  geometry couples across scales enabling iterative folding, and fluxes amplify anisotropies generating “deterministic chaos” in $(x,\sigma)$. This is how Navier-Stokes, reaction-diffusion, or Vlasov dynamics produce deterministic multifractals with *no randomness*.
 
 Thus, a deterministic PDE with nonlinear flux almost always produces fractal invariants without randomness. 
 
@@ -735,7 +737,7 @@ with $G_i>0$.
 Then the resulting branching operator $B[C] (x,\sigma)=w_1(x,\sigma)C(x,\sigma)+w_2(x,\sigma)C(x,\sigma)$ 
 generates a non-uniform multiplicative cascade without the introduction of stochasticity.
 
-**Proof (sketch).** Non-uniformity follows from the fact that either $K_{\mu\nu}$, $\nabla C$, or $J_\mu$ is non-constant on $\Omega\times[0,\infty)$. Since geometry and flux depend reflexively on $C$, any perturbation in coherence induces a perturbation in the weights. Thus all symmetry breaking is supplied deterministically by coherence–geometry coupling.
+**Proof (sketch).** Non-uniformity follows from the fact that either $K_{\mu\nu}$, $\nabla C$, or $J_\mu$ is non-constant on $\Omega\times[0,\infty)$. Since geometry and flux depend reflexively on $C$, any perturbation in coherence induces a perturbation in the weights. Thus all symmetry breaking is supplied deterministically by coherence-geometry coupling.
 
 Let's conclude the section with the definition of **deterministic branching operator**. A natural geometry-driven branching operator is
 
