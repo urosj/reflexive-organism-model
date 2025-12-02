@@ -603,5 +603,15 @@ The "What if ... " section is particularly interesting. It's like when all the s
 
 ## Bibliography
 
+- **Batchelor, G. K.** (2000). _An Introduction to Fluid Dynamics_. Cambridge University Press.
+- **Evans, L. C.** (2010). _Partial Differential Equations_ (2nd ed.). American Mathematical Society.
+- **Guckenheimer, J., & Holmes, P.** (1983). _Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields_. Springer.
+- **Hirsch, M. W., Smale, S., & Devaney, R. L.** (2013). _Differential Equations, Dynamical Systems, and an Introduction to Chaos_ (3rd ed.). Academic Press.
+- **Murray, J. D.** (2003). _Mathematical Biology: I & II_ (3rd ed.). Springer.
+- **Nicolis, G., & Prigogine, I.** (1977). _Self-Organization in Nonequilibrium Systems_. Wiley.
+- **Simon, H. A.** (1969). _The Sciences of the Artificial_. MIT Press.
+- **Strogatz, S. H.** (2015). _Nonlinear Dynamics and Chaos_ (2nd ed.). CRC Press.
+- **Susskind, L., & Friedman, A.** (2017). *Special Relativity and Classical Field Theory: The Theoretical Minimum*. Basic Books. **ISBN:** 978-0465093342
+- **Susskind, L., & Friedman, A.** (2023). *General Relativity: The Theoretical Minimum*. Basic Books. **ISBN:** 978-1541602104
 - **Jovanovic, U.** (2025). *Reflexive Organism Model*.
 - **Jovanovic, U.** (2025). *Seeds of life*

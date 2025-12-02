@@ -1,4 +1,4 @@
-# Coherence-only Reflexive Organism Model
+# Reflexive Coherence
 
 Copyright © 2025 Uroš Jovanovič, CC BY-SA 4.0.
 
@@ -6,7 +6,7 @@ Copyright © 2025 Uroš Jovanovič, CC BY-SA 4.0.
 
 We propose a reduced formulation of the Reflexive Organism Model in which **coherence** is the only primitive dynamical field. All structures—organs, networks, memory, policies, assembly pathways, and experience—arise as _derived functionals_ of this field and of the geometry it induces. The coherence potential defines stable identity basins, while coherence flux governs reconfiguration, learning, and environmental coupling. Reproduction and pruning appear as topology-changing events in the coherence landscape. This coherence-only ROM shows that the entire organismal identity and behavior can be derived from the conservation, redistribution, and curvature of a single scalar field.
 
-## Coherence-only ROM
+## Reflexive coherence
 
 Let
 
@@ -14,7 +14,7 @@ $$
 \mathcal S_{\text{coh}} = (C(x,t), J_C(x,t))
 $$
 
-represent a coherence-only ROM, where:
+represent **reflexive coherence**, where:
 
 - $C(x,t)\ge 0$ be a **coherence density field** on a support $\Omega_t$,
 - $J_C(x,t)$ its associated **coherence flux**, with
@@ -660,6 +660,14 @@ Coherence is not a quantity evolving *within* space and time. It is the generati
 
 ## Bibliography
 
+- **Batchelor, G. K.** (2000). _An Introduction to Fluid Dynamics_. Cambridge University Press.
+- **Evans, L. C.** (2010). _Partial Differential Equations_ (2nd ed.). American Mathematical Society.
+- **Guckenheimer, J., & Holmes, P.** (1983). _Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields_. Springer.
+- **Hirsch, M. W., Smale, S., & Devaney, R. L.** (2013). _Differential Equations, Dynamical Systems, and an Introduction to Chaos_ (3rd ed.). Academic Press.
+- **Newman, M. E. J.** (2018). _Networks_ (2nd ed.). Oxford University Press.
+- **Strogatz, S. H.** (2015). _Nonlinear Dynamics and Chaos_ (2nd ed.). CRC Press.
+- **Susskind, L., & Friedman, A.** (2017). *Special Relativity and Classical Field Theory: The Theoretical Minimum*. Basic Books. **ISBN:** 978-0465093342
+- **Susskind, L., & Friedman, A.** (2023). *General Relativity: The Theoretical Minimum*. Basic Books. **ISBN:** 978-1541602104
 - **Jovanovic, U.** (2025). *Reflexive Organism Model*.
 - **Jovanovic, U.** (2025). *Seeds of life*
 - **Jovanovic, U.** (2025). *Coherence in Reflexive Organism Model*

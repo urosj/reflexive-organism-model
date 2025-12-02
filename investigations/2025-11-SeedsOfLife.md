@@ -770,5 +770,16 @@ This loop reinterprets life as *a field that repeatedly creates, stabilises, and
 
 ## Bibliography
 
+- **Alberts, B., Johnson, A., Lewis, J., et al.** (2014). _Molecular Biology of the Cell_ (6th ed.). Garland Science.
+- **Cover, T. M., & Thomas, J. A.** (2006). _Elements of Information Theory_ (2nd ed.). Wiley.
+- **Gilbert, S. F., & Barresi, M. J. F.** (2016). _Developmental Biology_ (11th ed.). Sinauer Associates.
+- **Guckenheimer, J., & Holmes, P.** (1983). _Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields_. Springer.
+- **Hirsch, M. W., Smale, S., & Devaney, R. L.** (2013). _Differential Equations, Dynamical Systems, and an Introduction to Chaos_ (3rd ed.). Academic Press.
+- **Koller, D., & Friedman, N.** (2009). _Probabilistic Graphical Models: Principles and Techniques_. MIT Press.
+- **Li, M., & Vitányi, P.** (2008). _An Introduction to Kolmogorov Complexity and Its Applications_ (3rd ed.). Springer.
+- **Newman, M. E. J.** (2018). _Networks_ (2nd ed.). Oxford University Press.
+- **Nowak, M. A.** (2006). _Evolutionary Dynamics_. Harvard University Press. 
+- **Strogatz, S. H.** (2015). _Nonlinear Dynamics and Chaos_ (2nd ed.). CRC Press.
+- **Turing, A. M.** (1952). “The Chemical Basis of Morphogenesis.” _Philosophical Transactions of the Royal Society B_, 237, 37–72.
 - **Jovanovic, U.** (2025). *Reflexive Organism Model*.
 - **Jovanovic, U.** (2025). *Reflexive Loop: A framework for balancing building and learning*
