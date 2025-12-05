@@ -1,0 +1,50 @@
+{
+  "nx": 512,
+  "ny": 512,
+  "dx": 0.1,
+
+  "dt": 1e-5,
+  "steps": 3000,
+
+  "basins": 50,
+
+  "lam": 0.8,
+  "xi": 0.1,
+  "zeta": 0.05,
+
+  "kappa": 0.05,
+
+  "alpha": 1.0,
+  "beta": 0.1,
+
+  "gamma_curv": 0.1,
+
+  "potential": "double_well",
+  "potential_params": {
+    "a": 0.6,
+    "b": 0.05
+  },
+
+  "spark_enabled": true,
+  "spark_epsilon": 1e-6,
+
+  "bump_amplitude": 0.15,
+
+  "events_every": 100,
+  "events_start": 10,
+
+  "sample_every": 4,
+
+  "truth_mode": true,
+
+  "output": "outputs/rc_rcmode_abundance.gif",
+
+  "seed": 4218124,
+
+  "implicit": false,
+
+  "use_global_clim": false,
+  "coherence_renormalization": 1,
+  "step": "euler",
+  "debug_events": true
+}
