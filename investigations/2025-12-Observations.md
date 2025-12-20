@@ -160,7 +160,7 @@ Therefore the simplest candidate in the allowed class is:
 
 $$
 \mathcal P[C] = \int 
-\Big(\frac{\kappa_C}{2}\nabla_\mu C \nabla^\mu C - V(C)\Big)\sqrt{-g[C]} d^4x
+\left(\frac{\kappa_C}{2}\nabla_\mu C \nabla^\mu C - V(C)\right)\sqrt{-g[C]} d^4x
 $$
 as stated in reflexive coherence. 
 
@@ -372,7 +372,7 @@ $C:\Omega\times[0,\infty)\to\mathbb R$ be a scalar field evolving according to a
 <span style="float:right;">(6.1)</span>
 
 $$
-\partial_t C = F\big(C,\nabla C,\nabla^2 C;x\big),
+\partial_t C = F\left(C,\nabla C,\nabla^2 C;x\right),
 $$
 
 subject to boundary conditions ensuring well-posedness.
@@ -443,7 +443,7 @@ with the *same operator* applied everywhere and always.
 When you start instead from an **action**
 
 $$
-\mathcal P[C] = \int \Big( \tfrac{\kappa}{2}\nabla_\mu C \nabla^\mu C - V(C) \Big)\sqrt{-g[C]} d^4x
+\mathcal P[C] = \int \left( \tfrac{\kappa}{2}\nabla_\mu C \nabla^\mu C - V(C) \right)\sqrt{-g[C]} d^4x
 $$
 
 two things happen. First, the PDE is no longer postulated, it is derived by variation
@@ -455,7 +455,7 @@ $$
 So the PDE is a *consequence*, not a primitive assumption. Second, the operator now depends on $C$. Because the metric is $g_{\mu\nu} = g_{\mu\nu}[C]$, the volume element is $\sqrt{-g[C]}$ and  the covariant derivative $\nabla_\mu$ depends on $g[C]$, the differential operator itself depends on the current state of $C$. Schematically, the evolution now looks like
 
 $$ 
-\partial_t C = F\big(C,\nabla_{g[C]} C,\nabla^2_{g[C]} C\big)
+\partial_t C = F\left(C,\nabla_{g[C]} C,\nabla^2_{g[C]} C\right)
 $$
 
 This **violates hypothesis $H2$**. 
@@ -606,7 +606,7 @@ $$
 Let an **identity** be a connected component of the **high-coherence subgraph**
 
 $$
-G_\tau(C) := \big(V_\tau, E_\tau\big),\quad
+G_\tau(C) := \left(V_\tau, E_\tau\right),\quad
 V_\tau := {i:, C_i\ge \tau},;;
 E_\tau := {(i,j)\in E:, i,j\in V_\tau},
 $$
@@ -666,7 +666,7 @@ Define a degeneracy predicate that detects “tie / indecision” between the tw
 <span style="float:right;">(G.5)</span>
 
 $$
-\mathsf{Deg}(C,G) := \big| (C_1-C_3) \big| \le \varepsilon\ \text{and}\ \min(C_1,C_3)\ge \tau.
+\mathsf{Deg}(C,G) := \left| (C_1-C_3) \right| \le \varepsilon\ \text{and}\ \min(C_1,C_3)\ge \tau.
 $$
 
 Interpretation: the system is in a symmetry-degenerate identity configuration (two equally viable basins).
