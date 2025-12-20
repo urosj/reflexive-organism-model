@@ -370,6 +370,7 @@ Let $\Omega\subset\mathbb R^n$ be a bounded domain with smooth boundary, and let
 $C:\Omega\times[0,\infty)\to\mathbb R$ be a scalar field evolving according to a PDE
 
 <span style="float:right;">(6.1)</span>
+
 $$
 \partial_t C = F\big(C,\nabla C,\nabla^2 C;x\big),
 $$
@@ -575,6 +576,7 @@ Define the (time-dependent) graph Laplacian $L(t)$ from $E(t),W(t)$.
 **$G1$ Between events, well-posed semiflow.** On any interval with fixed graph $G=(V,E,W)$, coherence evolves by a Lipschitz ODE
 
 <span style="float:right;">(G.1)</span>
+
 $$
 \dot C = -\nabla_C \mathcal P_G(C),
 $$
@@ -584,6 +586,7 @@ which generates a continuous semiflow on $\mathbb R^N$.
 **$G2$ Reflexive updates (operator is state-dependent).** At times determined by a state predicate $\mathsf{Deg}(C,G)$ (a “spark” condition), the graph is updated:
 
 <span style="float:right;">(G.2)</span>
+
 $$
 G^+ = \mathsf{Update}(G^-,C^-),
 $$
@@ -593,6 +596,7 @@ changing $E,W$ (hence changing $L$). Importantly, no external signal is injected
 **$G3$ Conservation.** Both the flow $G.1$ and updates $G.2$ preserve total coherence:
 
 <span style="float:right;">(G.3)</span>
+
 $$
 \mathcal M(C(t)) = \text{const}.
 $$
@@ -640,6 +644,7 @@ So there are **two equivalent candidate identities** centered at nodes $1$ and $
 Let the graph coherence functional be
 
 <span style="float:right;">(G.4)</span>
+
 $$
 \mathcal P_G(C) = \frac{\kappa}{2}\sum_{(i,j)\in E} w_{ij}(C_i-C_j)^2 + \sum_{i=1}^N V(C_i),
 $$
@@ -659,6 +664,7 @@ Between events, by symmetry, nodes $1$ and $3$ remain equivalent.
 Define a degeneracy predicate that detects “tie / indecision” between the two candidate identities:
 
 <span style="float:right;">(G.5)</span>
+
 $$
 \mathsf{Deg}(C,G) := \big| (C_1-C_3) \big| \le \varepsilon\ \text{and}\ \min(C_1,C_3)\ge \tau.
 $$
@@ -670,6 +676,7 @@ Interpretation: the system is in a symmetry-degenerate identity configuration (t
 When $\mathsf{Deg}(C,G)$ holds, apply an intrinsic update that **breaks the tie by changing relational geometry**, not by changing $C$ directly:
 
 <span style="float:right;">(G.6)</span>
+
 $$
 \mathsf{Update}(G,C):
 \quad
@@ -724,6 +731,7 @@ Theorem 7 (Equivalence and minimal extension for reflexive identity selection)
 Let $G=(V,E,W)$ be a **fixed weighted graph**, and let coherence $C(t)\in\mathbb R^N$ evolve by the gradient flow of a graph coherence functional
 
 <span style="float:right;">(7.1)</span>
+
 $$
 \mathcal P_G(C) = \frac{\kappa}{2}\sum_{(i,j)\in E} w_{ij}(C_i-C_j)^2 + \sum_{i\in V} V(C_i),
 $$
@@ -731,6 +739,7 @@ $$
 with dynamics
 
 <span style="float:right;">(7.2)</span>
+
 $$
 \dot C = -\nabla_C \mathcal P_G(C),
 $$
@@ -765,6 +774,7 @@ Let $(C(t),G(t))$ be a **graph reflexive coherence system** in which:
 2. At times determined by a state predicate $\mathsf{Deg}(C,G)$, the graph is updated intrinsically:
 
 <span style="float:right;">(7.3)</span>
+
 $$
 G^+ = \mathsf{Update}(G^-,C^-).  
 $$
@@ -878,9 +888,9 @@ Strong reflexivity is sufficient—and minimal—for intrinsic reflexive identit
 
 | Level | Operator dependence | Typical realization       | RC collapse    |
 | ----- | ------------------- | ------------------------- | -------------- |
-| 0     | fixed               | PDE-only, fixed graph     | ❌ impossible   |
-| 1     | continuous in state | sim-v12, induced $g[C]$   | ❌ insufficient |
-| 2     | structural in state | GRC with topology updates | ✅ sufficient   |
+| 0     | fixed               | PDE-only, fixed graph     | impossible   |
+| 1     | continuous in state | sim-v12, induced $g[C]$   | insufficient |
+| 2     | structural in state | GRC with topology updates | sufficient   |
 ### Clarifying remark
 
 The distinction between continuum and discrete formulations is secondary. The decisive factor is whether **the operator itself is allowed to change structurally in response to the state**. Smooth operator deformation (Level 1) preserves theoretical consistency but cannot realize intrinsic reflexive identity selection. Structural operator reflexivity (Level 2) is the minimal extension that enables it.
@@ -888,6 +898,7 @@ The distinction between continuum and discrete formulations is secondary. The de
 ## Retrospective
 
 **Papers as necessity of a coherence action.** The theory papers establish, in order:
+
 - **ROM:** Identity is reflexive closure, not structure. Requires a conserved internal budget.
 - **Seeds:** Identity persistence is constrained geometrically. The stability must be expressed as basin structure.
 - **Coherence:** The conserved budget is promoted to a scalar field.
