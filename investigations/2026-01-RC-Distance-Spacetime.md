@@ -30,7 +30,7 @@ Because RC contains **no pre‑existing background manifold**, the region where 
 
 $$
 \Omega_t :=\text{supp}\ C(\cdot,t)
-          =\overline{\left\{x\in\mathbb R^{d}\mid C(x,t)>0\}}.
+          =\overline{\{x\in\mathbb R^{d}\mid C(x,t)>0\}}.
 \qquad\text{(2.2)}
 $$
 
@@ -552,5 +552,4 @@ Thus “spacetime expansion’’ in RC is best understood as **the emergence of
 ### 9.3 Concluding remark  
 
 The Reflexive‑Coherence framework demonstrates that **a single scalar coherence field suffices to generate an entire spacetime‑like geometry**, complete with distance, proper time and a notion of growth that is purely *refinitional*.  By treating topology change as a smooth redistribution of the same conserved quantity, RC sidesteps the need for ad‑hoc surgical operations on manifolds while still reproducing many phenomenologically familiar effects (gravity‑like attraction, anisotropic shortcuts, fractal hierarchies).  
-
 
