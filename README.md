@@ -62,7 +62,7 @@ Submit a pull request (PR) with a concise description of your change, follow gui
 
 ## Cite & Share
 
-If you use the model in a paper, simulation, or outreach project, please cite the original manuscript (see CITATION.cff). Spread the word on social media with the hashtag #ReflexiveOrganism.
+If you use the model in a paper, simulation, or outreach project, please cite the original manuscript (see [CITATION.cff](CITATION.cff)). Spread the word on social media with the hashtag #ReflexiveOrganism.
 
 ---
 
