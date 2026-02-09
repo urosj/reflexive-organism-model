@@ -97,11 +97,11 @@ The spatial domain at time $t$ is the support
 
 $$
 \Omega_t := \mathrm{supp}\,C(\cdot,t)
-= \overline{\{x\in\mathbb{R}^d\mid C(x,t)>0\}}.
+= \overline{\lbrace x\in\mathbb{R}^d\mid C(x,t)>0\rbrace}.
 \qquad\text{(Eq. S)}
 $$
 
-**Why support instead of $\{C>0\}$ directly?**
+**Why support instead of $\lbrace C>0\rbrace$ directly?**
 Support is the closed set that "contains" the region of nonzero coherence. This matters because:
 
 - it is stable under small perturbations (a physically desirable property),
@@ -112,7 +112,7 @@ We interpret $\Omega_t$ as the realized spatial domain at time $t$.
 ## 2.3 Identity basins: the topology RC cares about
 
 **Definition D2 (identity basins).**
-Let $\{B_i(t)\}_{i=1}^{N(t)}$ be the connected components of $\Omega_t$. Then
+Let $\lbrace B_i(t)\rbrace_{i=1}^{N(t)}$ be the connected components of $\Omega_t$. Then
 
 $$
 \Omega_t = \bigcup_{i=1}^{N(t)} B_i(t).
@@ -213,7 +213,7 @@ Two reasons:
 2. **Interpretation as "shape over amount."**
    Geometry should reflect organization, not only magnitude. The ratios $\nabla C / C$ and $j / C$ are exactly the natural "organization per unit coherence" objects.
 
-## 3.4 Proof: the induced metric is Riemannian on $\{C>0\}$
+## 3.4 Proof: the induced metric is Riemannian on $\lbrace C>0\rbrace$
 
 **Proposition P1 (positive-definiteness).**
 Assume $\lambda_C>0$ and the auxiliary chart metric $g^{(\mathrm{aux})}$ is positive-definite. Then, for any nonzero tangent vector $u$ at a point with $C>0$,
@@ -245,7 +245,7 @@ Because the induced metric is normalized by $C$ (Eq. g), it can become ill-condi
 For $\varepsilon>0$, define the regularized domain
 
 $$
-\Omega_t^\varepsilon := \{x\in\mathbb R^d \mid C(x,t)\ge \varepsilon\},
+\Omega_t^\varepsilon := \lbrace x\in\mathbb R^d \mid C(x,t)\ge \varepsilon\rbrace,
 $$
 
 and the $\varepsilon$-regularized metric
@@ -482,11 +482,11 @@ Coordinate extension means enlarging the underlying point set. That presumes the
 RC says: the point set that exists is $\Omega_t$ derived from $C$. Therefore:
 
 - the chart can stay fixed,
-- and "more space" can appear as new connected regions of $\{C>0\}$.
+- and "more space" can appear as new connected regions of $\lbrace C>0\rbrace$.
 
 ## 6.2 Topology change without surgery: level-set bifurcations
 
-Because $\Omega_t$ is determined by $\{C>0\}$, changes in the number of basins are changes in connectivity of a superlevel set of a smooth function.
+Because $\Omega_t$ is determined by $\lbrace C>0\rbrace$, changes in the number of basins are changes in connectivity of a superlevel set of a smooth function.
 
 A standard result in differential topology (Morse/regular value intuition) is:
 
@@ -510,7 +510,7 @@ $$
 ### Why these conditions?
 
 - $\nabla C=0$ means we are at a critical point; only critical points can create or annihilate components.
-- Hessian degeneracy is the "non-Morse" condition that allows the local structure of $\{C=0\}$ to change. Without degeneracy, the boundary moves smoothly and connectivity does not jump.
+- Hessian degeneracy is the "non-Morse" condition that allows the local structure of $\lbrace C=0\rbrace$ to change. Without degeneracy, the boundary moves smoothly and connectivity does not jump.
 
 **Proposition P3 (refinement events require sparks).**
 
@@ -723,7 +723,7 @@ The result is a discrete distance that can be compared across time even when $\O
 
 ## 10.1. Induced basin graph: objects and intent
 
-Let $V(t)=\{B_i(t)\}$ be the set of basins at time $t$. We define a graph
+Let $V(t)=\lbrace B_i(t)\rbrace$ be the set of basins at time $t$. We define a graph
 
 $$
 \mathcal G(t) = (V(t),E(t),w(t)).
@@ -947,7 +947,7 @@ To keep the Lorentzian layer purely additive (and to avoid reintroducing a fixed
 
 **Fixed by the main text**
 
-- The derived spatial supports $\Omega_t=\mathrm{supp}\,C(\cdot,t)$ and the spacetime set $\mathcal M=\{(t,x)\mid x\in\Omega_t\}$.
+- The derived spatial supports $\Omega_t=\mathrm{supp}\,C(\cdot,t)$ and the spacetime set $\mathcal M=\lbrace(t,x)\mid x\in\Omega_t\rbrace$.
 - The induced spatial Riemannian metric $g_{ij}(x,t)$ on each slice $\Omega_t$, constructed from coherence via (Eq. K)-(Eq. g) (or its $\varepsilon$-regularized form on $\Omega_t^\varepsilon$).
 
 **Chosen in Appendix A**
@@ -976,7 +976,7 @@ We do not require the resulting spacetime to be a globally smooth manifold acros
 Given the time-indexed supports $\Omega_t=\mathrm{supp}\,C(\cdot,t)$, define
 
 $$
-\mathcal M := \{(t,x)\in[0,T]\times\mathbb R^d \mid x\in\Omega_t\}.
+\mathcal M := \lbrace(t,x)\in[0,T]\times\mathbb R^d \mid x\in\Omega_t\rbrace.
 $$
 
 A spacetime point exists exactly when its spatial point exists at that time. This is the minimal spacetime substrate consistent with RC.
@@ -1119,7 +1119,7 @@ Let $b_r:\mathbb R\to\mathbb R_{\ge 0}$ be the standard $C^\infty$ bump of radiu
 $$
 b_r(x) :=
 \begin{cases}
-\exp\!\left(-\dfrac{1}{1-(x/r)^2}\right), & |x|<r,\\
+\exp\!(-\dfrac{1}{1-(x/r)^2}), & |x|<r,\\
 0, & |x|\ge r.
 \end{cases}
 $$
@@ -1162,7 +1162,7 @@ This provides a concrete refinement transition as $a\downarrow 0$: connectivity 
 
 In 1D, the induced metric is a scalar $g(x)$ multiplying $dx^2$. For clarity, we begin with the no-flux case $j=0$ (so we isolate the density + gradient geometry).
 
-Take the auxiliary metric $g^{(\mathrm{aux})}=1$. Then (Eq. K)-(Eq. g) imply, on $\{C>0\}$,
+Take the auxiliary metric $g^{(\mathrm{aux})}=1$. Then (Eq. K)-(Eq. g) imply, on $\lbrace C>0\rbrace$,
 
 $$
 g(x) = 1 \;+\; \frac{\xi_C}{\lambda_C\,C(x)}\,(C'(x))^2.
@@ -1177,7 +1177,7 @@ g^{(\varepsilon)}(x) := 1 \;+\; \frac{\xi_C}{\lambda_C\,(C(x)+\varepsilon)}\,(C'
 \qquad \varepsilon>0,
 $$
 
-and work on the domain $\Omega^\varepsilon(a)=\{x: C_a(x)\ge \varepsilon\}$.
+and work on the domain $\Omega^\varepsilon(a)=\lbrace x: C_a(x)\ge \varepsilon\rbrace$.
 
 Two immediate observations:
 
@@ -1336,7 +1336,7 @@ Beyond drift, basins deform. A clean intrinsic handle on deformation is obtained
 Fix $\varepsilon>0$ and consider the $\varepsilon$-boundary of a basin component:
 
 $$
-\partial B_i^\varepsilon(t) \subset \{x \mid C(x,t)=\varepsilon\}.
+\partial B_i^\varepsilon(t) \subset \lbrace x \mid C(x,t)=\varepsilon\rbrace.
 $$
 
 Assuming $\nabla C\neq 0$ on this level set (regular value), level-set kinematics gives the normal velocity of the boundary:
@@ -1360,7 +1360,7 @@ To speak about identity motion, we need to match basins across nearby times $t$ 
 A minimal overlap-based correspondence is:
 
 $$
-j^\ast(i) := \arg\max_j \ \mu\!\left(B_i(t)\cap B_j(t+\Delta t)\right),
+j^\ast(i) := \arg\max_j \ \mu\!(B_i(t)\cap B_j(t+\Delta t)),
 $$
 
 where $\mu(\cdot)$ is an intrinsic measure (e.g., induced volume, or coherence-weighted volume $\int C\,dV_g$).
@@ -1391,9 +1391,9 @@ These kinematic constructions complement (rather than replace) the distance noti
 - Basin motion supplies a way to interpret time evolution of separation between identities, e.g.,
 
   $$
-  t\mapsto d_t\!\left(x_i(t),x_j(t)\right),
+  t\mapsto d_t\!(x_i(t),x_j(t)),
   \qquad
-  t\mapsto \tau_t\!\left(x_i(t),x_j(t)\right),
+  t\mapsto \tau_t\!(x_i(t),x_j(t)),
   $$
 
   with $x_i(t)$ defined by an intrinsic representative.
@@ -1506,14 +1506,14 @@ We use two distinct notions of differentiation, depending on which geometric str
 
 ## E.2. Domain convention and regularization
 
-Geometric objects are computed on the regularized domain $\Omega_t^\varepsilon=\{C(\cdot,t)\ge\varepsilon\}$ with the regularized metric $g^{(\varepsilon)}$. Limits as $\varepsilon\downarrow 0$ are interpreted as controlled resolution refinement, not as a requirement for practical use.
+Geometric objects are computed on the regularized domain $\Omega_t^\varepsilon=\lbrace C(\cdot,t)\ge\varepsilon\rbrace$ with the regularized metric $g^{(\varepsilon)}$. Limits as $\varepsilon\downarrow 0$ are interpreted as controlled resolution refinement, not as a requirement for practical use.
 
 ## E.3. Non-circular dependency diagram
 
 The construction in this paper has the following dependency structure:
 
 1. **Primitive:** $C(x,t)\ge 0$.
-2. **Derived domain:** $\Omega_t^\varepsilon = \{x: C(x,t)\ge\varepsilon\}$ and basins $B_i(t)$.
+2. **Derived domain:** $\Omega_t^\varepsilon = \lbrace x: C(x,t)\ge\varepsilon\rbrace$ and basins $B_i(t)$.
 3. **Transport (model choice):** $v_C[C]$ and $j=Cv_C$ (e.g., via continuity + closure).
 4. **Coherence tensor:** $K[C]$ built from $C$, $\nabla^{(\mathrm{aux})}C$, and $j$.
 5. **Induced metric:** $g^{(\varepsilon)}[C]\propto K[C]/(C+\varepsilon)$.
@@ -1593,13 +1593,13 @@ This glossary provides a compact reference for the central objects used in the p
 
 - **Support-derived domain $\Omega_t$:** $\Omega_t=\mathrm{supp}\,C(\cdot,t)$. The set of spatial points that "exist" at time $t$ in RC.
 
-- **Regularized domain $\Omega_t^\varepsilon$:** $\Omega_t^\varepsilon=\{x: C(x,t)\ge\varepsilon\}$, used to control boundary conditioning.
+- **Regularized domain $\Omega_t^\varepsilon$:** $\Omega_t^\varepsilon=\lbrace x: C(x,t)\ge\varepsilon\rbrace$, used to control boundary conditioning.
 
 - **Identity basin $B_i(t)$:** a connected component of $\Omega_t$ (or $\Omega_t^\varepsilon$). Basins are the RC notion of discrete identities at time $t$.
 
 - **Refinement:** discrete change in the basin decomposition (split/merge), i.e., topology change of the positive-coherence region. Interpreted as "growth by refinement," not coordinate extension.
 
-- **Spark (scope-limited here):** the critical degeneracy condition associated with topology change of $\{C>0\}$. Used as a necessary condition; full classification is deferred.
+- **Spark (scope-limited here):** the critical degeneracy condition associated with topology change of $\lbrace C>0\rbrace$. Used as a necessary condition; full classification is deferred.
 
 - **Coherence flux $J_C$:** transport flux satisfying a continuity equation $\partial_t C+\nabla\cdot J_C=0$.
 

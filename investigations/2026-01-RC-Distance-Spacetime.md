@@ -30,7 +30,7 @@ Because RC contains **no pre‑existing background manifold**, the region where 
 
 $$
 \Omega_t :=\text{supp}\ C(\cdot,t)
-          =\overline{\{x\in\mathbb R^{d}\mid C(x,t)>0\}}.
+          =\overline{\lbrace x\in\mathbb R^{d}\mid C(x,t)>0\rbrace}.
 \qquad\text{(2.2)}
 $$
 
@@ -80,7 +80,7 @@ A direct calculation shows that for any non‑zero tangent vector $u^\mu$,
 $$
 \begin{aligned}
 g_{\mu\nu}u^{\mu}u^{\nu}
-&= u^{\mu}u_{\mu}^{(\text{aux})} +\frac{\xi_{C}}{\lambda_{C}C}\left(\nabla_\mu C\,u^{\mu}\right)^{2} +\frac{\zeta_{C}}{\lambda_{C}C}\left(j_{\mu}u^{\mu}\right)^{2} \\
+&= u^{\mu}u_{\mu}^{(\text{aux})} +\frac{\xi_{C}}{\lambda_{C}C}(\nabla_\mu C\,u^{\mu})^{2} +\frac{\zeta_{C}}{\lambda_{C}C}(j_{\mu}u^{\mu})^{2} \\
 &>0 .
 \end{aligned}
 \qquad\text{(2.6)}
@@ -89,7 +89,7 @@ $$
 Hence **$g_{\mu\nu}$ is positive‑definite**. The metric satisfies all axioms of a Riemannian inner product.  Consequently each pair  
 
 $$
-M_t := \left(\Omega_t, g_{\mu\nu}(\cdot,t)\right)
+M_t := (\Omega_t, g_{\mu\nu}(\cdot,t))
 $$
 
 is a **smooth Riemannian manifold**.  Moreover the map  
@@ -99,7 +99,7 @@ t \longmapsto g_{\mu\nu}(\cdot ,t)
 \qquad\text{(2.7)}
 $$
 
-is smooth in the Banach space $C^{\infty}(\Omega_t)$, giving a **smoothly evolving family of Riemannian manifolds** $\{M_t\}_{t\in[0,T]}$.
+is smooth in the Banach space $C^{\infty}(\Omega_t)$, giving a **smoothly evolving family of Riemannian manifolds** $\lbrace M_t\rbrace_{t\in[0,T]}$.
 
 Now we can reason about the following concepts.
 
@@ -265,7 +265,7 @@ We now turn to the *time dependence* of that geometry.  In Reflexive‑Coherence
 The metric is a functional of the *instantaneous* coherence field:
 
 $$
-g_{\mu\nu}(x,t) = g_{\mu\nu} \left[ K[C(\cdot ,t)] \right] .
+g_{\mu\nu}(x,t) = g_{\mu\nu} [ K[C(\cdot ,t)] ] .
 \qquad\text{(5.1)}
 $$
 
@@ -278,7 +278,7 @@ In other words, **the geometry lives inside the coherence loop** – there is no
 
 In RC the ambient chart $[0,1]^{d}$ (or any other Euclidean box) never expands; only the **support** $\Omega_{t}=\mathrm{supp}C(\cdot,t)$ and its internal partition into **identity basins** evolve.
 
-- **Split**: A connected component of $\{C>0\}$ develops a new critical point (Morse bifurcation). The original basin $B_{i}(t)$ is replaced by two children $B_{i}^{(1)}(t), B_{i}^{(2)}(t)$. The same coordinate region now hosts **more basins**. A finer partition of identity.
+- **Split**: A connected component of $\lbrace C>0\rbrace$ develops a new critical point (Morse bifurcation). The original basin $B_{i}(t)$ is replaced by two children $B_{i}^{(1)}(t), B_{i}^{(2)}(t)$. The same coordinate region now hosts **more basins**. A finer partition of identity.
 - **Prunning**: Two adjacent components coalesce or one disappears when its coherence falls below the viability threshold. The partition becomes **coarser** locally as total coherence is conserved.
 
 Because the number of basins changes while the underlying point set stays fixed, we speak of **spacetime “growth’’ as refinement** rather than literal expansion.
@@ -325,7 +325,7 @@ $$
 
 where $g^{(0)}_{\mu\nu}$ collects the density and gradient contributions ($\lambda_C C g_{\mu\nu}+\xi_C\nabla_\mu C\nabla_\nu C$).  Equation (6.2) shows that **any displacement with a component along the current acquires an extra quadratic contribution** proportional to $|j|^2$.
 
-If we choose a local orthonormal basis $\{e_{\parallel},e_{\perp}^{(a)}\}$ such that  
+If we choose a local orthonormal basis $\lbrace e_{\parallel},e_{\perp}^{(a)}\rbrace$ such that  
 
 $$
 j^\mu = |j| e_{\parallel}^\mu ,\qquad 
@@ -498,7 +498,7 @@ $$
 Finally we feed this integrated tensor into the same functional map used in RC:
 
 $$
-g_{\mu\nu}(x,t)=g_{\mu\nu} \left[ K^{\mathrm{(int)}}(x,t) \right] .
+g_{\mu\nu}(x,t)=g_{\mu\nu} [ K^{\mathrm{(int)}}(x,t) ] .
 \qquad\text{(8.6)}
 $$
 
@@ -512,10 +512,10 @@ that underlies every distance, curvature and proper time in the theory.
 
 ### 8.4 Self‑similar basins and identity tubes  
 
-Each scale slice possesses its own set of **identity basins** $B_i(t;\sigma)$, the connected components of $\{C>0\}$ at that $\sigma$.  Because the cascade is *self‑similar* (the same continuity law holds on every slice), the basins form a **nested, tube‑like hierarchy** in the extended space $(x,\sigma)$:
+Each scale slice possesses its own set of **identity basins** $B_i(t;\sigma)$, the connected components of $\lbrace C>0\rbrace$ at that $\sigma$.  Because the cascade is *self‑similar* (the same continuity law holds on every slice), the basins form a **nested, tube‑like hierarchy** in the extended space $(x,\sigma)$:
 
 $$
-\mathcal T_i \;=\;\left\{\, (x,\sigma) \mid x\in B_i(t;\sigma)\,\right\}.
+\mathcal T_i \;=\;\lbrace\, (x,\sigma) \mid x\in B_i(t;\sigma)\,\rbrace.
 $$
 
 These tubes are *multiscale attractors*. A collapse at any scale deepens the tube locally, while a split creates two daughter tubes that inherit the parent’s geometry.  The invariance $\Phi_t(A_\Sigma)=A_\Sigma$ guarantees that **identity persists** even as the cascade continuously spawns finer sub‑identities.
@@ -552,4 +552,3 @@ Thus “spacetime expansion’’ in RC is best understood as **the emergence of
 ### 9.3 Concluding remark  
 
 The Reflexive‑Coherence framework demonstrates that **a single scalar coherence field suffices to generate an entire spacetime‑like geometry**, complete with distance, proper time and a notion of growth that is purely *refinitional*.  By treating topology change as a smooth redistribution of the same conserved quantity, RC sidesteps the need for ad‑hoc surgical operations on manifolds while still reproducing many phenomenologically familiar effects (gravity‑like attraction, anisotropic shortcuts, fractal hierarchies).  
-
