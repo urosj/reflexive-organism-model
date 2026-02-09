@@ -30,7 +30,7 @@ Because RC contains **no pre‑existing background manifold**, the region where 
 
 $$
 \Omega_t :=\text{supp}\ C(\cdot,t)
-          =\overline{\bigl\{x\in\mathbb R^{d}\mid C(x,t)>0\}}.
+          =\overline{\left\{x\in\mathbb R^{d}\mid C(x,t)>0\}}.
 \qquad\text{(2.2)}
 $$
 
@@ -80,7 +80,7 @@ A direct calculation shows that for any non‑zero tangent vector $u^\mu$,
 $$
 \begin{aligned}
 g_{\mu\nu}u^{\mu}u^{\nu}
-&= u^{\mu}u_{\mu}^{(\text{aux})} +\frac{\xi_{C}}{\lambda_{C}C}\bigl(\nabla_\mu C\,u^{\mu}\bigr)^{2} +\frac{\zeta_{C}}{\lambda_{C}C}\bigl(j_{\mu}u^{\mu}\bigr)^{2} \\
+&= u^{\mu}u_{\mu}^{(\text{aux})} +\frac{\xi_{C}}{\lambda_{C}C}\left(\nabla_\mu C\,u^{\mu}\right)^{2} +\frac{\zeta_{C}}{\lambda_{C}C}\left(j_{\mu}u^{\mu}\right)^{2} \\
 &>0 .
 \end{aligned}
 \qquad\text{(2.6)}
@@ -89,7 +89,7 @@ $$
 Hence **$g_{\mu\nu}$ is positive‑definite**. The metric satisfies all axioms of a Riemannian inner product.  Consequently each pair  
 
 $$
-M_t := \bigl(\Omega_t, g_{\mu\nu}(\cdot,t)\bigr)
+M_t := \left(\Omega_t, g_{\mu\nu}(\cdot,t)\right)
 $$
 
 is a **smooth Riemannian manifold**.  Moreover the map  
@@ -265,7 +265,7 @@ We now turn to the *time dependence* of that geometry.  In Reflexive‑Coherence
 The metric is a functional of the *instantaneous* coherence field:
 
 $$
-g_{\mu\nu}(x,t) = g_{\mu\nu} \bigl[ K[C(\cdot ,t)] \bigr] .
+g_{\mu\nu}(x,t) = g_{\mu\nu} \left[ K[C(\cdot ,t)] \right] .
 \qquad\text{(5.1)}
 $$
 
@@ -276,7 +276,7 @@ In other words, **the geometry lives inside the coherence loop** – there is no
 
 ### 5.2 “Growth’’ as *refinement* of basins  
 
-In RC the ambient chart $[0,1]^{d}$ (or any other Euclidean box) never expands; only the **support** $\Omega_{t}=\operatorname{supp}C(\cdot,t)$ and its internal partition into **identity basins** evolve.
+In RC the ambient chart $[0,1]^{d}$ (or any other Euclidean box) never expands; only the **support** $\Omega_{t}=\mathrm{supp}C(\cdot,t)$ and its internal partition into **identity basins** evolve.
 
 - **Split**: A connected component of $\{C>0\}$ develops a new critical point (Morse bifurcation). The original basin $B_{i}(t)$ is replaced by two children $B_{i}^{(1)}(t), B_{i}^{(2)}(t)$. The same coordinate region now hosts **more basins**. A finer partition of identity.
 - **Prunning**: Two adjacent components coalesce or one disappears when its coherence falls below the viability threshold. The partition becomes **coarser** locally as total coherence is conserved.
@@ -498,7 +498,7 @@ $$
 Finally we feed this integrated tensor into the same functional map used in RC:
 
 $$
-g_{\mu\nu}(x,t)=g_{\mu\nu} \bigl[ K^{\mathrm{(int)}}(x,t) \bigr] .
+g_{\mu\nu}(x,t)=g_{\mu\nu} \left[ K^{\mathrm{(int)}}(x,t) \right] .
 \qquad\text{(8.6)}
 $$
 
@@ -515,7 +515,7 @@ that underlies every distance, curvature and proper time in the theory.
 Each scale slice possesses its own set of **identity basins** $B_i(t;\sigma)$, the connected components of $\{C>0\}$ at that $\sigma$.  Because the cascade is *self‑similar* (the same continuity law holds on every slice), the basins form a **nested, tube‑like hierarchy** in the extended space $(x,\sigma)$:
 
 $$
-\mathcal T_i \;=\;\bigl\{\, (x,\sigma) \mid x\in B_i(t;\sigma)\,\bigr\}.
+\mathcal T_i \;=\;\left\{\, (x,\sigma) \mid x\in B_i(t;\sigma)\,\right\}.
 $$
 
 These tubes are *multiscale attractors*. A collapse at any scale deepens the tube locally, while a split creates two daughter tubes that inherit the parent’s geometry.  The invariance $\Phi_t(A_\Sigma)=A_\Sigma$ guarantees that **identity persists** even as the cascade continuously spawns finer sub‑identities.
@@ -526,7 +526,7 @@ Below we bring together the three pillars that have been built throughout the pa
 
 ### 9.1 Recap of the core results
 
-- **Support and topology** The *emergent space* is the support $\displaystyle\Omega_t=\operatorname{supp}C(\cdot,t)$.  Topological changes are realised by **splits, merges or extinctions of basins** – i.e. by bifurcations of the zero‑set of $C$ – without ever adding new coordinate points.
+- **Support and topology** The *emergent space* is the support $\displaystyle\Omega_t=\mathrm{supp}C(\cdot,t)$.  Topological changes are realised by **splits, merges or extinctions of basins** – i.e. by bifurcations of the zero‑set of $C$ – without ever adding new coordinate points.
 - **Metric and distance** The scalar field generates a **coherence tensor** $K_{\mu\nu}[C]$. The metric is obtained as a functional $g_{\mu\nu}=g_{\mu\nu}[K]$.  Distance between any two points is the length of the geodesic that extremises $L[\gamma]=\int_\gamma \sqrt{g_{\mu\nu}\dot x^\mu\dot x^\nu} ds$.
 - **Proper time** Restricting the metric to a basin $B_i(t)$ yields a local line element $d\tau_i=\sqrt{-g^{(i)}_{\mu\nu}dx^\mu dx^\nu}$.  Different basins therefore run on *different clocks*.
 - **Spacetime “growth’’** Because the coordinate chart $[0,1]^d$ never expands, growth is realized as a **refinement of the coherence landscape**. New basins appear, existing ones deepen (larger curvature wells), and the metric reshapes accordingly.

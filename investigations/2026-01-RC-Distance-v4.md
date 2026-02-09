@@ -41,7 +41,6 @@ We make one nonstandard claim and support it with explicit constructions and pro
 - $g^{(\mathrm{aux})}_{\mu\nu}$: an auxiliary chart metric used only for index bookkeeping (typically Euclidean).
 - **Covariant derivative convention.** Before the induced metric $g$ is constructed, $\nabla$ denotes differentiation with respect to the auxiliary chart structure (equivalently, ordinary derivatives in the chosen chart). After $g$ is defined, $\nabla$ denotes the Levi-Civita covariant derivative of $g$ unless stated otherwise. In computations, we keep this explicit by writing $\nabla^{(\mathrm{aux})}$ and $\nabla^{(g)}$ when ambiguity matters.
 
-
 ## Standing assumptions and well-posedness (for the constructions used here)
 
 To avoid implicit circularity, we make the following standing assumptions explicit. They are mild, standard in geometric PDE settings, and match typical computational practice.
@@ -53,7 +52,6 @@ To avoid implicit circularity, we make the following standing assumptions explic
 5. **Scope near sparks.** Differential-geometric statements are made on regions away from spark events; topology-changing transitions are treated as controlled limits from either side.
 
 These assumptions are not additional postulates of RC; they are the minimal technical hypotheses under which the constructions in this paper are mathematically well-posed.
-
 
 # 1. Why distance needs an explicit construction in RC
 
@@ -77,6 +75,7 @@ We treat the coordinate chart as a reference frame for description; no ontologic
 
 **Assumption A1 (primitive).**
 RC starts with a smooth scalar coherence density
+
 $$
 C: \mathbb{R}^d \times [0,T] \to \mathbb{R}_{\ge 0},\qquad C(x,t)\ge 0.
 $$
@@ -95,6 +94,7 @@ RC will *derive* preferred directions from coherent activity (flux), not postula
 
 **Definition D1 (emergent space).**
 The spatial domain at time $t$ is the support
+
 $$
 \Omega_t := \mathrm{supp}\,C(\cdot,t)
 = \overline{\{x\in\mathbb{R}^d\mid C(x,t)>0\}}.
@@ -113,6 +113,7 @@ We interpret $\Omega_t$ as the realized spatial domain at time $t$.
 
 **Definition D2 (identity basins).**
 Let $\{B_i(t)\}_{i=1}^{N(t)}$ be the connected components of $\Omega_t$. Then
+
 $$
 \Omega_t = \bigcup_{i=1}^{N(t)} B_i(t).
 \qquad\text{(Eq. B)}
@@ -129,6 +130,7 @@ This is already the first place where RC differs from "space as container": topo
 # 3. From coherence to geometry: why we build a tensor and then a metric
 
 To measure distance, we need a metric. But why should a metric come from a scalar field? Because a metric is a rule that assigns a squared length to an infinitesimal displacement:
+
 $$
 ds^2 = g_{\mu\nu}(x,t)\,dx^\mu dx^\nu.
 $$
@@ -149,7 +151,9 @@ $$
 \partial_t C + \nabla_\mu J_C^\mu = 0,
 \qquad\text{(Eq. F1)}
 $$
+
 with
+
 $$
 J_C^\mu = C\,v_C^\mu,\qquad j_\mu := C\,v_{C,\mu}.
 \qquad\text{(Eq. F2)}
@@ -163,6 +167,7 @@ Here $v_C$ is the coherence velocity and $j_\mu$ is the "stress-bearing" current
 
 **Definition D3 (coherence tensor).**
 We define a symmetric tensor
+
 $$
 K_{\mu\nu}[C]
 := \lambda_C\,C\,g^{(\mathrm{aux})}_{\mu\nu}
@@ -192,6 +197,7 @@ Because we still need a way to contract indices on the chart; but we treat that 
 
 **Definition D4 (induced metric).**
 Wherever $C(x,t)>0$, define
+
 $$
 g_{\mu\nu}(x,t) := \frac{1}{\lambda_C\,C(x,t)}\,K_{\mu\nu}[C](x,t).
 \qquad\text{(Eq. g)}
@@ -211,19 +217,20 @@ Two reasons:
 
 **Proposition P1 (positive-definiteness).**
 Assume $\lambda_C>0$ and the auxiliary chart metric $g^{(\mathrm{aux})}$ is positive-definite. Then, for any nonzero tangent vector $u$ at a point with $C>0$,
+
 $$
 g_{\mu\nu}u^\mu u^\nu > 0.
 $$
 
 **Proof.**
 Insert (Eq. K) into (Eq. g) and contract with $u$:
+
 $$
 g_{\mu\nu}u^\mu u^\nu
 =
 u^\mu u^{(\mathrm{aux})}_\mu
-
-+ \frac{\xi_C}{\lambda_C C}\,(\nabla_\mu C\,u^\mu)^2
-+ \frac{\zeta_C}{\lambda_C C}\,(j_\mu u^\mu)^2.
+  + \frac{\xi_C}{\lambda_C C}\,(\nabla_\mu C\,u^\mu)^2
+  + \frac{\zeta_C}{\lambda_C C}\,(j_\mu u^\mu)^2.
 $$
 
 - The first term is strictly positive for $u\neq 0$ because $g^{(\mathrm{aux})}$ is positive-definite.
@@ -236,21 +243,26 @@ Therefore the sum is strictly positive. $\square$
 Because the induced metric is normalized by $C$ (Eq. g), it can become ill-conditioned as $C\to 0^+$ near the support boundary. Rather than treating this as a pathology, we adopt an explicit and standard regularization protocol that also matches numerical practice.
 
 For $\varepsilon>0$, define the regularized domain
+
 $$
 \Omega_t^\varepsilon := \{x\in\mathbb R^d \mid C(x,t)\ge \varepsilon\},
 $$
+
 and the $\varepsilon$-regularized metric
+
 $$
 g^{(\varepsilon)}_{\mu\nu}(x,t)
 := \frac{1}{\lambda_C\,(C(x,t)+\varepsilon)}\,K_{\mu\nu}[C](x,t).
 $$
 
 We then define regularized distances $d_t^\varepsilon$ and $\tau_t^\varepsilon$ exactly as in Chapters 4-5, but with $g^{(\varepsilon)}$ and admissible paths constrained to $\Omega_t^\varepsilon$. The physical (unregularized) distances are interpreted as the controlled limit
+
 $$
 d_t(x_1,x_2) := \lim_{\varepsilon\downarrow 0} d_t^\varepsilon(x_1,x_2),
 \qquad
 \tau_t(x_1,x_2) := \lim_{\varepsilon\downarrow 0} \tau_t^\varepsilon(x_1,x_2),
 $$
+
 whenever these limits exist (and in computations, $\varepsilon$ is retained as a coherence floor set by resolution or by a minimal meaningful coherence scale).
 
 This protocol makes boundary behavior explicit:
@@ -287,9 +299,11 @@ We make these statements precise below, and we keep the discussion constructive:
 ## 4.1. From the induced metric to the line element
 
 Given $g_{\mu\nu}(x,t)$ on $\Omega_t$, we define the infinitesimal length of a displacement $dx$ by the usual line element
+
 $$
 ds^2 = g_{\mu\nu}(x,t)\,dx^\mu dx^\nu.
 $$
+
 This is where the positivity proof matters: because $g$ is positive-definite wherever $C>0$, the expression above defines a genuine norm on tangent vectors, and $ds$ is real and nonzero for nonzero displacements.
 
 Two immediate consequences follow:
@@ -300,6 +314,7 @@ Two immediate consequences follow:
 ## 4.2. Length of curves and why we use the standard functional
 
 Let $\gamma:[0,1]\to\Omega_t$ be a piecewise-smooth curve. We define its length at fixed time $t$ by
+
 $$
 L_t[\gamma] := \int_0^1 \sqrt{g_{\mu\nu}(\gamma(s),t)\,\dot\gamma^\mu(s)\dot\gamma^\nu(s)}\,ds.
 \qquad\text{(Eq. L)}
@@ -315,6 +330,7 @@ These properties are important in RC because admissible paths may be piecewise (
 ## 4.3. Geodesic distance and what it measures in RC
 
 **Definition (Geodesic distance).** For $x_1,x_2\in\Omega_t$,
+
 $$
 d_t(x_1,x_2) := \inf_{\gamma:x_1\to x_2} L_t[\gamma].
 \qquad\text{(Eq. d)}
@@ -328,15 +344,19 @@ We emphasize two RC-relevant interpretations:
 ## 4.4. From variational principle to geodesic equation (brief derivation)
 
 To avoid treating the geodesic equation as a black box, we recall the standard variational route. Instead of minimizing $L_t$ directly, it is often convenient to minimize the energy functional
+
 $$
 E_t[\gamma] := \frac12\int_0^1 g_{\mu\nu}(\gamma(s),t)\,\dot\gamma^\mu(s)\dot\gamma^\nu(s)\,ds.
 \qquad\text{(Eq. E)}
 $$
+
 On sufficiently regular paths, minimizers of $L_t$ are reparameterizations of minimizers of $E_t$. Applying the Euler-Lagrange equations to (Eq. E) yields
+
 $$
 \ddot x^\mu + \Gamma^\mu_{\alpha\beta}(g)\,\dot x^\alpha\dot x^\beta = 0,
 \qquad\text{(Eq. geo)}
 $$
+
 where $\Gamma(g)$ is constructed from the induced metric.
 
 In RC, the content of this equation is that "shortest paths" are shaped by coherence-induced geometry: the Christoffel symbols inherit the spatial structure of $C$ and the directionality of $j=Cv_C$ through (Eq. K)-(Eq. g). This is the precise sense in which coherent organization bends geodesics.
@@ -370,11 +390,14 @@ The key point is not merely that we can define a time functional, but that the t
 ## 5.1. Transport structure and why a closure matters
 
 We assume coherence obeys a continuity equation
+
 $$
 \partial_t C + \nabla_\mu J_C^\mu = 0,
 \qquad\text{(Eq. F1)}
 $$
+
 and we write the flux as
+
 $$
 J_C^\mu = C\,v_C^\mu,\qquad j_\mu := C\,v_{C,\mu}.
 \qquad\text{(Eq. F2)}
@@ -385,6 +408,7 @@ At this point, the theory is kinematic: $v_C$ is unspecified. A purely "fixed-op
 ## 5.2. State-dependent closure (gradient-flow form)
 
 A structurally minimal and widely interpretable closure is a generalized gradient flow:
+
 $$
 v_C^\mu = -D^{\mu\nu}[C]\;\nabla_\nu \Phi_C,
 \qquad
@@ -402,13 +426,16 @@ We emphasize the structural reason for this form: it guarantees that coherence f
 ## 5.3. Travel-time functional and operational distance
 
 Given a path $\gamma$ in $\Omega_t$, we define the travel time along $\gamma$ as
+
 $$
 \tau_t[\gamma] := \int_{\gamma}\frac{ds}{|v_C|},
 \qquad\text{(Eq. tau)}
 $$
+
 where $ds$ is the induced line element from Chapter 4 and $|v_C|$ is the speed in the induced geometry.
 
 We then define operational distance between points as the minimal travel time:
+
 $$
 \tau_t(x_1,x_2) := \inf_{\gamma:x_1\to x_2}\tau_t[\gamma].
 \qquad\text{(Eq. Tau)}
@@ -472,6 +499,7 @@ RC packages that as a "spark."
 
 **Definition D6 (spark).**
 A point $(x_s,t_s)$ is a spark if
+
 $$
 \nabla_x C(x_s,t_s)=0
 \quad\text{and}\quad
@@ -510,11 +538,13 @@ Now we connect the flux term in (Eq. K) to the intuitive claim that coherent act
 ## 7.1 Flux term as a rank-1 deformation
 
 Combine (Eq. K) and (Eq. g) to write
+
 $$
 g_{\mu\nu}
 = g^{(0)}_{\mu\nu} + \frac{\zeta_C}{\lambda_C C}\,j_\mu j_\nu,
 \qquad\text{(Eq. aniso)}
 $$
+
 where $g^{(0)}$ collects density + gradient contributions.
 
 This is a rank-1 update aligned with $j$. In a local basis aligned with $j$, only the "parallel" direction is modified strongly.
@@ -524,6 +554,7 @@ This is a rank-1 update aligned with $j$. In a local basis aligned with $j$, onl
 A clean way to make this rigorous is through the kinetic-energy perspective.
 
 Consider the kinetic Lagrangian
+
 $$
 \mathcal L = \tfrac12 g_{\mu\nu}\dot x^\mu\dot x^\nu.
 \qquad\text{(Eq. kin)}
@@ -548,6 +579,7 @@ We do **not** claim that RC requires a spacetime signature at this stage. The po
 ## 8.1. Basin-wise metrics and restriction
 
 Given $\Omega_t$ and its basin decomposition $\Omega_t=\bigcup_i B_i(t)$, we restrict the induced metric $g(t)$ to a basin:
+
 $$
 g^{(i)}_{\mu\nu}(x,t) := g_{\mu\nu}(x,t)\big|_{x\in B_i(t)}.
 $$
@@ -557,6 +589,7 @@ This restriction is mathematically straightforward but conceptually important: i
 ## 8.2. Basin intrinsic clock element
 
 We define a basin-local intrinsic progression element by the basin line element
+
 $$
 d\tau_i := \sqrt{g^{(i)}_{\mu\nu}\,dx^\mu dx^\nu}.
 \qquad\text{(Eq. clock)}
@@ -572,6 +605,7 @@ This is the minimal way to capture the idea that "time scales are basin-relative
 ## 8.3. Spectral hierarchy: why basin scales are not arbitrary
 
 To turn "basin time scales" into a rigorous statement, we use the Laplace-Beltrami spectrum. On $(B_i, g^{(i)})$, consider eigenmodes
+
 $$
 -\Delta_{g^{(i)}}\phi_{i,k} = \lambda_{i,k}\phi_{i,k},
 \qquad
@@ -690,6 +724,7 @@ The result is a discrete distance that can be compared across time even when $\O
 ## 10.1. Induced basin graph: objects and intent
 
 Let $V(t)=\{B_i(t)\}$ be the set of basins at time $t$. We define a graph
+
 $$
 \mathcal G(t) = (V(t),E(t),w(t)).
 $$
@@ -710,19 +745,24 @@ There are two conceptually distinct notions of "connection" between basins.
 ### (a) Geometric adjacency
 
 Declare an undirected edge $i\leftrightarrow j$ when the basin boundaries touch (in the chart topology), i.e.,
+
 $$
 \overline{B_i(t)}\cap \overline{B_j(t)} \neq \varnothing.
 $$
+
 Adjacency captures the idea that the basins are "neighbors" in the support geometry.
 
 ### (b) Coherent coupling (flux-mediated)
 
 Declare an edge when there is sustained coherence transport between basins, e.g., when the time-integrated boundary flux exceeds a threshold. A representative functional is
+
 $$
 \mathcal F_{ij}(t;\Delta t)
 := \int_{t-\Delta t}^{t}\int_{\partial B_i \cap \partial B_j} \bigl|J_C\cdot n_{ij}\bigr|\,dS\,d\tau,
 $$
+
 where $n_{ij}$ is a choice of normal convention. One may then set
+
 $$
 (i,j)\in E(t)\quad \Longleftrightarrow \quad \mathcal F_{ij}(t;\Delta t)>\theta.
 $$
@@ -736,29 +776,37 @@ Once edges exist, we choose weights that encode the notion of distance of intere
 ### (a) Intrinsic geometric weight
 
 Choose representatives $p_i(t)\in B_i(t)$ (e.g., the basin maximizer of $C$, a centroid, or a spectral landmark). Define
+
 $$
 w^{(d)}_{ij}(t) := d_t\bigl(p_i(t),p_j(t)\bigr),
 $$
+
 or, for adjacent basins where boundary neighborhoods dominate,
+
 $$
 w^{(d)}_{ij}(t) := \inf_{x\in B_i,\;y\in B_j} d_t(x,y).
 $$
+
 This choice makes the graph distance a coarse approximation to geodesic distance on $(\Omega_t,g(t))$.
 
 ### (b) Operational weight (travel time)
 
 Define analogously
+
 $$
 w^{(\tau)}_{ij}(t) := \tau_t\bigl(p_i(t),p_j(t)\bigr),
 $$
+
 or boundary-based variants. This yields a discrete approximation to operational (causal) distance.
 
 ### (c) Flux-based inverse coupling (effective-resistance style)
 
 If high flux is interpreted as strong coupling, a distance-like weight is inverse coupling:
+
 $$
 w^{(F)}_{ij}(t) := \frac{1}{\varepsilon + \mathcal F_{ij}(t;\Delta t)},
 $$
+
 with $\varepsilon>0$ for stability.
 
 The important point is methodological: the graph is induced by the same RC primitives; the choice of weight makes explicit which notion of "distance" is being represented.
@@ -766,6 +814,7 @@ The important point is methodological: the graph is induced by the same RC primi
 ## 10.4. Graph distance
 
 Given weights $w_{ab}(t)$, define the discrete shortest-path distance
+
 $$
 d_{\mathcal G}(i,j;t) = \min_{\text{paths }i\to j} \sum_{(a,b)\in \text{path}} w_{ab}(t).
 $$
@@ -802,13 +851,17 @@ The point here is a compatibility statement: the distance theory constructed abo
 ## 11.1. Scale-indexed coherence and scale-dependent supports
 
 Assume a scale-indexed coherence density
+
 $$
 C(x,t;\sigma)\ge 0,\qquad \sigma\in(0,\infty).
 $$
+
 At each $\sigma$, define the support
+
 $$
 \Omega_t(\sigma) := \mathrm{supp}\,C(\cdot,t;\sigma),
 $$
+
 and its basin decomposition into components $B_i(t;\sigma)$.
 
 This captures a key phenomenon: connectivity can be scale-dependent. A region that is disconnected at fine scale may become connected at coarse scale, depending on how coherence distributes across $\sigma$.
@@ -816,6 +869,7 @@ This captures a key phenomenon: connectivity can be scale-dependent. A region th
 ## 11.2. Scale-wise coherence tensors and integrated geometry
 
 At each $\sigma$, build a coherence tensor of the same form as (Eq. K):
+
 $$
 K_{\mu\nu}(x,t;\sigma)
 := \lambda_C\,C(x,t;\sigma)\,g^{(\mathrm{aux})}_{\mu\nu}
@@ -825,15 +879,18 @@ K_{\mu\nu}(x,t;\sigma)
 $$
 
 Define integrated coherence and integrated tensor:
+
 $$
 C^{(\mathrm{int})}(x,t) := \int_0^\infty C(x,t;\sigma)\,d\sigma,\qquad
 K^{(\mathrm{int})}_{\mu\nu}(x,t) := \int_0^\infty K_{\mu\nu}(x,t;\sigma)\,d\sigma.
 $$
 
 Induce the metric by the same normalization logic:
+
 $$
 g_{\mu\nu}(x,t) := \frac{1}{\lambda_C\,C^{(\mathrm{int})}(x,t)}\,K^{(\mathrm{int})}_{\mu\nu}(x,t),
 $$
+
 where defined.
 
 Positivity is preserved: $K^{(\mathrm{int})}$ remains a sum/integral of positive semidefinite contributions, and the same argument as Proposition P1 applies wherever $C^{(\mathrm{int})}>0$.
@@ -900,9 +957,11 @@ To keep the Lorentzian layer purely additive (and to avoid reintroducing a fixed
 **Consistency condition (recommended)**
 
 - When the Lorentzian layer is intended to bound operational propagation, we impose a cone-compatibility condition of the form
+
   $$
   N(x,t)\ \ge\ |v_C(x,t)|_{g}\quad\text{(in compatible units, optionally with margin)},
   $$
+
   so that coherence transport respects the causal cones of $G$. Alternative choices (e.g., spectral lapse emphasizing basin timescales) remain admissible but should be interpreted as defining a causal structure not necessarily saturated by operational transport.
 
 This appendix provides a controlled extension from the induced spatial (Riemannian) metric $g_{ij}(x,t)$ to a spacetime (Lorentzian) metric $G_{ab}(t,x)$ with signature $(- + + +)$ (or $(- +\cdots +)$ in $d$ spatial dimensions). The intent is modular:
@@ -915,9 +974,11 @@ We do not require the resulting spacetime to be a globally smooth manifold acros
 ## A.1. The derived spacetime set ("world-tube")
 
 Given the time-indexed supports $\Omega_t=\mathrm{supp}\,C(\cdot,t)$, define
+
 $$
 \mathcal M := \{(t,x)\in[0,T]\times\mathbb R^d \mid x\in\Omega_t\}.
 $$
+
 A spacetime point exists exactly when its spatial point exists at that time. This is the minimal spacetime substrate consistent with RC.
 
 - If $\Omega_t$ changes topology (spark events), $\mathcal M$ remains a well-defined subset of $[0,T]\times\mathbb R^d$.
@@ -928,10 +989,12 @@ For local constructions (connections, curvature), we restrict to open regions $U
 ## A.2. Lorentzian metric via 3+1 decomposition
 
 Let $g_{ij}(x,t)$ be the induced spatial metric from the main text. We define a Lorentzian spacetime metric $G_{ab}$ on $\mathcal M$ using a standard 3+1 (ADM-style) form:
+
 $$
 dS^2 = G_{ab}\,dX^a dX^b
 = -N(x,t)^2\,dt^2 + g_{ij}(x,t)\,(dx^i+\beta^i(x,t)\,dt)(dx^j+\beta^j(x,t)\,dt).
 $$
+
 Here:
 
 - $N(x,t)>0$ is the **lapse**: it converts coordinate time $t$ into proper time along observers orthogonal to the spatial slices.
@@ -943,34 +1006,43 @@ Here:
 ### A.2.1. Minimal choice: zero shift
 
 The simplest choice is $\beta^i\equiv 0$, giving
+
 $$
 dS^2 = -N(x,t)^2\,dt^2 + g_{ij}(x,t)\,dx^i dx^j.
 $$
+
 This already provides causal cones and proper time while leaving the spatial metric unchanged.
 
 ### A.2.2. Coherence-adapted shift (optional)
 
 If one wishes the foliation to be adapted to coherence transport, a natural shift is to align with the coherence velocity:
+
 $$
 \beta^i(x,t) := \alpha\,v_C^i(x,t),
 $$
+
 with $\alpha$ a scaling/conversion factor. This makes the coordinates partially comoving with coherence flow (useful when one wants to compare with transport-based notions like $\tau_t$).
 
 ## A.3. Proper time and its relation to spatial arc-length
 
 Consider a timelike worldline $\Gamma:t\mapsto (t,x(t))$. The proper time increment satisfies
+
 $$
 d\tau^2 = N^2\,dt^2 - g_{ij}(x,t)\,(\dot x^i+\beta^i)(\dot x^j+\beta^j)\,dt^2.
 $$
+
 In the zero-shift case, this becomes
+
 $$
 d\tau = N\,\sqrt{1 - \frac{g_{ij}\dot x^i\dot x^j}{N^2}}\;dt.
 $$
 
 The spatial arc-length element on a slice is still
+
 $$
 ds^2 = g_{ij}\,dx^i dx^j,
 $$
+
 so the Lorentzian layer introduces temporal structure through $N$ (and $\beta$) while preserving the spatial geometry exactly.
 
 ## A.4. Choosing the lapse $N$ from RC data
@@ -980,9 +1052,11 @@ The lapse is the natural place to encode an intrinsic temporal scale without mod
 ### A.4.1. Spectral lapse (basin timescale)
 
 On each basin $(B_i,g^{(i)})$, the Laplace-Beltrami spectrum provides characteristic scales. For example, one may define a basin timescale from the first nonzero eigenvalue $\lambda_{i,1}$ as
+
 $$
 T_i \propto \frac{1}{\sqrt{\lambda_{i,1}}}\quad\text{or}\quad T_i\propto \frac{1}{\lambda_{i,1}},
 $$
+
 depending on the underlying dynamics. One can then choose $N(x,t)$ to be piecewise-smooth with $N\approx N_i$ on basin interiors, where $N_i$ encodes the basin scale $T_i$. Smoothing near boundaries avoids discontinuities.
 
 This choice ties proper time to basin-intrinsic geometry while keeping the core construction unchanged.
@@ -990,9 +1064,11 @@ This choice ties proper time to basin-intrinsic geometry while keeping the core 
 ### A.4.2. Operational lapse (propagation-limited cones)
 
 Operational distance $\tau_t$ depends on $|v_C|$. If one wishes the causal cones of the Lorentzian layer to reflect operational propagation constraints, a natural requirement is that the null speed bound dominates the actual transport speed. In the zero-shift case, the null condition gives
+
 $$
 0=-N^2 dt^2 + ds^2 \quad\Rightarrow\quad \frac{ds}{dt} = N.
 $$
+
 Thus choosing $N(x,t)$ to satisfy $N(x,t)\ge |v_C(x,t)|$ (in compatible units) ensures that coherence transport is causal with respect to the Lorentzian cones. One may interpret $N$ as a local "maximum propagation speed" induced by coherence organization.
 
 ## A.5. Causal cones and relation to $d_t$ and $\tau_t$
@@ -1039,6 +1115,7 @@ The intent is not to propose a canonical "RC toy model," but to provide a reprod
 ## B.1. A smooth compactly supported "bump" function
 
 Let $b_r:\mathbb R\to\mathbb R_{\ge 0}$ be the standard $C^\infty$ bump of radius $r>0$,
+
 $$
 b_r(x) :=
 \begin{cases}
@@ -1046,6 +1123,7 @@ b_r(x) :=
 0, & |x|\ge r.
 \end{cases}
 $$
+
 This function is smooth everywhere and vanishes identically outside $(-r,r)$. It is therefore well suited for support-based constructions.
 
 We will use three bumps:
@@ -1057,6 +1135,7 @@ We will use three bumps:
 ## B.2. Coherence field with a controllable neck (refinement parameter)
 
 Fix radii $r_{\text{main}}=0.7$ and $r_{\text{bridge}}=0.35$. Define a one-parameter family
+
 $$
 C_a(x) := b_{r_{\text{main}}}(x+1) \;+\; b_{r_{\text{main}}}(x-1) \;+\; a\,b_{r_{\text{bridge}}}(x),
 \qquad a\ge 0.
@@ -1065,9 +1144,11 @@ $$
 ### Basin structure
 
 - If $a=0$, the support $\Omega(a)=\mathrm{supp}\,C_a$ is the disjoint union of two intervals:
+
   $$
   \Omega(0)=(-1-r_{\text{main}},-1+r_{\text{main}})\;\sqcup\;(1-r_{\text{main}},1+r_{\text{main}}),
   $$
+
   so there are two basins.
 
 - If $a>0$, the bridge bump contributes support on $(-r_{\text{bridge}},r_{\text{bridge}})$, which connects the left and right regions through a nonzero-coherence corridor; $\Omega(a)$ becomes connected for sufficiently large overlap. With the radii chosen above, the bridge closes the gap already for any $a>0$, hence there is one basin.
@@ -1082,6 +1163,7 @@ This provides a concrete refinement transition as $a\downarrow 0$: connectivity 
 In 1D, the induced metric is a scalar $g(x)$ multiplying $dx^2$. For clarity, we begin with the no-flux case $j=0$ (so we isolate the density + gradient geometry).
 
 Take the auxiliary metric $g^{(\mathrm{aux})}=1$. Then (Eq. K)-(Eq. g) imply, on $\{C>0\}$,
+
 $$
 g(x) = 1 \;+\; \frac{\xi_C}{\lambda_C\,C(x)}\,(C'(x))^2.
 $$
@@ -1089,10 +1171,12 @@ $$
 ### Regularization (main text Section 3.5)
 
 Define the $\varepsilon$-regularized metric
+
 $$
 g^{(\varepsilon)}(x) := 1 \;+\; \frac{\xi_C}{\lambda_C\,(C(x)+\varepsilon)}\,(C'(x))^2,
 \qquad \varepsilon>0,
 $$
+
 and work on the domain $\Omega^\varepsilon(a)=\{x: C_a(x)\ge \varepsilon\}$.
 
 Two immediate observations:
@@ -1103,6 +1187,7 @@ Two immediate observations:
 ## B.4. Geodesic distance in 1D (explicit integral)
 
 For two points $x_1<x_2$ in the same connected component of $\Omega^\varepsilon(a)$, the geodesic distance is simply the integral of the line element:
+
 $$
 d^\varepsilon(x_1,x_2;a)=\int_{x_1}^{x_2} \sqrt{g^{(\varepsilon)}_a(x)}\,dx
 =\int_{x_1}^{x_2}\sqrt{1+\frac{\xi_C}{\lambda_C\,(C_a(x)+\varepsilon)}(C_a'(x))^2}\;dx.
@@ -1121,17 +1206,21 @@ A transparent comparison is to choose representative points near the centers of 
 In 1D there is only one path between two points (up to reparameterization), so "shortest" vs "fastest" cannot differ by route choice. Nevertheless, operational time still differs from geometric length because speed can depend on the coherence state.
 
 To keep the example minimal while remaining intrinsic, take an illustrative speed law
+
 $$
 |v_C(x)| := v_0\,\frac{C_a(x)}{C_a(x)+\kappa},
 \qquad v_0>0,\ \kappa>0,
 $$
+
 which captures a common qualitative behavior: propagation is slower in low-coherence regions and saturates in high-coherence regions.
 
 Then the operational travel time is
+
 $$
 \tau^\varepsilon(x_1,x_2;a)
 =\int_{x_1}^{x_2}\frac{\sqrt{g^{(\varepsilon)}_a(x)}}{|v_C(x)|}\,dx,
 $$
+
 where in computations one uses $C_a(x)+\varepsilon$ in the denominator to avoid singularity at the boundary.
 
 This illustrates an RC point: a corridor that makes $d^\varepsilon$ finite may still yield a very large $\tau^\varepsilon$ if coherence in the corridor is low (small $C\Rightarrow$ slow propagation). Thus geometric connectivity and effective causal adjacency can differ sharply near refinement transitions.
@@ -1155,9 +1244,11 @@ Let $(x,y)\in\mathbb R^2$. Construct a coherence field with two high-coherence "
 - a longer corridor with high coherence (fast).
 
 For instance, define
+
 $$
 C(x,y) = C_{\text{islands}}(x,y) + a\,C_{\text{corr,short}}(x,y) + b\,C_{\text{corr,long}}(x,y),
 $$
+
 with smooth compactly supported bumps for each component. The induced metric $g^{(\varepsilon)}$ is computed from $C$ and $\nabla C$ as in the main text, and operational speed is set by a coherence-sensitive law as in SectionB.5 (now with $C(x,y)$).
 
 Then:
@@ -1205,6 +1296,7 @@ To speak about a basin's drift, we select a representative point $x_i(t)$ define
 ### (a) Peak representative
 
 Assuming a unique maximizer exists in the basin interior, define
+
 $$
 x_i^{\max}(t) := \arg\max_{x\in B_i(t)} C(x,t).
 $$
@@ -1212,11 +1304,13 @@ $$
 ### (b) Coherence-weighted centroid (Riemannian)
 
 Let $dV_g$ be the volume form of the induced metric $g(t)$ (or the regularized metric $g^{(\varepsilon)}(t)$ on $\Omega_t^\varepsilon$). Define the basin mass and centroid:
+
 $$
 M_i(t) := \int_{B_i(t)} C(x,t)\,dV_g,
 \qquad
 x_i^{\mathrm{cen}}(t) := \frac{1}{M_i(t)}\int_{B_i(t)} x\,C(x,t)\,dV_g.
 $$
+
 This definition depends on the chart for the coordinate embedding of $x$, but its weighting is intrinsic to the induced geometry and coherence distribution. In practice, the centroid is best interpreted as a coordinate representation of an intrinsic weighted average.
 
 ### Remarks on uniqueness and stability
@@ -1226,6 +1320,7 @@ If $C$ has multiple maxima or if a basin is highly multimodal, one can adopt a *
 ## C.3. Basin drift velocity from coherence transport
 
 Given a coherence velocity field $v_C(x,t)$ (Chapter 5), a natural basin-level drift velocity is the coherence-weighted mean transport:
+
 $$
 \bar v_i(t) := \frac{\int_{B_i(t)} v_C(x,t)\,C(x,t)\,dV_g}{\int_{B_i(t)} C(x,t)\,dV_g}.
 $$
@@ -1239,14 +1334,18 @@ When the centroid representative $x_i^{\mathrm{cen}}(t)$ is used, $\bar v_i(t)$ 
 Beyond drift, basins deform. A clean intrinsic handle on deformation is obtained by tracking a regularized boundary defined by a coherence level set.
 
 Fix $\varepsilon>0$ and consider the $\varepsilon$-boundary of a basin component:
+
 $$
 \partial B_i^\varepsilon(t) \subset \{x \mid C(x,t)=\varepsilon\}.
 $$
+
 Assuming $\nabla C\neq 0$ on this level set (regular value), level-set kinematics gives the normal velocity of the boundary:
+
 $$
 V_n = -\frac{\partial_t C}{\|\nabla C\|},
 \qquad \text{on } C=\varepsilon,
 $$
+
 where $\|\nabla C\|$ is computed with the chosen derivative convention (auxiliary or induced). This expresses the fact that the boundary moves so that the value $C=\varepsilon$ is maintained along the moving interface.
 
 Interpretively:
@@ -1259,15 +1358,19 @@ Interpretively:
 To speak about identity motion, we need to match basins across nearby times $t$ and $t+\Delta t$. Away from refinement events, the matching can be defined by maximizing overlap or minimizing an intrinsic discrepancy.
 
 A minimal overlap-based correspondence is:
+
 $$
 j^\ast(i) := \arg\max_j \ \mu\!\left(B_i(t)\cap B_j(t+\Delta t)\right),
 $$
+
 where $\mu(\cdot)$ is an intrinsic measure (e.g., induced volume, or coherence-weighted volume $\int C\,dV_g$).
 
 A coherence-weighted similarity is:
+
 $$
 S_{ij} := \frac{\int_{B_i(t)\cap B_j(t+\Delta t)} C(x,t)\,dV_g}{\int_{B_i(t)} C(x,t)\,dV_g},
 $$
+
 and correspondences can be chosen by maximizing $S_{ij}$ with mutual-consistency constraints.
 
 ## C.6. Handling refinement events (scope-limited protocol)
@@ -1286,11 +1389,13 @@ These kinematic constructions complement (rather than replace) the distance noti
 - Geodesic distance $d_t$ measures intrinsic proximity on each slice $(\Omega_t,g(t))$.
 - Operational distance $\tau_t$ measures minimal travel time under coherence transport.
 - Basin motion supplies a way to interpret time evolution of separation between identities, e.g.,
+
   $$
   t\mapsto d_t\!\left(x_i(t),x_j(t)\right),
   \qquad
   t\mapsto \tau_t\!\left(x_i(t),x_j(t)\right),
   $$
+
   with $x_i(t)$ defined by an intrinsic representative.
 
 One can distinguish distance changes due to metric deformation (changing $g(t)$), identity drift/deformation (changing $B_i(t)$ and representatives), and refinement (changing connectivity/identity graph). This separation is often essential for interpreting "spatial change" in RC.
@@ -1307,24 +1412,30 @@ Throughout we assume we are working on $\Omega_t^\varepsilon$ with the regulariz
 ## D.1. Uniform coherence (no gradients, no flux)
 
 Assume $C(x,t)=C_0>0$ is spatially uniform on a region and $j=0$. Then $\nabla C=0$ and the coherence tensor reduces to the density term
+
 $$
 K_{\mu\nu} = \lambda_C C_0\,g^{(\mathrm{aux})}_{\mu\nu}.
 $$
+
 The induced metric (Eq. g) becomes
+
 $$
 g_{\mu\nu} = g^{(\mathrm{aux})}_{\mu\nu}.
 $$
+
 Thus distances reduce to the baseline auxiliary geometry on that region. This is the most basic sanity check: when coherence is homogeneous and inactive, RC does not invent spurious curvature.
 
 ## D.2. Gradient-only regime ($j=0$, nonuniform $C$)
 
 Assume $j=0$ but $C$ varies spatially. With regularization,
+
 $$
 g^{(\varepsilon)}_{\mu\nu}
 = g^{(\mathrm{aux})}_{\mu\nu}
 
 + \frac{\xi_C}{\lambda_C\,(C+\varepsilon)}\,(\nabla_\mu C)(\nabla_\nu C).
 $$
+
 Consequences:
 
 - The second term is positive semidefinite (rank $\le 1$ if $\nabla C\neq 0$ but otherwise low-rank in special cases).
@@ -1335,12 +1446,14 @@ Interpretively: the gradient term encodes "tension" or "stiffness" against rapid
 ## D.3. Flux-only anisotropy ($\xi_C=0$, $j\neq 0$)
 
 Assume $\xi_C=0$ while $j\neq 0$. Then
+
 $$
 g^{(\varepsilon)}_{\mu\nu}
 = g^{(\mathrm{aux})}_{\mu\nu}
 
 + \frac{\zeta_C}{\lambda_C\,(C+\varepsilon)}\,j_\mu j_\nu.
 $$
+
 This is a rank-1 deformation aligned with $j$. If $u$ is a direction orthogonal to $j$ in the auxiliary metric, the second term does not contribute to $g^{(\varepsilon)}(u,u)$; if $u$ aligns with $j$, the metric is inflated along that direction.
 
 Two interpretive notes:
@@ -1422,10 +1535,12 @@ The constructions in the main text are deliberately minimal. This appendix recor
 ## G.1. Alternative normalizations
 
 We used
+
 $$
 g_{\mu\nu} \propto \frac{1}{C}\,K_{\mu\nu}
 \quad\text{(regularized as }1/(C+\varepsilon)\text{)}.
 $$
+
 One can consider $1/C^\alpha$ for $\alpha\neq 1$. The qualitative effects are:
 
 - $\alpha>1$ emphasizes low-coherence regions (stronger boundary stretching).
