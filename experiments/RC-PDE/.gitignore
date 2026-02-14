@@ -4,4 +4,10 @@ venv
 tests/__pycache__/
 rc/__pycache__/
 outputs/
+__pycache__/
 
+# Simulation-generated artifacts
+snapshots/
+simulation_output.mp4
+simulation_output.gif
+**/snap_*.npz

@@ -1,7 +1,7 @@
 # **Purpose of the Repository**
 
 * A complete narrative of **theory → engineering → phenomenology → formalization → emergence**.
-* A living record of the development of Reflexive Coherence from first principles to RC-III.
+* A living record of the development of Reflexive Coherence from first principles through RC-III and current PDE-boundary extensions (v15/v16), plus explicit analysis/observation layers over those implementations.
 * A bridge between mathematical formulation, computational implementation, and emergent behavior.
 * A guide for future RC research into evolving manifolds, identity ecologies, and higher-order reflexive systems.
 
@@ -9,7 +9,15 @@
 
 *A structured exploration of coherence dynamics, stability engineering, phenomenology, and theoretical limits.*
 
-This repository contains **four interconnected papers** documenting the development, analysis, and theoretical grounding of simple **Reflexive Coherence (RC)** simulations. Together, they form a coherent narrative:
+This repository contains a connected sequence of papers documenting the development,
+analysis, and theoretical grounding of **Reflexive Coherence (RC)** simulators and their evaluation protocols.
+Together, they form a coherent narrative:
+
+Layout note:
+- Canonical paper files live under `experiments/papers/`.
+- Canonical run/scoring scripts live under `experiments/scripts/`.
+- Legacy `experiments/<name>` compatibility symlink paths have been removed.
+- Use canonical `experiments/papers/...` and `experiments/scripts/...` paths in all commands and docs.
 
 1. **Paper 1A — Theoretical Foundations of Reflexive Coherence**
 2. **Paper 1B — The Quest for Stable PDEs in RC Dynamics**
@@ -17,8 +25,24 @@ This repository contains **four interconnected papers** documenting the developm
 4. **Paper 3 — Why PDEs Cannot Capture RC Dynamics**
 5. **Paper 4 — PDEs *Can* Represent RC (But Only in a Generalized, Multi-Field Form)**
 6. **Paper 5 — What Iterative PDE Experiments Revealed About RC**
+7. **Paper 6 — The Reflexive Gap Between Simulators and RC**
+8. **Paper 7 — RC-v12: Punctuated Identity Emergence**
+9. **Paper 8 — RC-II: Field-Theoretic Formalization**
+10. **Paper 9 — RC-III: Emergent Agency**
+11. **Paper 10 — Soft-Closure Continuation in RC-v14**
+12. **Paper 11 — RC-v15 Spec: Core-First Reflexive Geometry**
+13. **Paper 12 — RC-v16 Spec: PDE-Boundary Approximation with Nonlocal Operator Reflexivity**
+14. **Paper 13 — Activity Slider: Persistence Search & Evaluation (v15/v16)**
+15. **Paper 14 — Experience Read-Back Gap (v12–v16) and Implementation Plan**
+16. **Paper 14E — Experience Read-Back Results Interpretation Guide (Agent Protocol)**
+17. **Paper X — Reflexive Ecologies (Ant Colony Case Study)**
 
-Each paper serves a distinct role: theory → implementation → phenomenology → mathematical limitations.
+These papers cover the full arc: theory → implementation → phenomenology →
+limitations → formalization → emergence → PDE-boundary refinement → analysis/observation protocols → ecological application.
+
+Clarification:
+- Papers 7–12 track simulator/spec evolution (v12→v16 line).
+- Papers 13–14E are analysis/observation/evaluation overlays on existing simulators; they do not introduce new RC simulator versions.
 
 ## **Paper 1A — Theoretical Foundations of Reflexive Coherence**
 
@@ -241,6 +265,140 @@ becomes an action–perception loop.
 
 Paper 9 positions RC as a **field-theoretic ecology** capable of expressing emergent, agent-like behavior.
 
+## **Paper 10 — Soft-Closure Continuation in RC-v14**
+
+**Summary:**
+This note introduces RC-v14 as a methodological continuation layer over RC-III closures.
+It keeps the reflexive core (C↔g coupling, coherence-mass projection, identity feedback),
+while blending hard birth/collapse/spark gates into continuous field-driven scores via
+closure-softness controls.
+
+Key concepts:
+
+* Hard-to-soft interpolation (`closure_softness`) instead of binary replacement.
+* Soft spark intensity and soft birth factors for sparks, budget, interval, and slots.
+* Soft collapse damping near `id_min_mass` with retained hard hygiene floor.
+* Parameter sweeps to test which RC-III behaviors survive reduced threshold dependence.
+* Explicit failure signatures to detect regression toward Paper-3 fixed-PDE artifacts.
+
+Paper 10 positions v14 as a **methodological instrument** for probing the reflexive gap,
+not as a new foundational RC theory layer.
+
+## **Paper 11 — RC-v15 Spec: Core-First Reflexive Geometry**
+
+**Summary:**
+This document specifies v15 as a model-structure upgrade guided by the limits identified in Paper 3.
+It enforces a strict three-layer architecture:
+
+* **L0 core reflexive PDE loop** (coherence ↔ induced geometry),
+* **L1 intrinsic event extraction** (spark/collapse indicators from induced invariants),
+* **L2 minimal closure fallback** (soft, budgeted interventions only when needed).
+
+Key requirements:
+
+* ablation matrix (`core-only`, `core+events`, `full`) as a mandatory acceptance gate,
+* explicit identity/coherence budget tracking (\(M_I/M_C\)),
+* clear separation between intrinsic dynamics and closure policy effects,
+* CUDA/headless workflow continuity for large-grid runs.
+
+Paper 11 positions v15 as a **validation-and-architecture step** toward mathematically closer RC,
+rather than another parameter retune.
+
+Companion implementation checklist:
+`experiments/papers/11A-v15-ImplementationChecklist.md`.
+
+Companion baseline freeze profile:
+`experiments/papers/11B-v15-BaselineFreeze.md`.
+
+Companion ablation harness:
+`experiments/papers/11C-v15-AblationHarness.md` and `experiments/scripts/run_v15_ablations.sh`.
+
+Iteration-6 execution pack (performance + evaluation):
+`experiments/papers/11D-v15-Iteration6-PerformanceAndEvaluation.md`,
+`experiments/scripts/run_v15_iteration6_gate.sh`,
+`experiments/scripts/summarize_run_logs.py`.
+
+Iteration-7 CUDA runtime closure:
+`experiments/papers/11E-v15-Iteration7-CUDARuntimeClosure.md`,
+`experiments/scripts/run_v15_iteration7_all.sh`.
+
+Codex resume handoff:
+`experiments/papers/11F-v15-Codex-Handoff.md`.
+
+## **Paper 12 — RC-v16 Spec: PDE-Boundary Approximation with Nonlocal Operator Reflexivity**
+
+**Summary:**
+This document specifies v16 as a PDE-boundary maximization step following v15.
+It keeps the L0/L1/L2 architecture but strengthens PDE-side expressivity and auditability.
+
+Key requirements:
+
+* explicit nonlocal PDE term path (`nonlocal-off|on`) with stable CUDA execution,
+* operator-carrying diagnostics as first-class outputs (`det/cond/drift` + degeneracy occupancy),
+* adaptive-domain proxy with conservative remap and mass accounting diagnostics,
+* intrinsic identity/readout emphasis in `closure-mode off`, with closure retained as comparator,
+* theorem-aware reporting of intrinsic-event persistence vs closure dependence.
+
+Paper 12 positions v16 as a **PDE-limit validation step**, not a claim of structural operator completion.
+
+Companion implementation checklist:
+`experiments/papers/12A-v16-ImplementationChecklist.md`.
+
+Performance/evaluation note:
+`experiments/papers/12D-v16-PerformanceAndEvaluation.md`.
+
+Runtime closure runbook:
+`experiments/papers/12E-v16-CUDARuntimeClosure.md`.
+
+Release manifest:
+`experiments/papers/12F-v16-ReleaseManifest.md`.
+
+Execution scripts:
+`experiments/scripts/run_v16_ablations.sh`,
+`experiments/scripts/run_v16_iteration6_gate.sh`,
+`experiments/scripts/run_v16_iteration7_all.sh`.
+
+## **Paper 13 — Activity Slider: Persistence Search & Evaluation (v15/v16)**
+
+**Summary:**
+This document is a practical analysis runbook for discovering “organism-like” persistence regimes in the fixed-domain PDE sims.
+It introduces a single convenience knob (`--activity`) to explore closure/budget regimes and a simple snapshot scorer to rank results,
+so experimenters and agents can search systematically rather than tuning by visuals.
+It does not define a new simulator line; it standardizes how to evaluate existing v15/v16 runs.
+
+Key requirements:
+
+* sweep `--activity` with fixed seeds/grid/steps and disk snapshots for comparable artifacts,
+* score runs from `snap_*.npz` + `meta.json` (no reruns required) using a single scalar `score` with sub-metrics (stability, churn, mass variance),
+* rerun top candidates across multiple seeds to reject transient false positives,
+* treat “no good regime found” as a valid reproducible outcome (often a structural limitation, not a missed parameter).
+
+Companion runbook:
+`experiments/papers/13-ActivitySlider-PersistenceSearch.md`.
+
+Companion evaluator:
+`experiments/scripts/score_persistence.py`.
+
+## **Paper 14 — Experience Read-Back Gap (v12–v16) and Implementation Plan**
+
+**Summary:**
+This document defines the “experience/read-back” gap: the sims compute flux/tension/curvature and event indicators, but most of that content is ephemeral or reduced to thin scalars.
+Paper 14 reframes “experience” as flux read-back: telemetry derived from the produced coherence flux `J` (a read-back term) recorded in-loop and stored, then scored/visualized offline so versions can be compared by read-back strength and structure, not only by visible identity dynamics.
+It is an audit/evaluation architecture over v12–v16, not a separate simulator implementation.
+
+Key requirements:
+
+* define flux read-back telemetry targets (e.g. `T_rb = J ⊗ J`) and record their summaries per snapshot,
+* compute telemetry in-loop (where `J` exists) but do all processing/visualization offline,
+* persist read-back scalars (and optionally downsampled fields) in snapshots for all v12–v16,
+* provide a `readback_score` evaluator and contract-style fixtures to compare versions under identical stimuli.
+
+Companion plan paper:
+`experiments/papers/14-ExperienceReadback-GapAndPlan.md`.
+
+Companion implementation checklist:
+`experiments/papers/14A-ExperienceReadback-ImplementationChecklist.md`.
+
 ## **Paper X — Reflexive Ecologies: A Case Study Using Ant Colonies in Reflexive Coherence Simulations**
 
 This paper demonstrates how RC-II and RC-III can be applied to ecological systems.
@@ -258,3 +416,38 @@ formalize it as a new theoretical layer.
 This paper is intended for readers who want a concrete example of how RC simulations
 can be used to study distributed systems, multi-agent environments, or ecological
 self-organization.
+
+---
+
+## **Appendix A — Symbol → Code Crosswalk (v12 vs v14/v15/v16)**
+
+This appendix is a navigation aid: it maps common paper symbols/constructs to the
+concrete identifiers used in the simulators.
+
+**Code targets:**
+`simulations/legacy/simulation-v12.py`, `simulations/active/simulation-v14-cuda.py`, `simulations/active/simulation-v15-cuda.py`, `simulations/active/simulation-v16-cuda.py`.
+
+| Paper quantity / construct | Meaning in papers (rough) | v12 (CPU) | v14 (CUDA) | v15 (CUDA) | v16 (CUDA) |
+|---|---|---|---|---|---|
+| `C(x,t)` | Coherence density field | `C` | `C` | `C` | `C` |
+| `g_{μν}` | Induced metric | `g_xx, g_xy, g_yy` | `g_xx, g_xy, g_yy` | `g_xx, g_xy, g_yy` | `g_xx, g_xy, g_yy` |
+| `K_{μν}` | Coherence tensor / curvature proxy | `K_xx, K_xy, K_yy` in `update_metric_from_K()` | same | same | same + `operator_state` in `update_metric_from_K()` |
+| `Φ = δP/δC` | Functional derivative driving transport | `delta_P_over_delta_C()` (stored as `phi` in `compute_flux()`) | same | same | same |
+| `v_C` | Coherence “velocity” (index-lifted gradient flow) | `v_up, v_vp` from `compute_flux()` | same | same | same |
+| `J_C` | Coherence flux | `Jx, Jy` from `compute_flux()` | same | same | same |
+| `∂t C = -∇·J + …` | Coherence RHS / continuity update | `rhs_C()` + `covariant_divergence()` | same | same | same + nonlocal addend (below) |
+| `Π_C` (projection) | Global coherence invariance enforcement | `project_to_invariant()` | same | `rk2_step()` projects **before + after** metric update | `rk2_step()` projects **before + after** metric update |
+| Spark condition | Degeneracy + strong gradient heuristic | `compute_spark_mask()` (binary mask) | `compute_spark_mask()` (hard/soft blend into continuous intensity) | `compute_intrinsic_spark_fields()` + `step_events()` (route hard/soft mask by mode) | same (`spark_soft` is also fed into continuous identity) |
+| Spark score `S(x)` | Intrinsic instability readout in `[0,1]` | `spark_mask` (binary) | `spark_mask` (continuous) | `spark_soft` (from `compute_intrinsic_spark_fields()`) | `spark_soft` (from `compute_intrinsic_spark_fields()`) |
+| Discrete identities `I_k` | Tracked identity fields (RC-III-style closure) | `I_fields` list; `update_identities()` | `I_tensor` + `n_active`; `update_identities()` | same (`step_closure()` routes by `--closure-mode`) | same (`step_closure()` routes by `--closure-mode`) |
+| Continuous identity `I(x,t)` | RC-II substrate (no discrete tracking) | (not present) | (not present) | (not present in `closure-mode off`) | `I_cont`; `update_continuous_identity()` |
+| Identity PDE | Growth/decay/diffusion update | `g_id, d_id, D_id` in `update_identities()` | `g_id, d_id, D_id` in `update_identities()` | same | `update_continuous_identity()` (continuous) + `update_identities()` (discrete comparator) |
+| Identity → coherence | Source coupling `S_C(C,I)` | `rhs_C(): dCdt += alpha_id * I_sum` | same | same, but core uses `core_I_sum=None` when `--closure-mode off` | core uses `I_cont` always (`core_I_sum = I_cont` or `I_cont + I_sum`) |
+| Identity → geometry | Identity-curvature coupling `η` | `eta_id * I_sum * (∂C⊗∂C)` in `update_metric_from_K()` | same | same | same |
+| Identity mass `M_I` | Identity budget observable | Euclidean: `∑ I * dxdy` (no `sqrt_g`) | Metric-weighted: `∑ I * sqrt_g * dxdy` | same | same (continuous + discrete) |
+| Global cap / budget | Limits total identity mass | `I_global_mass_cap` (fixed) | `I_global_mass_cap = I_cap_fraction * structured_mass0` | same | same |
+| Closure continuation `χ` | Hard↔soft closure interpolation | (not present) | `closure_softness`, `spark_softness`, `collapse_softness` | same + per-mode `closure_softness_local` inside `update_identities()` | same |
+| L0/L1/L2 routing | Architecture separation + ablations | (not explicit) | (not explicit) | `step_core()` / `step_events()` / `step_closure()` + `--closure-mode off\|soft\|full` | same |
+| Nonlocal term `N_C` | Explicit nonlocal PDE contribution | (not present) | (not present) | (not present) | `compute_nonlocal_proxy()` + `rhs_C(): dCdt += nonlocal_strength * …` |
+| Operator diagnostics `O(t)` | `det(K)`, `cond(K)`, drift, occupancy | (not present) | (not present) | (not present) | `operator_state` (e.g. `detK_mean`, `condK_max`, `g_drift_rms`, degeneracy fractions) |
+| Adaptive-domain proxy | PDE-only “evolving domain” approximation | (not present) | (not present) | (not present) | `step_domain()` + `remap_field_bilinear()` + conservative remap accounting |

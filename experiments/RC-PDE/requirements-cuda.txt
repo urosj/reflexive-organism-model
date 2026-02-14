@@ -1,0 +1,4 @@
+-r requirements.txt
+torch>=2.0.0
+vispy>=0.14
+PyQt5>=5.15

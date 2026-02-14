@@ -1,0 +1,8 @@
+{
+  "OCR_active_min": 0.05,
+  "FRG_min": 0.005,
+  "FRG_saturation_ratio_min": 0.6,
+  "ALI_redundant_min": 0.9,
+  "LCE_auc_min": 0.01,
+  "seed_var_max": 0.1
+}

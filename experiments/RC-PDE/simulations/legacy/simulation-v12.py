@@ -26,9 +26,17 @@ This version builds on v11's bursty/saturating identity dynamics and adds:
    - Coherence mass and total identity mass are tracked and plotted together.
 """
 
+import sys
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from configs.blob_config import load_blob_specs
 
 # ============================================================
 # GLOBAL PARAMETERS
@@ -438,11 +446,20 @@ def gaussian_blob(X, Y, cx, cy, s):
     return np.exp(-((X-cx)**2 + (Y-cy)**2)/(2*s*s))
 
 Xg, Yg = np.meshgrid(x, y, indexing='ij')
+blob_specs = load_blob_specs("configs/blobs.json")
+domain_x_max = dx * max(Nx - 1, 1)
+domain_y_max = dy * max(Ny - 1, 1)
 
 C = np.zeros((Nx, Ny))
 # Initial blobs
-C += gaussian_blob(Xg, Yg, x[Nx//3],   y[Ny//2],   1.5)
-C += gaussian_blob(Xg, Yg, x[2*Nx//3], y[2*Ny//3], 2.0)
+for blob in blob_specs:
+    C += gaussian_blob(
+        Xg,
+        Yg,
+        blob["x"] * domain_x_max,
+        blob["y"] * domain_y_max,
+        blob["sigma"],
+    )
 C += 0.05*np.random.randn(Nx, Ny)
 np.clip(C, C_min, C_max, out=C)
 
